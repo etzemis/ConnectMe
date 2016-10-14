@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 
 class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
-
+    // MARK: Variables
     @IBOutlet weak var mapView: MKMapView!{
         didSet {
             setUpMap()
@@ -25,8 +25,10 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         static let FullTrackColor = UIColor.blue //Add alpha component to 0.5
         static let TrackLineWidth: CGFloat = 3.0
         static let AnnotationViewReuseIdentifier = "user point"
-        static let ShowUserSegue = "ShowUser"
+        static let ShowUserSegue = "Show User"
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,35 +36,8 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         displayUsers(users: createBotUsers())
     }
     
-    // MARK: Bot Users
-    func createBotUsers() -> [User]{
-        var users = [User]()
-        
 
-        var user = User(id: 1 as NSNumber, name: "User 1",
-                        destination: Destination(address: "TestAdress 1", region: "TestRegion 1", coord: CLLocationCoordinate2D(latitude: 0, longitude: 0)),
-                        currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
-            users.append(user)
-        
-        user = User(id: 2 as NSNumber, name: "User 2",
-            destination: Destination(address: "TestAdress 2", region: "TestRegion 2", coord: CLLocationCoordinate2D(latitude: 0, longitude: 0)),
-            currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367))
-        users.append(user)
-        
-        user = User(id: 3 as NSNumber, name: "User 3",
-            destination: Destination(address: "TestAdress 3", region: "TestRegion 3", coord: CLLocationCoordinate2D(latitude: 0, longitude: 0)),
-            currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
-        users.append(user)
-        
-        return users
-    }
-    
-    func displayUsers(users:[User]){
-        mapView.addAnnotations(users)
-        mapView.showAnnotations(users, animated: true)
-    }
-
-    // MARK: Location MAnager Initialization
+    // MARK: Location Manager Initialization
     
     func setUpLocationManager(){
         self.locationManager.delegate = self;
@@ -83,22 +58,50 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     
-    // MARK: MK Annotation 
+    // MARK: MKMapView Delegate
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        var view = mapView.dequeueReusableAnnotationView(withIdentifier: Constants.AnnotationViewReuseIdentifier)
-        
-        if view == nil {
-            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: Constants.AnnotationViewReuseIdentifier)
-            view!.canShowCallout = true
+
+        if let annotation = annotation as? User {
+            var view: MKPinAnnotationView
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier:Constants.AnnotationViewReuseIdentifier)
+                as? MKPinAnnotationView { // 2
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                // 3
+                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: Constants.AnnotationViewReuseIdentifier)
+                view.canShowCallout = true
+                view.calloutOffset = CGPoint(x: -5, y: 5)
+                view.rightCalloutAccessoryView = UIButton(type: UIButtonType.detailDisclosure) as UIButton
+            }
+            return view
         }
-        else{
-            view!.annotation = annotation
+        return nil
+    }
+    
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        // Check if this is what we want exactly
+        //if yes then segue
+        performSegue(withIdentifier: Constants.ShowUserSegue, sender: view)
+    }
+    
+    
+    
+    
+    // MARK: Perform Segue
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.ShowUserSegue{
+            if let user = (sender as? MKAnnotationView)?.annotation as? User{
+                if let userdetVC = segue.destination as? UserDetailsVC {
+                    //set the user to display the Info
+                    userdetVC.user = user
+                    //Set the back button to have no title
+                    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+                }
+            }
         }
-        
-        if let user = annotation as? User{
-            //check 1:01:01
-        }
-        return view
     }
     
     
@@ -119,5 +122,34 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     {
         print("Error \(error)")
     }
+    
+    // MARK: Bot Users
+    func createBotUsers() -> [User]{
+        var users = [User]()
+        
+        
+        var user = User(id: 1 as NSNumber, name: "User 1",
+                        destination: Destination(address: "TestAdress 1", region: "TestRegion 1", coord: CLLocationCoordinate2D(latitude: 0, longitude: 0)),
+                        currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
+        users.append(user)
+        
+        user = User(id: 2 as NSNumber, name: "User 2",
+                    destination: Destination(address: "TestAdress 2", region: "TestRegion 2", coord: CLLocationCoordinate2D(latitude: 0, longitude: 0)),
+                    currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367))
+        users.append(user)
+        
+        user = User(id: 3 as NSNumber, name: "User 3",
+                    destination: Destination(address: "TestAdress 3", region: "TestRegion 3", coord: CLLocationCoordinate2D(latitude: 0, longitude: 0)),
+                    currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
+        users.append(user)
+        
+        return users
+    }
+    
+    func displayUsers(users:[User]){
+        mapView.addAnnotations(users)
+        mapView.showAnnotations(users, animated: true)
+    }
+
 }
 
