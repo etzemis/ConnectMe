@@ -18,11 +18,14 @@ class UserDetailsVC: UIViewController, MKMapViewDelegate, UITableViewDelegate, U
         }
     }
     
-    var user: User = User(id: 1 as NSNumber, name: "User 1",
-                          destination: Destination(address: "TestAdress 1", region: "TestRegion 1", coord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877)),
-                          currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
-
-    let regionRadius: CLLocationDistance = 500
+    var user: User? = nil
+    // MARK: Constants
+    private struct Constants{
+        static let AnnotationViewReuseIdentifier = "user destination"
+        static let CellIdentifier = "UserDetailCell"
+        static let RegionRadius: CLLocationDistance = 800
+    }
+    
     
 
     override func viewDidLoad() {
@@ -31,7 +34,7 @@ class UserDetailsVC: UIViewController, MKMapViewDelegate, UITableViewDelegate, U
         // Do any additional setup after loading the view.
         
         //change title of navigation bar
-        self.title = user.name
+        self.title = user!.name
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,26 +47,50 @@ class UserDetailsVC: UIViewController, MKMapViewDelegate, UITableViewDelegate, U
         map.mapType = .standard
         map.showsUserLocation = false
         map.delegate = self
-        let initialLocation = user.destination.coord
+        let initialLocation = user!.destination.coord
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation,
-                                                                  regionRadius * 5.0, regionRadius * 5.0)
+                                                                  Constants.RegionRadius * 2.0, Constants.RegionRadius * 2.0)
         map.setRegion(coordinateRegion, animated: true)
         
-        map.addAnnotation(user)
-        map.showAnnotations([user], animated: true)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = initialLocation
+        annotation.title = user!.destination.address
+        annotation.subtitle = user!.destination.region
+        map.addAnnotation(annotation)
     }
+    
+    // Implement Delegate Method to Change Pin Color
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let annot = MKPinAnnotationView(annotation: annotation, reuseIdentifier: Constants.AnnotationViewReuseIdentifier)
+        annot.pinTintColor = UIColor.black
+        annot.canShowCallout = true
+        return annot
+    }
+    
+    
     
     //MARK: UITableViewDelegate
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return section + 1;
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+            case 0: return "Profile"
+            case 1: return "Destination"
+            default:
+                print("Wrong Section number")
+                return nil
+        }
     }
 
 }

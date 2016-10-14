@@ -18,7 +18,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         }
     }
     var locationManager: CLLocationManager = CLLocationManager()
-    let regionRadius: CLLocationDistance = 500
+    let regionRadius: CLLocationDistance = 1000
     
     // MARK: Constants
     private struct Constants{
@@ -128,18 +128,18 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         var users = [User]()
         
         
-        var user = User(id: 1 as NSNumber, name: "User 1",
-                        destination: Destination(address: "TestAdress 1", region: "TestRegion 1", coord: CLLocationCoordinate2D(latitude: 0, longitude: 0)),
+        var user = User(id: 1 as NSNumber, name: "Vaggelis",
+                        destination: Destination(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
                         currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
         users.append(user)
         
-        user = User(id: 2 as NSNumber, name: "User 2",
-                    destination: Destination(address: "TestAdress 2", region: "TestRegion 2", coord: CLLocationCoordinate2D(latitude: 0, longitude: 0)),
+        user = User(id: 2 as NSNumber, name: "Petros",
+                    destination: Destination(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367))
         users.append(user)
         
-        user = User(id: 3 as NSNumber, name: "User 3",
-                    destination: Destination(address: "TestAdress 3", region: "TestRegion 3", coord: CLLocationCoordinate2D(latitude: 0, longitude: 0)),
+        user = User(id: 3 as NSNumber, name: "Hercules",
+                    destination: Destination(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
         users.append(user)
         
@@ -148,7 +148,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     func displayUsers(users:[User]){
         mapView.addAnnotations(users)
-        mapView.showAnnotations(users, animated: true)
+        //mapView.showAnnotations(users, animated: true)
     }
 
 }
