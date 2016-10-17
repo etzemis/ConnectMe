@@ -19,6 +19,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     var locationManager: CLLocationManager = CLLocationManager()
     let regionRadius: CLLocationDistance = 1000
+
     
     // MARK: Constants
     private struct Constants{
@@ -26,8 +27,8 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         static let TrackLineWidth: CGFloat = 3.0
         static let AnnotationViewReuseIdentifier = "user point"
         static let ShowUserSegue = "Show User"
+        static let AddDestinationSegue = "Add Destination"
     }
-    
     
     
     override func viewDidLoad() {
@@ -101,6 +102,9 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                     self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
                 }
             }
+        }
+        else if segue.identifier == Constants.AddDestinationSegue{
+            print("Seque to Destination")
         }
     }
     

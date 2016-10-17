@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		54027D651DB102D3009519F8 /* UserDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54027D641DB102D3009519F8 /* UserDetailCell.swift */; };
+		54027D691DB4B9B9009519F8 /* SearchDestinationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54027D681DB4B9B9009519F8 /* SearchDestinationVC.swift */; };
+		54027D6B1DB4F31E009519F8 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54027D6A1DB4F31E009519F8 /* LocationSearchTable.swift */; };
 		54235FD31DAE635B002AD465 /* MKUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54235FD21DAE635B002AD465 /* MKUser.swift */; };
 		54235FD51DAE657F002AD465 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54235FD41DAE657F002AD465 /* Destination.swift */; };
 		5446222B1DA8E74300A9E92B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5446222A1DA8E74300A9E92B /* AppDelegate.swift */; };
@@ -23,6 +25,8 @@
 
 /* Begin PBXFileReference section */
 		54027D641DB102D3009519F8 /* UserDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailCell.swift; sourceTree = "<group>"; };
+		54027D681DB4B9B9009519F8 /* SearchDestinationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDestinationVC.swift; sourceTree = "<group>"; };
+		54027D6A1DB4F31E009519F8 /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		54235FD21DAE635B002AD465 /* MKUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKUser.swift; sourceTree = "<group>"; };
 		54235FD41DAE657F002AD465 /* Destination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		544622271DA8E74300A9E92B /* ConnectMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConnectMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,6 +53,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		54027D661DB4ABCD009519F8 /* User Detail */ = {
+			isa = PBXGroup;
+			children = (
+				54027D641DB102D3009519F8 /* UserDetailCell.swift */,
+				54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */,
+			);
+			name = "User Detail";
+			sourceTree = "<group>";
+		};
+		54027D671DB4ABE8009519F8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5406A05B1DAD7D24000C16CC /* User */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		54027D6C1DB4F329009519F8 /* Add Destination */ = {
+			isa = PBXGroup;
+			children = (
+				54027D681DB4B9B9009519F8 /* SearchDestinationVC.swift */,
+				54027D6A1DB4F31E009519F8 /* LocationSearchTable.swift */,
+			);
+			name = "Add Destination";
+			sourceTree = "<group>";
+		};
 		5406A05B1DAD7D24000C16CC /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,10 +110,10 @@
 			isa = PBXGroup;
 			children = (
 				5446222C1DA8E74300A9E92B /* MainVC.swift */,
-				54027D641DB102D3009519F8 /* UserDetailCell.swift */,
-				54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */,
 				5446222E1DA8E74300A9E92B /* Main.storyboard */,
-				5406A05B1DAD7D24000C16CC /* User */,
+				54027D6C1DB4F329009519F8 /* Add Destination */,
+				54027D661DB4ABCD009519F8 /* User Detail */,
+				54027D671DB4ABE8009519F8 /* Model */,
 				5446223F1DAA3BF400A9E92B /* Supporting Files */,
 			);
 			path = ConnectMe;
@@ -176,8 +206,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				54235FD31DAE635B002AD465 /* MKUser.swift in Sources */,
+				54027D6B1DB4F31E009519F8 /* LocationSearchTable.swift in Sources */,
 				54027D651DB102D3009519F8 /* UserDetailCell.swift in Sources */,
 				544622331DA8E74300A9E92B /* ConnectMe.xcdatamodeld in Sources */,
+				54027D691DB4B9B9009519F8 /* SearchDestinationVC.swift in Sources */,
 				54235FD51DAE657F002AD465 /* Destination.swift in Sources */,
 				5446222D1DA8E74300A9E92B /* MainVC.swift in Sources */,
 				544622471DAC0DFF00A9E92B /* User.swift in Sources */,
