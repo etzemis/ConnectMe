@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		54027D651DB102D3009519F8 /* UserDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54027D641DB102D3009519F8 /* UserDetailCell.swift */; };
 		54235FD31DAE635B002AD465 /* MKUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54235FD21DAE635B002AD465 /* MKUser.swift */; };
 		54235FD51DAE657F002AD465 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54235FD41DAE657F002AD465 /* Destination.swift */; };
 		5446222B1DA8E74300A9E92B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5446222A1DA8E74300A9E92B /* AppDelegate.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		54027D641DB102D3009519F8 /* UserDetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailCell.swift; sourceTree = "<group>"; };
 		54235FD21DAE635B002AD465 /* MKUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKUser.swift; sourceTree = "<group>"; };
 		54235FD41DAE657F002AD465 /* Destination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		544622271DA8E74300A9E92B /* ConnectMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConnectMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				5446222C1DA8E74300A9E92B /* MainVC.swift */,
+				54027D641DB102D3009519F8 /* UserDetailCell.swift */,
 				54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */,
 				5446222E1DA8E74300A9E92B /* Main.storyboard */,
 				5406A05B1DAD7D24000C16CC /* User */,
@@ -173,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54235FD31DAE635B002AD465 /* MKUser.swift in Sources */,
+				54027D651DB102D3009519F8 /* UserDetailCell.swift in Sources */,
 				544622331DA8E74300A9E92B /* ConnectMe.xcdatamodeld in Sources */,
 				54235FD51DAE657F002AD465 /* Destination.swift in Sources */,
 				5446222D1DA8E74300A9E92B /* MainVC.swift in Sources */,

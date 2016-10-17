@@ -23,7 +23,7 @@ class UserDetailsVC: UIViewController, MKMapViewDelegate, UITableViewDelegate, U
     private struct Constants{
         static let AnnotationViewReuseIdentifier = "user destination"
         static let CellIdentifier = "UserDetailCell"
-        static let RegionRadius: CLLocationDistance = 800
+        static let RegionRadius: CLLocationDistance = 1500
     }
     
     
@@ -80,7 +80,27 @@ class UserDetailsVC: UIViewController, MKMapViewDelegate, UITableViewDelegate, U
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        return UITableViewCell()
+        let dequed = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier, for: indexPath)
+        
+        if let cell = dequed as? UserDetailCell{
+            switch indexPath.section {
+            case 0:
+                cell.LeftLabel?.text = "Name:"
+                cell.RightLabel?.text = self.user?.name
+            case 1:
+                if indexPath.row == 0 {
+                    cell.LeftLabel?.text = "Address:"
+                    cell.RightLabel?.text = self.user?.destination.address
+                }
+                else{
+                cell.LeftLabel?.text = "Region:"
+                cell.RightLabel?.text = self.user?.destination.region
+                }
+            default:
+                break
+            }
+        }
+        return dequed
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
