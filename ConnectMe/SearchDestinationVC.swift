@@ -15,23 +15,15 @@ protocol HandleMapSearch {
 }
 
 class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate {
-
     //MARK: Variable Declaration
-    @IBOutlet weak var mapView: MKMapView!{
-        didSet {
-            setUpMap()
-        }
-    }
+    @IBOutlet weak var mapView: MKMapView!{ didSet { setUpMap() }}
     //Location
     var locationManager: CLLocationManager = CLLocationManager()
     let span = MKCoordinateSpanMake(0.5, 0.5)
-    
     //Search Bar
     var searchController: UISearchController? = nil
     var selectedPin:MKPlacemark? = nil
 
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -43,7 +35,6 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
         self.navigationController!.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
-
 
     // MARK: Search Controller Initialization
     private func setUpSearchController(){
@@ -67,15 +58,13 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
         
     }
 
-    // MARK: Map Initialization
+    // MARK: Map, Location Manager Initialization
     private func setUpMap(){
         mapView.mapType = .standard
         mapView.showsUserLocation = true
         mapView.delegate = self
         //region intialized base on current location
     }
-    
-    // MARK: Location Manager Initialization
     
     func setUpLocationManager(){
         self.locationManager.delegate = self;
@@ -84,52 +73,8 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
         self.locationManager.startUpdatingLocation()
     }
     
-    //MARK: Location Delegate Methods
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first{
-            
-            let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            mapView.setRegion(region, animated: true)
-
-        }
-        
-        // Call stopUpdatingLocation() to stop listening for location updates,
-        // other wise this function will be called every time when user location changes.
-        manager.stopUpdatingLocation()
-        
-    }
-    
-    private func locationManager(manager: CLLocationManager, didFailWithError error: NSError)
-    {
-        print("Error \(error)")
-    }
-    
-}
-
-
-extension SearchDestinationVC: HandleMapSearch {
-    func dropPinZoomIn(placemark:MKPlacemark){
-        // cache the pin
-        selectedPin = placemark
-        // clear existing pins
-        mapView.removeAnnotations(mapView.annotations)
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = placemark.coordinate
-        annotation.title = placemark.name
-        if let city = placemark.locality,
-            let state = placemark.administrativeArea {
-            annotation.subtitle = "\(city), \(state)"
-        }
-        mapView.addAnnotation(annotation)
-        let span = MKCoordinateSpanMake(0.1, 0.1)
-        let region = MKCoordinateRegionMake(placemark.coordinate, span)
-        mapView.setRegion(region, animated: true)
-    }
-}
-
-
-extension SearchDestinationVC{
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView?{
+    //MARK: MapView Delegate
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             //return nil so map view draws "blue dot" for standard user location
             return nil
@@ -151,6 +96,52 @@ extension SearchDestinationVC{
             return view
         }
         
+    }
+}
+
+
+
+//MARK: HandleMapSearch Methods
+extension SearchDestinationVC: HandleMapSearch {
+    func dropPinZoomIn(placemark:MKPlacemark){
+        // cache the pin
+        selectedPin = placemark
+        // clear existing pins
+        mapView.removeAnnotations(mapView.annotations)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = placemark.coordinate
+        annotation.title = placemark.name
+        if let city = placemark.locality,
+            let state = placemark.administrativeArea {
+            annotation.subtitle = "\(city), \(state)"
+        }
+        mapView.addAnnotation(annotation)
+        let span = MKCoordinateSpanMake(0.1, 0.1)
+        let region = MKCoordinateRegionMake(placemark.coordinate, span)
+        mapView.setRegion(region, animated: true)
+    }
+}
+
+
+//MARK: Location Delegate Methods
+extension SearchDestinationVC {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first{
+            
+            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            mapView.setRegion(region, animated: true)
+            
+        }
+        
+        // Call stopUpdatingLocation() to stop listening for location updates,
+        // other wise this function will be called every time when user location changes.
+        manager.stopUpdatingLocation()
+        
+    }
+    
+    private func locationManager(manager: CLLocationManager, didFailWithError error: NSError)
+    {
+        print("Error \(error)")
     }
 }
 

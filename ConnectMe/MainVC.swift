@@ -11,16 +11,10 @@ import MapKit
 import CoreLocation
 
 class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
-    // MARK: Variables
-    @IBOutlet weak var mapView: MKMapView!{
-        didSet {
-            setUpMap()
-        }
-    }
-    var locationManager: CLLocationManager = CLLocationManager()
-    let regionRadius: CLLocationDistance = 1000
-
     
+    // MARK: Variables
+    var locationManager: CLLocationManager = CLLocationManager()
+    @IBOutlet weak var mapView: MKMapView!{didSet {setUpMap()}}
     // MARK: Constants
     private struct Constants{
         static let FullTrackColor = UIColor.blue //Add alpha component to 0.5
@@ -28,40 +22,47 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         static let AnnotationViewReuseIdentifier = "user point"
         static let ShowUserSegue = "Show User"
         static let AddDestinationSegue = "Add Destination"
+        static let RegionRadius: CLLocationDistance = 1000
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpLocationManager()
         displayUsers(users: createBotUsers())
     }
-    
 
-    // MARK: Location Manager Initialization
-    
+    // MARK: Initialization Location Manager and Map
     func setUpLocationManager(){
         self.locationManager.delegate = self;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.startUpdatingLocation()
     }
-    
-    // MARK: Map Initialization
+
     func setUpMap(){
         mapView.mapType = .standard
         mapView.showsUserLocation = true
         mapView.delegate = self
-        let initialLocation = CLLocation(latitude: 37.984803, longitude: 23.681393)
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate,
-                                                                  regionRadius * 2.0, regionRadius * 2.0)
-        mapView.setRegion(coordinateRegion, animated: true)
     }
     
+    // MARK: Perform Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.ShowUserSegue{
+            if let user = (sender as? MKAnnotationView)?.annotation as? User{
+                if let userdetVC = segue.destination as? UserDetailsVC {
+                    //set the user to display the Info
+                    userdetVC.user = user
+                    //Set the back button to have no title
+                    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+                }
+            }
+        }
+        else if segue.identifier == Constants.AddDestinationSegue{ print("Seque to Destination")}
+    }
     
     // MARK: MKMapView Delegate
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
+        
         if let annotation = annotation as? User {
             var view: MKPinAnnotationView
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier:Constants.AnnotationViewReuseIdentifier)
@@ -80,57 +81,15 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         return nil
     }
     
-    
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         // Check if this is what we want exactly
         //if yes then segue
         performSegue(withIdentifier: Constants.ShowUserSegue, sender: view)
     }
     
-    
-    
-    
-    // MARK: Perform Segue
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constants.ShowUserSegue{
-            if let user = (sender as? MKAnnotationView)?.annotation as? User{
-                if let userdetVC = segue.destination as? UserDetailsVC {
-                    //set the user to display the Info
-                    userdetVC.user = user
-                    //Set the back button to have no title
-                    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
-                }
-            }
-        }
-        else if segue.identifier == Constants.AddDestinationSegue{
-            print("Seque to Destination")
-        }
-    }
-    
-    
-    
-    //MARK: Location Delegate Methods
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let userLocation:CLLocation = locations[0] as CLLocation
-        
-        // Call stopUpdatingLocation() to stop listening for location updates,
-        // other wise this function will be called every time when user location changes.
-        manager.stopUpdatingLocation()
-        
-        print("user latitude = \(userLocation.coordinate.latitude)")
-        print("user longitude = \(userLocation.coordinate.longitude)")
-    }
-    
-    private func locationManager(manager: CLLocationManager, didFailWithError error: NSError)
-    {
-        print("Error \(error)")
-    }
-    
     // MARK: Bot Users
     func createBotUsers() -> [User]{
         var users = [User]()
-        
         
         var user = User(id: 1 as NSNumber, name: "Vaggelis",
                         destination: Destination(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
@@ -156,4 +115,27 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
 
 }
+
+
+//MARK: Location Delegate Methods
+extension MainVC{
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first{
+            
+            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.02, 0.02) )
+            mapView.setRegion(region, animated: true)
+            
+        }
+        // let userLocation:CLLocation = locations[0] as CLLocation
+        manager.stopUpdatingLocation()
+    }
+    
+    private func locationManager(manager: CLLocationManager, didFailWithError error: NSError){ print("Error \(error)") }
+}
+
+
+
+
+
 
