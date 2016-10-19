@@ -13,6 +13,7 @@ import CoreLocation
 class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     // MARK: Variables
+    private var CreateTripModeIsOn: Bool = false
     var locationManager: CLLocationManager = CLLocationManager()
     @IBOutlet weak var mapView: MKMapView!{didSet {setUpMap()}}
     // MARK: Constants
@@ -21,8 +22,41 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         static let TrackLineWidth: CGFloat = 3.0
         static let AnnotationViewReuseIdentifier = "user point"
         static let ShowUserSegue = "Show User"
-        static let AddDestinationSegue = "Add Destination"
+        static let SelectDestinationSegue = "Select Destination"
         static let RegionRadius: CLLocationDistance = 1000
+    }
+    
+    @IBAction func createTrip(_ sender: AnyObject) {
+        if !CreateTripModeIsOn {
+            if sender is UIBarButtonItem{
+                self.navigationItem.setRightBarButton(UIBarButtonItem(title: "Invite", style: .plain, target: self, action: #selector(createTrip(_:))), animated: true)
+                self.navigationItem.setLeftBarButton(UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(createTrip(_:))), animated: true)
+                self.navigationItem.title = "Select Users"
+                //navigationController?.navigationBar.barTintColor = UIColor(colorLiteralRed: 200, green: 200, blue: 200, alpha: 1.0)
+                //navigationController?.navigationBar.tintColor = UIColor.white
+                
+            }
+        }
+        else{
+            if let button = sender as? UIBarButtonItem{
+                //check if Invite or Cancel
+                if button.title == "Cancel" {
+                    self.navigationItem.setRightBarButton(
+                        UIBarButtonItem(title: "Create Trip", style: .plain, target: self, action: #selector(createTrip(_:))), animated: true)
+                    self.navigationItem.setLeftBarButton(
+                        UIBarButtonItem(title: "Destination", style: .plain, target: self, action: #selector(selectDestination(_:))), animated: true)
+                    self.navigationItem.title = "Connect Me"
+                }
+                else if button.title == "Invite" {
+                    
+                }
+            }
+        }
+        CreateTripModeIsOn = !CreateTripModeIsOn
+    }
+    
+    func selectDestination(_ sender: AnyObject) {
+        performSegue(withIdentifier: Constants.SelectDestinationSegue, sender: sender)
     }
     
     override func viewDidLoad() {
@@ -41,6 +75,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     func setUpMap(){
         mapView.mapType = .standard
+        mapView.showsPointsOfInterest = true
         mapView.showsUserLocation = true
         mapView.delegate = self
     }
@@ -57,7 +92,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                 }
             }
         }
-        else if segue.identifier == Constants.AddDestinationSegue{ print("Seque to Destination")}
+        else if segue.identifier == Constants.SelectDestinationSegue{ print("Seque to Destination")}
     }
     
     // MARK: MKMapView Delegate
