@@ -23,6 +23,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         static let AnnotationViewReuseIdentifier = "user point"
         static let ShowUserSegue = "Show User"
         static let SelectDestinationSegue = "Select Destination"
+        static let CreateTripSegue = "Create Trip"
         static let RegionRadius: CLLocationDistance = 1000
     }
     
@@ -36,6 +37,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                 //navigationController?.navigationBar.tintColor = UIColor.white
                 
             }
+            CreateTripModeIsOn = true
         }
         else{
             if let button = sender as? UIBarButtonItem{
@@ -46,13 +48,15 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                     self.navigationItem.setLeftBarButton(
                         UIBarButtonItem(title: "Destination", style: .plain, target: self, action: #selector(selectDestination(_:))), animated: true)
                     self.navigationItem.title = "Connect Me"
+                    
+                    CreateTripModeIsOn = false
                 }
                 else if button.title == "Invite" {
-                    
+                    performSegue(withIdentifier: Constants.CreateTripSegue, sender: button)
                 }
             }
         }
-        CreateTripModeIsOn = !CreateTripModeIsOn
+        
     }
     
     func selectDestination(_ sender: AnyObject) {
@@ -93,6 +97,13 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
             }
         }
         else if segue.identifier == Constants.SelectDestinationSegue{ print("Seque to Destination")}
+        else if segue.identifier == Constants.CreateTripSegue{
+            if let detVC = segue.destination as? TravellersTVC {
+               // detVC.travelers = self.createBotUsers()
+                self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+            }
+        }
+        
     }
     
     // MARK: MKMapView Delegate

@@ -23,6 +23,7 @@
 		54BC01AC1DB025D700DAD0DA /* UserDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */; };
 		54BCE36F1DB8A310002CBAD1 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCE36E1DB8A310002CBAD1 /* CustomSearchBar.swift */; };
 		54BCE3711DB8A335002CBAD1 /* CustomSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCE3701DB8A335002CBAD1 /* CustomSearchController.swift */; };
+		54BCE3751DB8B7FA002CBAD1 /* TravellersTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCE3741DB8B7FA002CBAD1 /* TravellersTVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsVC.swift; sourceTree = "<group>"; };
 		54BCE36E1DB8A310002CBAD1 /* CustomSearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		54BCE3701DB8A335002CBAD1 /* CustomSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSearchController.swift; sourceTree = "<group>"; };
+		54BCE3741DB8B7FA002CBAD1 /* TravellersTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravellersTVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 			children = (
 				5446222C1DA8E74300A9E92B /* MainVC.swift */,
 				5446222E1DA8E74300A9E92B /* Main.storyboard */,
+				54BCE3731DB8B7A3002CBAD1 /* CreateTrip */,
 				54027D6C1DB4F329009519F8 /* Add Destination */,
 				54027D661DB4ABCD009519F8 /* User Detail */,
 				54027D671DB4ABE8009519F8 /* Model */,
@@ -143,6 +146,14 @@
 				54BCE3701DB8A335002CBAD1 /* CustomSearchController.swift */,
 			);
 			name = "Custom Search Bar";
+			sourceTree = "<group>";
+		};
+		54BCE3731DB8B7A3002CBAD1 /* CreateTrip */ = {
+			isa = PBXGroup;
+			children = (
+				54BCE3741DB8B7FA002CBAD1 /* TravellersTVC.swift */,
+			);
+			name = CreateTrip;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,6 +239,7 @@
 				54235FD51DAE657F002AD465 /* Destination.swift in Sources */,
 				5446222D1DA8E74300A9E92B /* MainVC.swift in Sources */,
 				544622471DAC0DFF00A9E92B /* User.swift in Sources */,
+				54BCE3751DB8B7FA002CBAD1 /* TravellersTVC.swift in Sources */,
 				54BC01AC1DB025D700DAD0DA /* UserDetailsVC.swift in Sources */,
 				54BCE36F1DB8A310002CBAD1 /* CustomSearchBar.swift in Sources */,
 				5446222B1DA8E74300A9E92B /* AppDelegate.swift in Sources */,

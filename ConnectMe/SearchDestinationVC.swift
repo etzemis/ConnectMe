@@ -20,7 +20,7 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
     @IBOutlet weak var mapView: MKMapView!{ didSet { setUpMap() }}
     //Location
     var locationManager: CLLocationManager = CLLocationManager()
-    let span = MKCoordinateSpanMake(0.5, 0.5)
+    let span = MKCoordinateSpanMake(0.2, 0.2)
     //Search Bar
     var searchController: UISearchController? = nil
     var selectedPin:MKPlacemark? = nil
