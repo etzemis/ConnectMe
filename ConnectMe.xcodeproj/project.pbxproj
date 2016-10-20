@@ -21,6 +21,8 @@
 		544622431DAA4A8600A9E92B /* botUsers in Resources */ = {isa = PBXBuildFile; fileRef = 544622421DAA4A8600A9E92B /* botUsers */; };
 		544622471DAC0DFF00A9E92B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544622461DAC0DFF00A9E92B /* User.swift */; };
 		54BC01AC1DB025D700DAD0DA /* UserDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */; };
+		54BCE36F1DB8A310002CBAD1 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCE36E1DB8A310002CBAD1 /* CustomSearchBar.swift */; };
+		54BCE3711DB8A335002CBAD1 /* CustomSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCE3701DB8A335002CBAD1 /* CustomSearchController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		544622421DAA4A8600A9E92B /* botUsers */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = botUsers; sourceTree = "<group>"; };
 		544622461DAC0DFF00A9E92B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsVC.swift; sourceTree = "<group>"; };
+		54BCE36E1DB8A310002CBAD1 /* CustomSearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
+		54BCE3701DB8A335002CBAD1 /* CustomSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSearchController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +79,7 @@
 			children = (
 				54027D681DB4B9B9009519F8 /* SearchDestinationVC.swift */,
 				54027D6A1DB4F31E009519F8 /* LocationSearchTable.swift */,
+				54BCE3721DB8A5F1002CBAD1 /* Custom Search Bar */,
 			);
 			name = "Add Destination";
 			sourceTree = "<group>";
@@ -129,6 +134,15 @@
 				544622361DA8E74300A9E92B /* LaunchScreen.storyboard */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		54BCE3721DB8A5F1002CBAD1 /* Custom Search Bar */ = {
+			isa = PBXGroup;
+			children = (
+				54BCE36E1DB8A310002CBAD1 /* CustomSearchBar.swift */,
+				54BCE3701DB8A335002CBAD1 /* CustomSearchController.swift */,
+			);
+			name = "Custom Search Bar";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54BCE3711DB8A335002CBAD1 /* CustomSearchController.swift in Sources */,
 				54235FD31DAE635B002AD465 /* MKUser.swift in Sources */,
 				54027D6B1DB4F31E009519F8 /* LocationSearchTable.swift in Sources */,
 				54027D651DB102D3009519F8 /* UserDetailCell.swift in Sources */,
@@ -214,6 +229,7 @@
 				5446222D1DA8E74300A9E92B /* MainVC.swift in Sources */,
 				544622471DAC0DFF00A9E92B /* User.swift in Sources */,
 				54BC01AC1DB025D700DAD0DA /* UserDetailsVC.swift in Sources */,
+				54BCE36F1DB8A310002CBAD1 /* CustomSearchBar.swift in Sources */,
 				5446222B1DA8E74300A9E92B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

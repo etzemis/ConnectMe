@@ -15,6 +15,7 @@ protocol HandleMapSearch {
 }
 
 class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate {
+    @IBOutlet weak var DismissButton: UIBarButtonItem!
     //MARK: Variable Declaration
     @IBOutlet weak var mapView: MKMapView!{ didSet { setUpMap() }}
     //Location
@@ -42,10 +43,13 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
         let locationSearchTable = storyboard!.instantiateViewController(withIdentifier: "LocationSearchTable") as! LocationSearchTable
         locationSearchTable.mapView = mapView
         locationSearchTable.handleMapSearchDelegate = self
-        searchController = UISearchController(searchResultsController: locationSearchTable)
+        searchController = CustomSearchController(searchResultsController: locationSearchTable)
         searchController?.searchResultsUpdater = locationSearchTable
         
         let searchBar = searchController!.searchBar
+        searchBar.delegate = self
+        searchBar.isTranslucent = true
+        searchBar.barStyle = .blackTranslucent
         searchBar.sizeToFit()
         searchBar.placeholder = "Enter your desired destination"
         navigationItem.titleView = searchController?.searchBar
@@ -57,6 +61,16 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
         //definesPresentationContext limits the overlap area to just the View Controller’s frame instead of the whole Navigation Controller.
         
     }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.navigationItem.rightBarButtonItem?.title = " Cancel"
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.navigationItem.rightBarButtonItem?.title = "Dismiss"
+    }
+
+    
 
     // MARK: Map, Location Manager Initialization
     private func setUpMap(){
@@ -143,5 +157,7 @@ extension SearchDestinationVC {
     {
         print("Error \(error)")
     }
+    
+
 }
 

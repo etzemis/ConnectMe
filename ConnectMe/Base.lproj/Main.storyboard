@@ -179,13 +179,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Destination" id="UY2-ew-LFE">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="KgV-iG-R0E">
+                        <barButtonItem key="rightBarButtonItem" title="Dismiss" id="KgV-iG-R0E">
                             <connections>
                                 <action selector="DismissController:" destination="t0q-Tp-Brk" id="LE4-XG-syo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="DismissButton" destination="KgV-iG-R0E" id="6L1-xB-gSn"/>
                         <outlet property="mapView" destination="yrW-Po-WHX" id="nvE-70-ZUU"/>
                     </connections>
                 </viewController>
