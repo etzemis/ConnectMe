@@ -52,6 +52,27 @@ class TravellersTVC: UITableViewController {
         cell.detailTextLabel?.text = user.destination.region
         return cell
     }
+    
+//override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//    let cell = self.tableView(tableView, cellForRowAt: indexPath)
+//    if cell.accessoryType != .none {
+//        cell.accessoryType = .none
+//        return
+//    }
+//    cell.accessoryType = .checkmark
+//
+//}
+
+    
+//    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+//        let cell = self.tableView(tableView, cellForRowAt: indexPath)
+//        if cell.accessoryType != .none {
+//            cell.accessoryType = .none
+//        }
+//        else{
+//            cell.accessoryType = .checkmark
+//        }
+//    }
  
 
     /*

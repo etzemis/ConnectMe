@@ -13,6 +13,9 @@ import CoreLocation
 class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     // MARK: Variables
+    // add users when you creta a trip
+    private var travellers: [User] = []
+    
     private var CreateTripModeIsOn: Bool = false
     var locationManager: CLLocationManager = CLLocationManager()
     @IBOutlet weak var mapView: MKMapView!{didSet {setUpMap()}}
@@ -24,7 +27,9 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         static let ShowUserSegue = "Show User"
         static let SelectDestinationSegue = "Select Destination"
         static let CreateTripSegue = "Create Trip"
-        static let RegionRadius: CLLocationDistance = 1000
+        static let RegionRadius: CLLocationDistance = 250
+        static let PinSelectedColor: UIColor = UIColor.blue
+        static let PinNormalColor: UIColor = UIColor.brown
     }
     
     @IBAction func createTrip(_ sender: AnyObject) {
@@ -49,6 +54,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                         UIBarButtonItem(title: "Destination", style: .plain, target: self, action: #selector(selectDestination(_:))), animated: true)
                     self.navigationItem.title = "Connect Me"
                     
+                    clearTrip()
                     CreateTripModeIsOn = false
                 }
                 else if button.title == "Invite" {
@@ -61,6 +67,14 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     func selectDestination(_ sender: AnyObject) {
         performSegue(withIdentifier: Constants.SelectDestinationSegue, sender: sender)
+    }
+    
+    
+    private func clearTrip(){
+        //reset annotations
+        
+        //clean Travellers
+        travellers.removeAll(keepingCapacity: false)
     }
     
     override func viewDidLoad() {
@@ -99,7 +113,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         else if segue.identifier == Constants.SelectDestinationSegue{ print("Seque to Destination")}
         else if segue.identifier == Constants.CreateTripSegue{
             if let detVC = segue.destination as? TravellersTVC {
-               // detVC.travelers = self.createBotUsers()
+                detVC.travelers = self.travellers
                 self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
             }
         }
@@ -107,6 +121,19 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     // MARK: MKMapView Delegate
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if CreateTripModeIsOn {
+            if let traveller = view.annotation as? User{
+                if !travellers.contains(traveller){
+                    travellers.append(traveller)
+                }
+            }
+        }
+    }
+    
+    
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
         
         if let annotation = annotation as? User {
@@ -119,9 +146,11 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                 // 3
                 view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: Constants.AnnotationViewReuseIdentifier)
                 view.canShowCallout = true
+                view.pinTintColor = Constants.PinNormalColor
                 view.calloutOffset = CGPoint(x: -5, y: 5)
                 view.rightCalloutAccessoryView = UIButton(type: UIButtonType.detailDisclosure) as UIButton
             }
+            
             return view
         }
         return nil
@@ -169,7 +198,7 @@ extension MainVC{
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first{
             
-            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.02, 0.02) )
+            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.01, 0.01) )
             mapView.setRegion(region, animated: true)
             
         }
