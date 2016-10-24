@@ -12,13 +12,6 @@ import CoreLocation
 
 class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
-    // MARK: Variables
-    // add users when you creta a trip
-    private var travellers: [User] = []
-    
-    private var CreateTripModeIsOn: Bool = false
-    var locationManager: CLLocationManager = CLLocationManager()
-    @IBOutlet weak var mapView: MKMapView!{didSet {setUpMap()}}
     // MARK: Constants
     private struct Constants{
         static let FullTrackColor = UIColor.blue //Add alpha component to 0.5
@@ -32,51 +25,14 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         static let PinNormalColor: UIColor = UIColor.brown
     }
     
-    @IBAction func createTrip(_ sender: AnyObject) {
-        if !CreateTripModeIsOn {
-            if sender is UIBarButtonItem{
-                self.navigationItem.setRightBarButton(UIBarButtonItem(title: "Invite", style: .plain, target: self, action: #selector(createTrip(_:))), animated: true)
-                self.navigationItem.setLeftBarButton(UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(createTrip(_:))), animated: true)
-                self.navigationItem.title = "Select Users"
-                //navigationController?.navigationBar.barTintColor = UIColor(colorLiteralRed: 200, green: 200, blue: 200, alpha: 1.0)
-                //navigationController?.navigationBar.tintColor = UIColor.white
-                
-            }
-            CreateTripModeIsOn = true
-        }
-        else{
-            if let button = sender as? UIBarButtonItem{
-                //check if Invite or Cancel
-                if button.title == "Cancel" {
-                    self.navigationItem.setRightBarButton(
-                        UIBarButtonItem(title: "Create Trip", style: .plain, target: self, action: #selector(createTrip(_:))), animated: true)
-                    self.navigationItem.setLeftBarButton(
-                        UIBarButtonItem(title: "Destination", style: .plain, target: self, action: #selector(selectDestination(_:))), animated: true)
-                    self.navigationItem.title = "Connect Me"
-                    
-                    clearTrip()
-                    CreateTripModeIsOn = false
-                }
-                else if button.title == "Invite" {
-                    performSegue(withIdentifier: Constants.CreateTripSegue, sender: button)
-                }
-            }
-        }
-        
-    }
+    // MARK: Variables
+    private var CreateTripModeIsOn: Bool = false
+    private var locationManager: CLLocationManager = CLLocationManager()
     
-    func selectDestination(_ sender: AnyObject) {
-        performSegue(withIdentifier: Constants.SelectDestinationSegue, sender: sender)
-    }
-    
-    
-    private func clearTrip(){
-        //reset annotations
-        
-        //clean Travellers
-        travellers.removeAll(keepingCapacity: false)
-    }
-    
+    //MARK: Outlets
+    @IBOutlet weak var mapView: MKMapView!{didSet {setUpMap()}}
+
+    //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpLocationManager()
@@ -110,28 +66,23 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                 }
             }
         }
-        else if segue.identifier == Constants.SelectDestinationSegue{ print("Seque to Destination")}
-        else if segue.identifier == Constants.CreateTripSegue{
-            if let detVC = segue.destination as? TravellersTVC {
-                detVC.travelers = self.travellers
-                self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
-            }
+        else if segue.identifier == Constants.SelectDestinationSegue{
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+            print("Seque to Destination")
         }
-        
     }
     
     // MARK: MKMapView Delegate
     
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if CreateTripModeIsOn {
-            if let traveller = view.annotation as? User{
-                if !travellers.contains(traveller){
-                    travellers.append(traveller)
-                }
-            }
-        }
-    }
-    
+//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+//        if CreateTripModeIsOn {
+//            if let traveller = view.annotation as? User{
+//                if !travellers.contains(traveller){
+//                    travellers.append(traveller)
+//                }
+//            }
+//        }
+//    }
     
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
@@ -184,9 +135,9 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         return users
     }
     
+    
     func displayUsers(users:[User]){
         mapView.addAnnotations(users)
-        //mapView.showAnnotations(users, animated: true)
     }
 
 }

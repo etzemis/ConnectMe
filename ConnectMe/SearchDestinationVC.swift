@@ -15,7 +15,9 @@ protocol HandleMapSearch {
 }
 
 class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate {
-    @IBOutlet weak var DismissButton: UIBarButtonItem!
+    
+    var userSelectedDestination = false
+    let ConfirmDestinationSegue = "Show Travellers"
     //MARK: Variable Declaration
     @IBOutlet weak var mapView: MKMapView!{ didSet { setUpMap() }}
     //Location
@@ -25,16 +27,23 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
     var searchController: UISearchController? = nil
     var selectedPin:MKPlacemark? = nil
 
+    @IBOutlet weak var NextButton: UIBarButtonItem!
+    
+    @IBAction func BarButtonPressed(_ sender: AnyObject) {
+        
+        if searchController!.isActive {
+            searchController?.isActive = false
+        }
+        else{
+            performSegue(withIdentifier: ConfirmDestinationSegue, sender: sender)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setUpLocationManager()
         setUpSearchController()
-    }
-    
-    @IBAction func DismissController(_ sender: AnyObject) {
-        self.navigationController!.popViewController(animated: true)
-        dismiss(animated: true, completion: nil)
     }
 
     // MARK: Search Controller Initialization
@@ -51,7 +60,7 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
         searchBar.isTranslucent = true
         searchBar.barStyle = .blackTranslucent
         searchBar.sizeToFit()
-        searchBar.placeholder = "Enter your desired destination"
+        searchBar.placeholder = "Enter destination"
         navigationItem.titleView = searchController?.searchBar
         searchController!.hidesNavigationBarDuringPresentation = false
         searchController!.dimsBackgroundDuringPresentation = true
@@ -64,10 +73,12 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         self.navigationItem.rightBarButtonItem?.title = " Cancel"
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.navigationItem.rightBarButtonItem?.title = "Dismiss"
+        self.navigationItem.rightBarButtonItem?.title = "Next"
+        self.navigationItem.rightBarButtonItem?.isEnabled = userSelectedDestination
     }
 
     
@@ -111,6 +122,21 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
         }
         
     }
+    
+    // MARK: Perform Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == ConfirmDestinationSegue{
+
+                if segue.destination is TravellersTVC {
+                    //set the user to display the Info
+                    // SET Users Destination
+                    //Call load Suggestions
+                    //Set the back button to have no title
+                    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+                }
+            }
+        
+    }
 }
 
 
@@ -118,6 +144,9 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
 //MARK: HandleMapSearch Methods
 extension SearchDestinationVC: HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark){
+        //Enable Next Button and Set Flag
+        NextButton.isEnabled = true
+        self.userSelectedDestination = true
         // cache the pin
         selectedPin = placemark
         // clear existing pins
