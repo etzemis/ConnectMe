@@ -108,6 +108,7 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
     
     func setUpMap(){
         mapView.mapType = .standard
+        mapView.showsBuildings = true
         mapView.showsPointsOfInterest = true
         mapView.showsUserLocation = true
     }

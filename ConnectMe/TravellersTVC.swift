@@ -17,6 +17,7 @@ class TravellersTVC: UITableViewController {
     
     struct Constants {
         static let CellIdentifier = "Traveller Cell"
+        static let StartNavigationSegue = "Start Navigation"
     }
 
     override func viewDidLoad() {
@@ -37,7 +38,7 @@ class TravellersTVC: UITableViewController {
     }
     
     @objc func sendInvitation(_ sender: AnyObject){
-        print("invitation has been sent")
+      performSegue(withIdentifier: Constants.StartNavigationSegue, sender: sender)
     }
 
     // MARK: - Table view data source
