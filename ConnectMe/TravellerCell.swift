@@ -16,12 +16,12 @@ class TravellerCell: UITableViewCell {
     @IBOutlet weak var extraPersons: UILabel!
     
     private var _name: String{
-        set{ self.name.text = "User: \(newValue)"}
+        set{ self.name.text = "\(newValue)"}
         get{ return self._name}
     }
     
     private var _destination: String{
-        set{ self.destination.text = "Dest: \(newValue)"}
+        set{ self.destination.text = "\(newValue)"}
         get{ return self._destination}
     }
     
@@ -29,11 +29,28 @@ class TravellerCell: UITableViewCell {
         set{ self.extraPersons.text = "Persons: \(newValue)"}
         get{ return self._extraPersons}
     }
+    
+    var traveller: User?{
+        didSet{
+            updateUI()
+        }
+    }
 
-    func initCell(withTraveller traveller: User){
-        self._name = traveller.name
-        self._destination = "\(traveller.destination.region), \(traveller.destination.address)"
+    func updateUI(){
+        self._name = traveller!.name
+        self._destination = "\(traveller!.destination.region), \(traveller!.destination.address)"
         self._extraPersons = "1"
+        setCircularImage()
+        self.accessoryType = .none
+        self.selectionStyle = .none
+    }
+    
+    private func setCircularImage(){
+        self.profileImage.image =  UIImage(named: "userImage.jpg")
+        self.profileImage.layer.cornerRadius = 32
+        self.profileImage.clipsToBounds = true
+        self.profileImage.layer.borderWidth = 1
+        self.profileImage.layer.borderColor = UIColor.blue.cgColor
     }
 }
 
