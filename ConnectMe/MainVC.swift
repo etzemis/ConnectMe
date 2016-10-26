@@ -20,6 +20,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         static let ShowUserSegue = "Show User"
         static let SelectDestinationSegue = "Select Destination"
         static let CreateTripSegue = "Create Trip"
+        static let UserLoginSegue = "UserLogin"
         static let RegionRadius: CLLocationDistance = 250
         static let PinSelectedColor: UIColor = UIColor.blue
         static let PinNormalColor: UIColor = UIColor.brown
@@ -37,6 +38,10 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         super.viewDidLoad()
         setUpLocationManager()
         displayUsers(users: createBotUsers())
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        performSegue(withIdentifier: Constants.UserLoginSegue, sender: self)
     }
 
     // MARK: Initialization Location Manager and Map
