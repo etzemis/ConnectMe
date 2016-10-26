@@ -46,7 +46,7 @@ class TravellerCell: UITableViewCell {
     }
     
     private func setCircularImage(){
-        self.profileImage.image =  UIImage(named: "userImage.jpg")
+        self.profileImage.image =  UIImage(named: "empty_profile")
         self.profileImage.layer.cornerRadius = 32
         self.profileImage.clipsToBounds = true
         self.profileImage.layer.borderWidth = 1

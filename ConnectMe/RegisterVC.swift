@@ -14,17 +14,23 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     @IBOutlet weak var userEmail: UITextField!
     @IBOutlet weak var userPassword: UITextField!
     @IBOutlet weak var userAddress: UITextField!
+    @IBOutlet weak var userProfileImage: UIImageView!
+    @IBOutlet weak var addPhotoButton: UIButton!
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    //MARK: View Controller Lifecicle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        // set empty Profile Image
+        setCircularImage()
     }
     
+    //MARK: IBActions
+    
+    @IBAction func CancelRegistrationAndLogin(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
+    }
 
     @IBAction func CaptureUserImageTapped(_ sender: AnyObject) {
         
@@ -32,15 +38,14 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .camera
-            imagePicker.allowsEditing = true
+            imagePicker.allowsEditing = false
             self.present(imagePicker, animated: true, completion: nil)
         }
         else {
-            noCamera()
+            noCameraALert()
         }
-}
-
-
+    }
+    
     @IBAction func registerButtonTapped(_ sender: AnyObject) {
         let name = self.userName.text
         let email = self.userEmail.text
@@ -54,9 +59,37 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             return
         }
         //Store Data
-        //Dispaly alert message with Comfirmation
+        let defaults  = UserDefaults.standard
+        defaults.set(name,  forKey: AppDelegate.Constants.UsernameUserDefaults)
+        defaults.set(email, forKey: AppDelegate.Constants.EmailUserDefaults)
+        defaults.set(password, forKey: AppDelegate.Constants.PasswordUserDefaults)
+        defaults.set(address, forKey: AppDelegate.Constants.AddressUserDefaults)
+        
+        print(defaults.object(forKey: AppDelegate.Constants.UsernameUserDefaults))
+        print(defaults.object(forKey: AppDelegate.Constants.EmailUserDefaults))
+        print(defaults.object(forKey: AppDelegate.Constants.PasswordUserDefaults))
+        print(defaults.object(forKey: AppDelegate.Constants.AddressUserDefaults))
+        
+        //Display alert message with Comfirmation
+        
+        let alert = UIAlertController(title: "User Registration Successful", message: "Your Account has been successfully created. Please Login to Start Using the Application", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { action in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
+    // MARK: Provate Functions
+    
+    private func setCircularImage(){
+        userProfileImage.image =  UIImage(named: "empty_profile")
+        userProfileImage.layer.cornerRadius = 40
+        userProfileImage.clipsToBounds = true
+        userProfileImage.layer.borderWidth = 1
+        userProfileImage.layer.borderColor = UIColor.blue.cgColor
+    }
+
     // MARK: Validation
     
     func isValidEmail(testStr:String) -> Bool {
@@ -65,9 +98,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         return emailTest.evaluate(with: testStr)
     }
     
-    //MARK: Alert Messages
-    
-    //Lecture 15 35:00
+    //MARK: Alert Messages     //Lecture 15 35:00
     
     func displayAlertMessage(message: String){
         let alert = UIAlertController(title: "User Registration Incomplete", message: message, preferredStyle: .alert)
@@ -76,11 +107,28 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         self.present(alert, animated: true, completion: nil)
     }
     
-    func noCamera(){
+    func noCameraALert(){
         let alertVC = UIAlertController(title: "No Camera", message: "Sorry, this device has no camera", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style:.default,handler: nil)
         alertVC.addAction(okAction)
         present(alertVC, animated: true, completion: nil)
+    }
+    
+    
+    //MARK: UIImagePickerControllerDelegate
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage //2
+        userProfileImage.contentMode = .scaleAspectFill //3
+        userProfileImage.image = chosenImage //4
+        dismiss(animated:true, completion: nil) //5
+        
+        addPhotoButton.titleLabel?.text = "Edit Photo"
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: TextField Delegate Methods
@@ -89,18 +137,18 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         case "Username":
             textField.resignFirstResponder()
             userEmail.becomeFirstResponder()
-        case "Email Address":
-//            if isValidEmail(testStr: textField.text!) {
-                textField.resignFirstResponder()
-                userPassword.becomeFirstResponder()
-//            }
-//            else{
-//                displayAlertMessage(message: "E-mail is not valid.")
-//                return false
-//            }
         case "Password":
             textField.resignFirstResponder()
-            userAddress.becomeFirstResponder()
+            userEmail.becomeFirstResponder()
+        case "Email Address":
+            if isValidEmail(testStr: textField.text!) {
+                textField.resignFirstResponder()
+                userAddress.becomeFirstResponder()
+            }
+            else{
+                displayAlertMessage(message: "E-mail is not valid.")
+                return false
+            }
         case "Address":
             textField.resignFirstResponder()
         default:

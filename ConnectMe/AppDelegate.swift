@@ -13,7 +13,14 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    struct Constants {
+        static let UsernameUserDefaults = "username"
+        static let PasswordUserDefaults = "password"
+        static let EmailUserDefaults = "email"
+        static let AddressUserDefaults = "address"
+        static let IsUserLoggedInUserDefaults = "IsUserLoggedIn"
+    }
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         

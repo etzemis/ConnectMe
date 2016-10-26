@@ -26,6 +26,8 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         static let PinNormalColor: UIColor = UIColor.brown
     }
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     // MARK: Variables
     private var CreateTripModeIsOn: Bool = false
     private var locationManager: CLLocationManager = CLLocationManager()
@@ -41,7 +43,10 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        performSegue(withIdentifier: Constants.UserLoginSegue, sender: self)
+        
+        if !UserDefaults.standard.bool(forKey: AppDelegate.Constants.IsUserLoggedInUserDefaults){
+            performSegue(withIdentifier: Constants.UserLoginSegue, sender: self)
+        }
     }
 
     // MARK: Initialization Location Manager and Map

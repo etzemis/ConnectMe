@@ -12,6 +12,11 @@ class LoginVC: UIViewController {
 
     @IBOutlet weak var userEmail: UITextField!
     @IBOutlet weak var userPassword: UITextField!
+    
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,6 +29,24 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func LoginButtonTapped(_ sender: AnyObject) {
+        let defaults  = UserDefaults.standard
+        let storedUserEmail = defaults.string(forKey: AppDelegate.Constants.EmailUserDefaults)
+        let storedPassword = defaults.string(forKey: AppDelegate.Constants.PasswordUserDefaults)
+        
+        if (userEmail.text == storedUserEmail && userPassword.text == storedPassword){
+            //Login Successful
+            defaults.set(true, forKey: AppDelegate.Constants.IsUserLoggedInUserDefaults)
+            defaults.synchronize()
+            
+            self.dismiss(animated: true, completion: nil)
+        }
+        else{
+            let alert = UIAlertController(title: "Login Denied", message: "Incorrect E-mail or Password!", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
     }
 
     /*
