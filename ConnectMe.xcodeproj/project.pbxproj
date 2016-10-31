@@ -25,6 +25,9 @@
 		544622431DAA4A8600A9E92B /* botUsers in Resources */ = {isa = PBXBuildFile; fileRef = 544622421DAA4A8600A9E92B /* botUsers */; };
 		544622471DAC0DFF00A9E92B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544622461DAC0DFF00A9E92B /* User.swift */; };
 		5447DDDD1DC781AC00610A3D /* NetworkingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5447DDDC1DC781AC00610A3D /* NetworkingVC.swift */; };
+		5460947E1DC7A2A800E11983 /* AlmofireRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460947D1DC7A2A800E11983 /* AlmofireRouter.swift */; };
+		546094801DC7A71400E11983 /* ToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460947F1DC7A71400E11983 /* ToDo.swift */; };
+		546094821DC7AC2500E11983 /* ToDo+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546094811DC7AC2500E11983 /* ToDo+Networking.swift */; };
 		548356B81DBF48E100C9D29D /* TravelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548356B71DBF48E100C9D29D /* TravelVC.swift */; };
 		54BC01AC1DB025D700DAD0DA /* UserDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */; };
 		54BCE36F1DB8A310002CBAD1 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCE36E1DB8A310002CBAD1 /* CustomSearchBar.swift */; };
@@ -55,6 +58,9 @@
 		544622421DAA4A8600A9E92B /* botUsers */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = botUsers; sourceTree = "<group>"; };
 		544622461DAC0DFF00A9E92B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5447DDDC1DC781AC00610A3D /* NetworkingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingVC.swift; sourceTree = "<group>"; };
+		5460947D1DC7A2A800E11983 /* AlmofireRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlmofireRouter.swift; sourceTree = "<group>"; };
+		5460947F1DC7A71400E11983 /* ToDo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDo.swift; sourceTree = "<group>"; };
+		546094811DC7AC2500E11983 /* ToDo+Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ToDo+Networking.swift"; sourceTree = "<group>"; };
 		548356B71DBF48E100C9D29D /* TravelVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelVC.swift; sourceTree = "<group>"; };
 		54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsVC.swift; sourceTree = "<group>"; };
 		54BCE36E1DB8A310002CBAD1 /* CustomSearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
@@ -199,6 +205,9 @@
 			isa = PBXGroup;
 			children = (
 				5447DDDC1DC781AC00610A3D /* NetworkingVC.swift */,
+				5460947D1DC7A2A800E11983 /* AlmofireRouter.swift */,
+				5460947F1DC7A71400E11983 /* ToDo.swift */,
+				546094811DC7AC2500E11983 /* ToDo+Networking.swift */,
 			);
 			name = NETWORKING;
 			sourceTree = "<group>";
@@ -374,13 +383,16 @@
 				54BCE3711DB8A335002CBAD1 /* CustomSearchController.swift in Sources */,
 				548356B81DBF48E100C9D29D /* TravelVC.swift in Sources */,
 				5447DDDD1DC781AC00610A3D /* NetworkingVC.swift in Sources */,
+				5460947E1DC7A2A800E11983 /* AlmofireRouter.swift in Sources */,
 				54235FD31DAE635B002AD465 /* MKUser.swift in Sources */,
+				546094821DC7AC2500E11983 /* ToDo+Networking.swift in Sources */,
 				54027D6B1DB4F31E009519F8 /* LocationSearchTable.swift in Sources */,
 				541D0BF81DC0965F00003DF4 /* LoginVC.swift in Sources */,
 				54027D651DB102D3009519F8 /* UserDetailCell.swift in Sources */,
 				544622331DA8E74300A9E92B /* ConnectMe.xcdatamodeld in Sources */,
 				54027D691DB4B9B9009519F8 /* SearchDestinationVC.swift in Sources */,
 				54235FD51DAE657F002AD465 /* Destination.swift in Sources */,
+				546094801DC7A71400E11983 /* ToDo.swift in Sources */,
 				5446222D1DA8E74300A9E92B /* MainVC.swift in Sources */,
 				540534021DC10CB3006AC13E /* SettingsTVC.swift in Sources */,
 				541D0BF61DC0964D00003DF4 /* RegisterVC.swift in Sources */,
