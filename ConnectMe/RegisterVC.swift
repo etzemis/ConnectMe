@@ -65,10 +65,10 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         defaults.set(password, forKey: AppDelegate.Constants.PasswordUserDefaults)
         defaults.set(address, forKey: AppDelegate.Constants.AddressUserDefaults)
         
-        print(defaults.object(forKey: AppDelegate.Constants.UsernameUserDefaults))
-        print(defaults.object(forKey: AppDelegate.Constants.EmailUserDefaults))
-        print(defaults.object(forKey: AppDelegate.Constants.PasswordUserDefaults))
-        print(defaults.object(forKey: AppDelegate.Constants.AddressUserDefaults))
+//        print(defaults.object(forKey: AppDelegate.Constants.UsernameUserDefaults))
+//        print(defaults.object(forKey: AppDelegate.Constants.EmailUserDefaults))
+//        print(defaults.object(forKey: AppDelegate.Constants.PasswordUserDefaults))
+//        print(defaults.object(forKey: AppDelegate.Constants.AddressUserDefaults))
         
         //Display alert message with Comfirmation
         

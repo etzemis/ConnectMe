@@ -8,5 +8,6 @@ target 'ConnectMe' do
   # Pods for ConnectMe
   pod 'SwiftyJSON'
   pod 'Alamofire', '~> 4.0'
+  pod 'SwiftSpinner'
 
 end

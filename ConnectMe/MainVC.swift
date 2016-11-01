@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import SwiftSpinner
 
 class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
@@ -83,18 +84,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     // MARK: MKMapView Delegate
-    
-//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-//        if CreateTripModeIsOn {
-//            if let traveller = view.annotation as? User{
-//                if !travellers.contains(traveller){
-//                    travellers.append(traveller)
-//                }
-//            }
-//        }
-//    }
-    
-    
+        
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
         
         if let annotation = annotation as? User {
@@ -116,6 +106,8 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         }
         return nil
     }
+    
+    
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         // Check if this is what we want exactly
@@ -161,6 +153,16 @@ extension MainVC{
             
             let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.01, 0.01) )
             mapView.setRegion(region, animated: true)
+//            let delayInSeconds = 4.0
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
+//                            SwiftSpinner.show("Getting Nearby Travellers...")
+//            }
+//            
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2*delayInSeconds) {
+//                SwiftSpinner.hide()
+//            }
+            
+
             
         }
         // let userLocation:CLLocation = locations[0] as CLLocation
