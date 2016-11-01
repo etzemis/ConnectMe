@@ -125,15 +125,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="k7k-fO-PMl">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="k7k-fO-PMl">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vHj-TW-Tf4">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="300.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                                         <color key="tintColor" red="0.51702286870000003" green="1" blue="0.33277625399999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="150" id="QJL-FR-M45"/>
+                                        </constraints>
                                     </mapView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Lul-2X-g45">
-                                        <rect key="frame" x="0.0" y="305.5" width="375" height="297.5"/>
+                                        <rect key="frame" x="0.0" y="155" width="375" height="448"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UserDetailCell" id="OzK-8r-ScZ" customClass="UserDetailCell" customModule="ConnectMe" customModuleProvider="target">

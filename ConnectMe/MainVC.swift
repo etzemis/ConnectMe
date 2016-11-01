@@ -17,7 +17,9 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     private struct Constants{
         static let FullTrackColor = UIColor.blue //Add alpha component to 0.5
         static let TrackLineWidth: CGFloat = 3.0
-        static let AnnotationViewReuseIdentifier = "user point"
+        static let LeftCalloutFrame = CGRect(x:0, y:0, width:50, height:50)
+        static let AnnotationViewReuseIdentifier = "traveller point"
+        static let UserLocationReuseIdentifier = "user location"
         static let ShowUserSegue = "Show User"
         static let SelectDestinationSegue = "Select Destination"
         static let CreateTripSegue = "Create Trip"
@@ -44,7 +46,6 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         if !UserDefaults.standard.bool(forKey: AppDelegate.Constants.IsUserLoggedInUserDefaults){
             performSegue(withIdentifier: Constants.UserLoginSegue, sender: self)
         }
@@ -63,6 +64,8 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         mapView.showsPointsOfInterest = true
         mapView.showsUserLocation = true
         mapView.delegate = self
+        //set User Location dot to be of Different Color
+        mapView.tintColor = UIColor.lightGray
     }
     
     // MARK: Perform Segue
@@ -88,25 +91,35 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
         
         if let annotation = annotation as? User {
-            var view: MKPinAnnotationView
-            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier:Constants.AnnotationViewReuseIdentifier)
-                as? MKPinAnnotationView { // 2
+            var view: MKAnnotationView
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier:Constants.AnnotationViewReuseIdentifier){ // 2
                 dequeuedView.annotation = annotation
                 view = dequeuedView
             } else {
                 // 3
-                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: Constants.AnnotationViewReuseIdentifier)
+                view = MKAnnotationView(annotation: annotation, reuseIdentifier: Constants.AnnotationViewReuseIdentifier)
+                view.image = #imageLiteral(resourceName: "travellerPinLowProximity")
                 view.canShowCallout = true
-                view.pinTintColor = Constants.PinNormalColor
-                view.calloutOffset = CGPoint(x: -5, y: 5)
+                //set Right Callout Accessory View
                 view.rightCalloutAccessoryView = UIButton(type: UIButtonType.detailDisclosure) as UIButton
+                //set Left Callout Accessory View
+                view.leftCalloutAccessoryView = UIImageView(frame: Constants.LeftCalloutFrame)
             }
-            
             return view
         }
         return nil
     }
     
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let _ = view.annotation as? User {
+            if let thumbnailImageView = view.leftCalloutAccessoryView as? UIImageView{
+                
+                thumbnailImageView.clipsToBounds = true
+                thumbnailImageView.contentMode = .scaleAspectFill
+                thumbnailImageView.image = #imageLiteral(resourceName: "empty_profile")
+            }
+        }
+    }
     
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {

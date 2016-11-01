@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import SwiftSpinner
 
 protocol HandleMapSearch {
     func dropPinZoomIn(placemark:MKPlacemark)
@@ -16,34 +17,41 @@ protocol HandleMapSearch {
 
 class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate {
     
-    var userSelectedDestination = false
-    let ConfirmDestinationSegue = "Show Travellers"
+    struct Constants{
+        static let ConfirmDestinationSegue = "Show Travellers"
+        static let SpanAroundUserRegion = MKCoordinateSpanMake(0.2, 0.2)
+    }
     //MARK: Variable Declaration
     @IBOutlet weak var mapView: MKMapView!{ didSet { setUpMap() }}
-    //Location
-    var locationManager: CLLocationManager = CLLocationManager()
-    let span = MKCoordinateSpanMake(0.2, 0.2)
-    //Search Bar
-    var searchController: UISearchController? = nil
-    var selectedPin:MKPlacemark? = nil
-
     @IBOutlet weak var NextButton: UIBarButtonItem!
-    
     @IBAction func BarButtonPressed(_ sender: AnyObject) {
         
         if searchController!.isActive {
             searchController?.isActive = false
         }
         else{
-            performSegue(withIdentifier: ConfirmDestinationSegue, sender: sender)
+            SwiftSpinner.show("Syncing Destination...")
+            let delayInSeconds = 3.0
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
+                SwiftSpinner.hide()
+                self.performSegue(withIdentifier: Constants.ConfirmDestinationSegue, sender: sender)
+            }
         }
     }
+    var userSelectedDestination = false
+    var locationManager: CLLocationManager = CLLocationManager()
     
+    //Search Bar
+    var searchController: UISearchController? = nil
+    var selectedPin:MKPlacemark? = nil
+
+
+    // MARK: View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        setUpLocationManager()
         setUpSearchController()
+        setUpLocationManager()
     }
 
     // MARK: Search Controller Initialization
@@ -62,6 +70,7 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
         searchBar.sizeToFit()
         searchBar.placeholder = "Enter destination"
         navigationItem.titleView = searchController?.searchBar
+ 
         searchController!.hidesNavigationBarDuringPresentation = false
         searchController!.dimsBackgroundDuringPresentation = true
         definesPresentationContext = true
@@ -83,7 +92,7 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
 
     
 
-    // MARK: Map, Location Manager Initialization
+    // MARK: Map & LocationManager Initialization
     private func setUpMap(){
         mapView.mapType = .standard
         mapView.showsUserLocation = true
@@ -125,17 +134,17 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
     
     // MARK: Perform Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ConfirmDestinationSegue{
+        if segue.identifier == Constants.ConfirmDestinationSegue{
 
                 if segue.destination is TravellersTVC {
+                    
                     //set the user to display the Info
-                    // SET Users Destination
+                    //SET Users Destination
                     //Call load Suggestions
                     //Set the back button to have no title
                     self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
                 }
             }
-        
     }
 }
 
@@ -171,8 +180,8 @@ extension SearchDestinationVC {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first{
             
-            let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            mapView.setRegion(region, animated: true)
+            let region = MKCoordinateRegion(center: location.coordinate, span: Constants.SpanAroundUserRegion)
+            mapView.setRegion(region, animated: false)
             
         }
         

@@ -104,7 +104,6 @@
 		54027D6C1DB4F329009519F8 /* 3. Add Destination */ = {
 			isa = PBXGroup;
 			children = (
-				54BCE3731DB8B7A3002CBAD1 /* CreateTrip */,
 				54027D681DB4B9B9009519F8 /* SearchDestinationVC.swift */,
 				54027D6A1DB4F31E009519F8 /* LocationSearchTable.swift */,
 				54BCE3721DB8A5F1002CBAD1 /* Custom Search Bar */,
@@ -172,7 +171,8 @@
 				541D0BF91DC0966800003DF4 /* 1. Login */,
 				5447DDD81DC780CC00610A3D /* 2. Initial MapView */,
 				54027D6C1DB4F329009519F8 /* 3. Add Destination */,
-				548356B91DBF48EF00C9D29D /* 4. Travel */,
+				54BCE3731DB8B7A3002CBAD1 /* 4. CreateTrip */,
+				548356B91DBF48EF00C9D29D /* 5. Travel */,
 				540534031DC10CBB006AC13E /* Profile Settings */,
 				5447DDDB1DC7815E00610A3D /* Networking */,
 				546094851DC7B3C600E11983 /* ServerAPIManager */,
@@ -223,12 +223,12 @@
 			name = ServerAPIManager;
 			sourceTree = "<group>";
 		};
-		548356B91DBF48EF00C9D29D /* 4. Travel */ = {
+		548356B91DBF48EF00C9D29D /* 5. Travel */ = {
 			isa = PBXGroup;
 			children = (
 				548356B71DBF48E100C9D29D /* TravelVC.swift */,
 			);
-			name = "4. Travel";
+			name = "5. Travel";
 			sourceTree = "<group>";
 		};
 		54BCE3721DB8A5F1002CBAD1 /* Custom Search Bar */ = {
@@ -240,13 +240,13 @@
 			name = "Custom Search Bar";
 			sourceTree = "<group>";
 		};
-		54BCE3731DB8B7A3002CBAD1 /* CreateTrip */ = {
+		54BCE3731DB8B7A3002CBAD1 /* 4. CreateTrip */ = {
 			isa = PBXGroup;
 			children = (
 				54BCE3741DB8B7FA002CBAD1 /* TravellersTVC.swift */,
 				5441819F1DBD0EA20050E27C /* TravellerCell.swift */,
 			);
-			name = CreateTrip;
+			name = "4. CreateTrip";
 			sourceTree = "<group>";
 		};
 		E566C7DCA3AB088091BA0551 /* Frameworks */ = {
