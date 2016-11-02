@@ -29,7 +29,8 @@
 		546094821DC7AC2500E11983 /* Location+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546094811DC7AC2500E11983 /* Location+Networking.swift */; };
 		546094841DC7B3BC00E11983 /* ServerAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546094831DC7B3BC00E11983 /* ServerAPIManager.swift */; };
 		54736F1E1DCA18C00010B34C /* Traveller+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54736F1D1DCA18C00010B34C /* Traveller+Networking.swift */; };
-		54736F201DCA27270010B34C /* TripDataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54736F1F1DCA27270010B34C /* TripDataHolder.swift */; };
+		54736F201DCA27270010B34C /* DataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54736F1F1DCA27270010B34C /* DataHolder.swift */; };
+		54736F221DCA3B240010B34C /* ServerAPIManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54736F211DCA3B240010B34C /* ServerAPIManagerError.swift */; };
 		548356B81DBF48E100C9D29D /* TravelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548356B71DBF48E100C9D29D /* TravelVC.swift */; };
 		54BC01AC1DB025D700DAD0DA /* UserDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */; };
 		54BCE36F1DB8A310002CBAD1 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCE36E1DB8A310002CBAD1 /* CustomSearchBar.swift */; };
@@ -64,7 +65,8 @@
 		546094811DC7AC2500E11983 /* Location+Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+Networking.swift"; sourceTree = "<group>"; };
 		546094831DC7B3BC00E11983 /* ServerAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerAPIManager.swift; sourceTree = "<group>"; };
 		54736F1D1DCA18C00010B34C /* Traveller+Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Traveller+Networking.swift"; sourceTree = "<group>"; };
-		54736F1F1DCA27270010B34C /* TripDataHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripDataHolder.swift; sourceTree = "<group>"; };
+		54736F1F1DCA27270010B34C /* DataHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHolder.swift; sourceTree = "<group>"; };
+		54736F211DCA3B240010B34C /* ServerAPIManagerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerAPIManagerError.swift; sourceTree = "<group>"; };
 		548356B71DBF48E100C9D29D /* TravelVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelVC.swift; sourceTree = "<group>"; };
 		54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsVC.swift; sourceTree = "<group>"; };
 		54BCE36E1DB8A310002CBAD1 /* CustomSearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
@@ -222,7 +224,8 @@
 			isa = PBXGroup;
 			children = (
 				546094831DC7B3BC00E11983 /* ServerAPIManager.swift */,
-				54736F1F1DCA27270010B34C /* TripDataHolder.swift */,
+				54736F211DCA3B240010B34C /* ServerAPIManagerError.swift */,
+				54736F1F1DCA27270010B34C /* DataHolder.swift */,
 			);
 			name = ServerAPIManager;
 			sourceTree = "<group>";
@@ -421,11 +424,12 @@
 				544622471DAC0DFF00A9E92B /* Traveller.swift in Sources */,
 				54BCE3751DB8B7FA002CBAD1 /* TravellersTVC.swift in Sources */,
 				54BC01AC1DB025D700DAD0DA /* UserDetailsVC.swift in Sources */,
-				54736F201DCA27270010B34C /* TripDataHolder.swift in Sources */,
+				54736F201DCA27270010B34C /* DataHolder.swift in Sources */,
 				54BCE36F1DB8A310002CBAD1 /* CustomSearchBar.swift in Sources */,
 				5446222B1DA8E74300A9E92B /* AppDelegate.swift in Sources */,
 				544181A01DBD0EA20050E27C /* TravellerCell.swift in Sources */,
 				54736F1E1DCA18C00010B34C /* Traveller+Networking.swift in Sources */,
+				54736F221DCA3B240010B34C /* ServerAPIManagerError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,8 +14,11 @@ enum ConnectMeRouter: URLRequestConvertible {
     // posting
     case updateLocation([String: Any])
     case insertDestination([String: Any])
-    // fetching
+    // fetching  - Posting my User Id
+    //will return a list of IDs
     case fetchTravellersAroundMe(Int)
+    // Provide an ID, then the User Datawill be returned
+    case fetchTraveller(Int)
     
     func asURLRequest() throws -> URLRequest { // TODO: implement
         var method: HTTPMethod {
@@ -25,6 +28,8 @@ enum ConnectMeRouter: URLRequestConvertible {
             case .insertDestination:
                 return .post
             case .fetchTravellersAroundMe:
+                return .get
+            case .fetchTraveller:
                 return .get
             }
         }
@@ -36,6 +41,8 @@ enum ConnectMeRouter: URLRequestConvertible {
             case .insertDestination(let newDestination):
                 return (newDestination)
             case .fetchTravellersAroundMe:
+                return nil
+            case .fetchTraveller:
                 return nil
             }
         }()
@@ -51,6 +58,8 @@ enum ConnectMeRouter: URLRequestConvertible {
                 relativePath = "destination"
             case .fetchTravellersAroundMe(let id):
                 relativePath = "travellers/\(id)"
+            case .fetchTraveller(let travellerId):
+                relativePath = "traveller/\(travellerId)"
             }
             
             var url = URL(string: ConnectMeRouter.baseURLString)!

@@ -38,6 +38,21 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
             }
         }
     }
+    @IBOutlet weak var extraPersonsLabel: UILabel!
+    private var extraPersons = 0
+    @IBAction func increaseExtraPersons(_ sender: Any) {
+        if(extraPersons < 20){
+            self.extraPersons = extraPersons+1
+            self.extraPersonsLabel.text = "\(self.extraPersons)"
+        }
+    }
+    @IBAction func decreaseExtraPersons(_ sender: Any) {
+        if(extraPersons > 0){
+            self.extraPersons = extraPersons-1
+            self.extraPersonsLabel.text = "\(self.extraPersons)"
+        }
+    }
+    
     var userSelectedDestination = false
     var locationManager: CLLocationManager = CLLocationManager()
     

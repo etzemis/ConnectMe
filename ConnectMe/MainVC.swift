@@ -38,6 +38,25 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     //MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!{didSet {setUpMap()}}
 
+    @IBOutlet weak var mapTypeSegmentedControl: UISegmentedControl!
+    @IBAction func mapTypeChanged(_ sender: Any) {
+        switch (self.mapTypeSegmentedControl.selectedSegmentIndex) {
+        case 0:
+            self.mapView.mapType = .standard;
+            self.mapTypeSegmentedControl.tintColor = self.view.tintColor
+            break;
+        case 1:
+            self.mapView.mapType = .hybrid;
+            self.mapTypeSegmentedControl.tintColor = UIColor.white
+            break;
+        case 2:
+            self.mapView.mapType = .satellite;
+            self.mapTypeSegmentedControl.tintColor = UIColor.white
+            break;
+        default:
+            break;
+        }
+    }
     //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +81,9 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     func setUpMap(){
         mapView.mapType = .standard
         mapView.showsPointsOfInterest = true
+        mapView.showsScale = true
+        mapView.showsBuildings = true
+        mapView.showsCompass = true
         mapView.showsUserLocation = true
         mapView.delegate = self
         //set User Location dot to be of Different Color
