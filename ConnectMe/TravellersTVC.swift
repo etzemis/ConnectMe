@@ -12,8 +12,8 @@ import CoreLocation
 class TravellersTVC: UITableViewController {
     
     // add users when you create a trip
-    private var selectedTravellers: [User] = []
-    private var suggestedTravellers: [User] = []
+    private var selectedTravellers: [Traveller] = []
+    private var suggestedTravellers: [Traveller] = []
     
     struct Constants {
         static let CellIdentifier = "Traveller Cell"
@@ -134,51 +134,51 @@ class TravellersTVC: UITableViewController {
     }
     */
     
-    func createBotUsers() -> [User]{
-        var users = [User]()
+    func createBotUsers() -> [Traveller]{
+        var users = [Traveller]()
         
-        var user = User(id: 1 as NSNumber, name: "Vaggelis",
-                        destination: Destination(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
+        var user = Traveller(travellerId: 1 , name: "Vaggelis",
+                        destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
                         currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
         users.append(user)
         
-        user = User(id: 2 as NSNumber, name: "Petros",
-                    destination: Destination(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
+        user = Traveller(travellerId: 2, name: "Petros",
+                    destination: Location(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367))
         users.append(user)
         
-        user = User(id: 3 as NSNumber, name: "Hercules",
-                    destination: Destination(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
+        user = Traveller(travellerId: 3, name: "Hercules",
+                    destination: Location(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
         users.append(user)
         
-        user = User(id: 4 as NSNumber, name: "Alexis",
-                        destination: Destination(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
+        user = Traveller(travellerId: 4 , name: "Alexis",
+                        destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
                         currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
         users.append(user)
         
-        user = User(id: 5 as NSNumber, name: "Jorgos",
-                    destination: Destination(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
+        user = Traveller(travellerId: 5 , name: "Jorgos",
+                    destination: Location(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367))
         users.append(user)
         
-        user = User(id: 6 as NSNumber, name: "Marvina",
-                    destination: Destination(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
+        user = Traveller(travellerId: 6 , name: "Marvina",
+                    destination: Location(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
         users.append(user)
         
-        user = User(id: 7 as NSNumber, name: "Loula",
-                        destination: Destination(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
+        user = Traveller(travellerId: 7 , name: "Loula",
+                        destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
                         currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
         users.append(user)
         
-        user = User(id: 8 as NSNumber, name: "Thanasis",
-                    destination: Destination(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
+        user = Traveller(travellerId: 8, name: "Thanasis",
+                    destination: Location(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367))
         users.append(user)
         
-        user = User(id: 9 as NSNumber, name: "Giannis",
-                    destination: Destination(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
+        user = Traveller(travellerId: 9 , name: "Giannis",
+                    destination: Location(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
         users.append(user)
         

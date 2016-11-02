@@ -8,14 +8,13 @@
 
 import MapKit
 
-extension User: MKAnnotation{
+extension Traveller: MKAnnotation{
     var coordinate: CLLocationCoordinate2D{
         return currentCoord
     }
     var title: String? {
         return name
     }
-    
     var subtitle: String?{
         return destination.region
     }

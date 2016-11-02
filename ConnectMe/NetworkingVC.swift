@@ -19,50 +19,8 @@ class NetworkingVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         
-        // MARK: Get Todo #1 - Deal with Objects
-        Todo.todoById(id: 1) { result in
-            if let error = result.error {
-                // got an error in getting the data, need to handle it
-                print("error calling POST on /todos/")
-                print(error)
-                return
-            }
-            guard let todo = result.value else {
-                print("error calling POST on /todos/ - result is nil")
-                return
-            }
-            // success!
-            print(todo.description())
-            print(todo.title)
-        }
-        
-        
-//        // MARK: Create new todo
-//        guard let newTodo = Todo(
-//            title: "My first todo",
-//            id: nil,
-//            userId: 1,
-//            completedStatus: true) else {
-//                print("error: newTodo isn't a Todo")
-//                return
-//        }
-//        
-//        newTodo.save { result in
-//            guard result.error == nil else {
-//                // got an error in getting the data, need to handle it 
-//                print("error calling POST on /todos/")
-//                print(result.error!)
-//                return
-//            }
-//            guard let todo = result.value else {
-//                print("error calling POST on /todos/. result is nil")
-//                return
-//            }
-//            // success!
-//            print(todo.description())
-//            print(todo.title)
-//        }
     }
 
 }

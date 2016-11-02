@@ -118,7 +118,7 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
         
-        if let annotation = annotation as? User {
+        if let annotation = annotation as? Traveller {
             var view: MKPinAnnotationView
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier:Constants.AnnotationViewReuseIdentifier)
                 as? MKPinAnnotationView { // 2

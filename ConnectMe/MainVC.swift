@@ -71,7 +71,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     // MARK: Perform Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.ShowUserSegue{
-            if let user = (sender as? MKAnnotationView)?.annotation as? User{
+            if let user = (sender as? MKAnnotationView)?.annotation as? Traveller{
                 if let userdetVC = segue.destination as? UserDetailsVC {
                     //set the user to display the Info
                     userdetVC.user = user
@@ -90,7 +90,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
         
-        if let annotation = annotation as? User {
+        if let annotation = annotation as? Traveller {
             var view: MKAnnotationView
             if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier:Constants.AnnotationViewReuseIdentifier){ // 2
                 dequeuedView.annotation = annotation
@@ -111,7 +111,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if let _ = view.annotation as? User {
+        if let _ = view.annotation as? Traveller {
             if let thumbnailImageView = view.leftCalloutAccessoryView as? UIImageView{
                 
                 thumbnailImageView.clipsToBounds = true
@@ -129,21 +129,21 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     // MARK: Bot Users
-    func createBotUsers() -> [User]{
-        var users = [User]()
+    func createBotUsers() -> [Traveller]{
+        var users = [Traveller]()
         
-        var user = User(id: 1 as NSNumber, name: "Vaggelis",
-                        destination: Destination(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
+        var user = Traveller(travellerId: 1, name: "Vaggelis",
+                        destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
                         currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
         users.append(user)
         
-        user = User(id: 2 as NSNumber, name: "Petros",
-                    destination: Destination(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
+        user = Traveller(travellerId: 2, name: "Petros",
+                    destination: Location(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367))
         users.append(user)
         
-        user = User(id: 3 as NSNumber, name: "Hercules",
-                    destination: Destination(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
+        user = Traveller(travellerId: 3 , name: "Hercules",
+                    destination: Location(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
         users.append(user)
         
@@ -151,7 +151,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     
-    func displayUsers(users:[User]){
+    func displayUsers(users:[Traveller]){
         mapView.addAnnotations(users)
     }
 

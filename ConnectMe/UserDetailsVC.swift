@@ -18,7 +18,7 @@ class UserDetailsVC: UIViewController, MKMapViewDelegate, UITableViewDelegate, U
         }
     }
     
-    var user: User? = nil
+    var user: Traveller? = nil
     // MARK: Constants
     private struct Constants{
         static let AnnotationViewReuseIdentifier = "user destination"

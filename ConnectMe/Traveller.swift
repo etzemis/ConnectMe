@@ -9,16 +9,18 @@
 import Foundation
 import MapKit
 
-class User: NSObject {
-    var id: NSNumber
+class Traveller: NSObject {
+    var id: Int
     var name: String
-    var destination: Destination
+    var destination: Location
+    var extraPersons: Int
     var currentCoord: CLLocationCoordinate2D
     
-    init(id: NSNumber, name: String, destination: Destination, currentCoord: CLLocationCoordinate2D){
+    init(travellerId id: Int, name: String, destination: Location, extraPersons: Int = 0, currentCoord: CLLocationCoordinate2D){
         self.id = id
         self.name = name
         self.destination = destination
+        self.extraPersons = extraPersons
         self.currentCoord = currentCoord
     }
 }

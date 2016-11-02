@@ -31,7 +31,7 @@ class TravellerCell: UITableViewCell {
         get{ return self._extraPersons}
     }
     
-    var traveller: User?{
+    var traveller: Traveller?{
         didSet{
             updateUI()
         }
@@ -39,7 +39,7 @@ class TravellerCell: UITableViewCell {
 
     func updateUI(){
         self._name = traveller!.name
-        self._destination = "\(traveller!.destination.region), \(traveller!.destination.address)"
+        self._destination = "\(traveller!.destination.region!), \(traveller!.destination.address!)"
         self._extraPersons = "1"
         setCircularImage()
         setProximityImage()
