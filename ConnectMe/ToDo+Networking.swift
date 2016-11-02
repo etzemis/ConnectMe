@@ -47,29 +47,5 @@ extension Todo{
             case objectSerialization(reason: String)
         }
         
-        //Get Request
-        Alamofire.request(TodoRouter.get(id))
-            .responseJSON { response in
-                // check for errors from responseJSON 
-                guard response.result.error == nil else {
-                    // got an error in getting the data, need to handle it
-                    print("error calling GET on /todos/\(id)")
-                    print(response.result.error!)
-                    completionHandler(.failure(response.result.error!))
-                    return
-                }
-                // make sure we got a JSON dictionary
-                guard let json = response.result.value as? [String: Any] else {
-                    print("didn't get todo object as JSON from API")
-                    completionHandler(.failure(BackendError.objectSerialization(reason:"Did not get JSON dictionary in response")))
-                    return
-                }
-                // turn JSON in to Todo object
-                guard let todo = Todo(json: json) else {
-                    completionHandler(.failure(BackendError.objectSerialization(reason:"Could not create Todo object from JSON")))
-                    return
-                }
-                completionHandler(.success(todo))
-        }
     }
 }

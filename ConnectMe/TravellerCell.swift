@@ -14,6 +14,7 @@ class TravellerCell: UITableViewCell {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var destination: UILabel!
     @IBOutlet weak var extraPersons: UILabel!
+    @IBOutlet weak var proximityImageView: UIImageView!
     
     private var _name: String{
         set{ self.name.text = "\(newValue)"}
@@ -41,8 +42,13 @@ class TravellerCell: UITableViewCell {
         self._destination = "\(traveller!.destination.region), \(traveller!.destination.address)"
         self._extraPersons = "1"
         setCircularImage()
+        setProximityImage()
         self.accessoryType = .none
         self.selectionStyle = .none
+    }
+    
+    private func setProximityImage(){
+        self.proximityImageView.image =  #imageLiteral(resourceName: "travellerPinHighProximity")
     }
     
     private func setCircularImage(){

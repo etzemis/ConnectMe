@@ -9,29 +9,34 @@
 import Foundation
 import Alamofire
 
-enum TodoRouter: URLRequestConvertible {
+enum ConnectMeRouter: URLRequestConvertible {
     static let baseURLString = "https://jsonplaceholder.typicode.com/"
-    case get(Int)
-    case create([String: Any])
-    case delete(Int)
+    // posting
+    case updateLocation([String: Any])
+    case insertDestination([String: Any])
+    // fetching
+    case fetchTravellersAroundMe(Int)
+    
     func asURLRequest() throws -> URLRequest { // TODO: implement
         var method: HTTPMethod {
             switch self {
-            case .get:
-                return .get
-            case .create:
+            case .updateLocation:
                 return .post
-            case .delete:
-                return .delete
+            case .insertDestination:
+                return .post
+            case .fetchTravellersAroundMe:
+                return .get
             }
         }
         
         let params: ([String: Any]?) = {
             switch self {
-            case .get, .delete:
+            case .updateLocation(let newLocation):
+                return (newLocation)
+            case .insertDestination(let newDestination):
+                return (newDestination)
+            case .fetchTravellersAroundMe:
                 return nil
-            case .create(let newTodo):
-                return (newTodo)
             }
         }()
         
@@ -40,15 +45,15 @@ enum TodoRouter: URLRequestConvertible {
             // build up and return the URL for each endpoint
             let relativePath: String?
             switch self {
-            case .get(let number):
-                relativePath = "todos/\(number)"
-            case .create:
-                relativePath = "todos"
-            case .delete(let number):
-                relativePath = "todos/\(number)"
+            case .updateLocation:
+                relativePath = "location"
+            case .insertDestination:
+                relativePath = "destination"
+            case .fetchTravellersAroundMe(let id):
+                relativePath = "travellers/\(id)"
             }
             
-            var url = URL(string: TodoRouter.baseURLString)!
+            var url = URL(string: ConnectMeRouter.baseURLString)!
             if let relativePath = relativePath {
                 url = url.appendingPathComponent(relativePath)
             }

@@ -25,7 +25,7 @@
 		544622431DAA4A8600A9E92B /* botUsers in Resources */ = {isa = PBXBuildFile; fileRef = 544622421DAA4A8600A9E92B /* botUsers */; };
 		544622471DAC0DFF00A9E92B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544622461DAC0DFF00A9E92B /* User.swift */; };
 		5447DDDD1DC781AC00610A3D /* NetworkingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5447DDDC1DC781AC00610A3D /* NetworkingVC.swift */; };
-		5460947E1DC7A2A800E11983 /* AlmofireRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460947D1DC7A2A800E11983 /* AlmofireRouter.swift */; };
+		5460947E1DC7A2A800E11983 /* ConnectMeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460947D1DC7A2A800E11983 /* ConnectMeRouter.swift */; };
 		546094801DC7A71400E11983 /* ToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460947F1DC7A71400E11983 /* ToDo.swift */; };
 		546094821DC7AC2500E11983 /* ToDo+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546094811DC7AC2500E11983 /* ToDo+Networking.swift */; };
 		546094841DC7B3BC00E11983 /* ServerAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546094831DC7B3BC00E11983 /* ServerAPIManager.swift */; };
@@ -59,7 +59,7 @@
 		544622421DAA4A8600A9E92B /* botUsers */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = botUsers; sourceTree = "<group>"; };
 		544622461DAC0DFF00A9E92B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		5447DDDC1DC781AC00610A3D /* NetworkingVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingVC.swift; sourceTree = "<group>"; };
-		5460947D1DC7A2A800E11983 /* AlmofireRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlmofireRouter.swift; sourceTree = "<group>"; };
+		5460947D1DC7A2A800E11983 /* ConnectMeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectMeRouter.swift; sourceTree = "<group>"; };
 		5460947F1DC7A71400E11983 /* ToDo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDo.swift; sourceTree = "<group>"; };
 		546094811DC7AC2500E11983 /* ToDo+Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ToDo+Networking.swift"; sourceTree = "<group>"; };
 		546094831DC7B3BC00E11983 /* ServerAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerAPIManager.swift; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				5447DDDC1DC781AC00610A3D /* NetworkingVC.swift */,
-				5460947D1DC7A2A800E11983 /* AlmofireRouter.swift */,
+				5460947D1DC7A2A800E11983 /* ConnectMeRouter.swift */,
 				5460947F1DC7A71400E11983 /* ToDo.swift */,
 				546094811DC7AC2500E11983 /* ToDo+Networking.swift */,
 			);
@@ -394,7 +394,7 @@
 				54BCE3711DB8A335002CBAD1 /* CustomSearchController.swift in Sources */,
 				548356B81DBF48E100C9D29D /* TravelVC.swift in Sources */,
 				5447DDDD1DC781AC00610A3D /* NetworkingVC.swift in Sources */,
-				5460947E1DC7A2A800E11983 /* AlmofireRouter.swift in Sources */,
+				5460947E1DC7A2A800E11983 /* ConnectMeRouter.swift in Sources */,
 				546094841DC7B3BC00E11983 /* ServerAPIManager.swift in Sources */,
 				54235FD31DAE635B002AD465 /* MKUser.swift in Sources */,
 				546094821DC7AC2500E11983 /* ToDo+Networking.swift in Sources */,

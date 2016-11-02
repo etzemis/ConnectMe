@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "travellerPinLowProximity.png",
+      "filename" : "travellerPinHighProximity.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "travellerPinLowProximity_2x.png",
+      "filename" : "travellerPinHighProximity_2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "travellerPinLowProximity_3x.png",
+      "filename" : "travellerPinHighProximity_3x.png",
       "scale" : "3x"
     }
   ],
