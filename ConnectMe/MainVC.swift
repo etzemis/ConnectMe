@@ -57,16 +57,22 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
             break;
         }
     }
-    //MARK: ViewDidLoad
+    //MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpLocationManager()
-        displayUsers(users: createBotUsers())
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         if !UserDefaults.standard.bool(forKey: AppDelegate.Constants.IsUserLoggedInUserDefaults){
             performSegue(withIdentifier: Constants.UserLoginSegue, sender: self)
+        }
+        else if !UserDefaults.standard.bool(forKey: AppDelegate.Constants.HasApplicationStartedWithLoggedInUserUserDefaults){
+            //set it to false when Logging out!
+            UserDefaults.standard.set(true, forKey: AppDelegate.Constants.IsUserLoggedInUserDefaults)
+            UserDefaults.standard.synchronize()
+            
+            setUpLocationManager()
+            displayUsers(users: createBotUsers())
         }
     }
 

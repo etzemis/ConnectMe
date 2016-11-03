@@ -7,7 +7,11 @@
 //
 
 import Foundation
+import UIKit
 
+/// Holds All the connectiosn for the App While not in a Trip
+/// Registration and Logging In are on thei respective View Controllers
+/// Trip MAnagement is inside TripDataHolder.swift file
 class DataHolder{
     static let sharedInstance = DataHolder()
     
@@ -26,9 +30,14 @@ class DataHolder{
             }
         }
     }
-    // Handle Load Travellers Error
+    
     func handleLoadTravellersError(_ error: Error) {
         //TODO: Show Error
+    }
+    
+    //MARK: Stop All Connectivity
+    func stopAllConnections(){
+        
     }
     
 }

@@ -222,9 +222,9 @@
 		546094851DC7B3C600E11983 /* ServerAPIManager */ = {
 			isa = PBXGroup;
 			children = (
+				54736F1F1DCA27270010B34C /* DataHolder.swift */,
 				546094831DC7B3BC00E11983 /* ServerAPIManager.swift */,
 				54736F211DCA3B240010B34C /* ServerAPIManagerError.swift */,
-				54736F1F1DCA27270010B34C /* DataHolder.swift */,
 			);
 			name = ServerAPIManager;
 			sourceTree = "<group>";

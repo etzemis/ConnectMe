@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         static let EmailUserDefaults = "email"
         static let AddressUserDefaults = "address"
         static let IsUserLoggedInUserDefaults = "IsUserLoggedIn"
+        static let HasApplicationStartedWithLoggedInUserUserDefaults = "AppStartedwithLoggedInuser"
     }
     
 
