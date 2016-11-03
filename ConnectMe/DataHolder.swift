@@ -13,7 +13,7 @@ class DataHolder{
     
     var travellers: [Traveller] = []
     
-    
+    // MARK: Load Travellers Remote
     func loadTravellers(){
         ServerAPIManager.sharedInstance.fetchTravellersAroundMe{
             result in
@@ -26,7 +26,7 @@ class DataHolder{
             }
         }
     }
-    
+    // Handle Load Travellers Error
     func handleLoadTravellersError(_ error: Error) {
         //TODO: Show Error
     }

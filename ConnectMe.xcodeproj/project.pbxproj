@@ -102,8 +102,7 @@
 			children = (
 				546094851DC7B3C600E11983 /* ServerAPIManager */,
 				5447DDDB1DC7815E00610A3D /* Networking */,
-				54736F1C1DCA15150010B34C /* Traveller */,
-				5406A05B1DAD7D24000C16CC /* User */,
+				5406A05B1DAD7D24000C16CC /* Traveller */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -126,7 +125,7 @@
 			name = "Profile Settings";
 			sourceTree = "<group>";
 		};
-		5406A05B1DAD7D24000C16CC /* User */ = {
+		5406A05B1DAD7D24000C16CC /* Traveller */ = {
 			isa = PBXGroup;
 			children = (
 				544622461DAC0DFF00A9E92B /* Traveller.swift */,
@@ -134,7 +133,7 @@
 				54235FD21DAE635B002AD465 /* Traveller+MKAnnotation.swift */,
 				544622421DAA4A8600A9E92B /* botUsers */,
 			);
-			name = User;
+			name = Traveller;
 			sourceTree = "<group>";
 		};
 		541D0BF91DC0966800003DF4 /* 1. Login */ = {
@@ -228,13 +227,6 @@
 				54736F1F1DCA27270010B34C /* DataHolder.swift */,
 			);
 			name = ServerAPIManager;
-			sourceTree = "<group>";
-		};
-		54736F1C1DCA15150010B34C /* Traveller */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Traveller;
 			sourceTree = "<group>";
 		};
 		548356B91DBF48EF00C9D29D /* 5. Travel */ = {

@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 
 enum ConnectMeRouter: URLRequestConvertible {
+    static let appDelegate = UIApplication.shared.delegate as! AppDelegate
     static let baseURLString = "https://jsonplaceholder.typicode.com/"
     // posting
     case updateLocation([String: Any])
@@ -69,9 +70,19 @@ enum ConnectMeRouter: URLRequestConvertible {
             return url
         }()
         
-        //create mutable request using the URL
+        //create mutable request using the URLServer
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
+        
+        //Create Basic Authentication
+        let defaults  = UserDefaults.standard
+        let username = defaults.string(forKey: AppDelegate.Constants.EmailUserDefaults)
+        let password = defaults.string(forKey: AppDelegate.Constants.PasswordUserDefaults)
+        
+        if let credentialData = "\(username):\(password)".data(using: String.Encoding.utf8) {
+            let base64Credentials = credentialData.base64EncodedString()
+            urlRequest.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
+        }
         
         //Then we encode any parameters and add them to the request.
         let encoding = JSONEncoding.default
