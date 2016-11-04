@@ -11,7 +11,7 @@ import Alamofire
 
 enum ConnectMeRouter: URLRequestConvertible {
     static let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    static let baseURLString = "https://jsonplaceholder.typicode.com/"
+    static let baseURLString = "https://jsonplaceholder.typicode.co/"
     // posting
     case register([String: Any])
     case updateLocation([String: Any])
