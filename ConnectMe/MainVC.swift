@@ -227,6 +227,7 @@ extension MainVC{
     }
     
     private func locationManager(manager: CLLocationManager, didFailWithError error: NSError){ print("Error \(error)") }
+    
 }
 
 
