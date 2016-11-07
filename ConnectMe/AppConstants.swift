@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 struct AppConstants{
     struct NotificationNames{
         static let TravellersAroundMeUpdated = "TravellersAroundMeUpdatedNotification"

@@ -37,9 +37,30 @@ class DataHolder{
     
     func handleLoadTravellersError(_ error: Error) {
         //TODO: Show Error
+        debugPrint("handleLoadTravellersError: LoadTravellers Error")
+    }
+
+
+    
+//MARK: Update User Location
+    func updateLocation(location: Location){
+        ServerAPIManager.sharedInstance.updateLocation(location: location){
+            result in
+            guard result.error == nil else {
+                self.handleUpdateLocationError(result.error!)
+                return
+            }
+            debugPrint("DataHolder: updateLocation successful")
+        }
     }
     
-    //MARK: Stop All Connectivity
+    func handleUpdateLocationError(_ error: Error) {
+        //TODO: Show Error
+        debugPrint("HandleUpdateLocationError: updateLocation error")
+    }
+    
+    
+//MARK: Stop All Connectivity
     func stopAllConnections(){
         
     }

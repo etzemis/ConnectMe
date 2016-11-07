@@ -110,7 +110,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         mapView.tintColor = UIColor.lightGray
     }
     
-    // MARK: Perform Segue
+// MARK: Perform Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.ShowUserSegue{
             if let user = (sender as? MKAnnotationView)?.annotation as? Traveller{
@@ -128,8 +128,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         }
     }
     
-    // MARK: MKMapView Delegate
-        
+// MARK: MKMapView Delegate
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
         
         if let annotation = annotation as? Traveller {
@@ -170,7 +169,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         performSegue(withIdentifier: Constants.ShowUserSegue, sender: view)
     }
     
-    // MARK: Bot Users
+// MARK: Bot Users
     func createBotUsers() -> [Traveller]{
         var users = [Traveller]()
         
@@ -206,6 +205,9 @@ extension MainVC{
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first{
             
+            
+            DataHolder.sharedInstance.updateLocation(location: Location(address: nil, region: nil, coord: location.coordinate))
+            
             let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.01, 0.01) )
             mapView.setRegion(region, animated: true)
 //            let delayInSeconds = 4.0
@@ -221,7 +223,7 @@ extension MainVC{
             
         }
         // let userLocation:CLLocation = locations[0] as CLLocation
-        manager.stopUpdatingLocation()
+//        manager.stopUpdatingLocation()
     }
     
     private func locationManager(manager: CLLocationManager, didFailWithError error: NSError){ print("Error \(error)") }

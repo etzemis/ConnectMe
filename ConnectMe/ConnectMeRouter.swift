@@ -87,13 +87,18 @@ enum ConnectMeRouter: URLRequestConvertible {
             // Define that we are sending JSON files and we Accept JSON Files
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
             urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+    
         default:
+            // Define that we are sending JSON files and we Accept JSON Files
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+            
             //Create Basic Authentication
             let defaults  = UserDefaults.standard
             let username = defaults.string(forKey: AppConstants.HandleUserLogIn.UsernameUserDefaults)
             let password = defaults.string(forKey: AppConstants.HandleUserLogIn.PasswordTokenUserDefaults)
             
-            if let credentialData = "\(username):\(password)".data(using: String.Encoding.utf8) {
+            if let credentialData = "\(username!):\(password!)".data(using: String.Encoding.utf8) {
                 let base64Credentials = credentialData.base64EncodedString()
                 urlRequest.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
             }

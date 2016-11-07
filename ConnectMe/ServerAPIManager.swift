@@ -109,7 +109,31 @@ class ServerAPIManager {
     }
 
 
+
     
+
+//MARK: Update Location
+    func updateLocation(location: Location,
+                        completionHandler: @escaping (Result<Bool>) -> Void)
+    {
+        //First Create JSON Object that you will be sending to the Server
+        let parameters: [String: Any] = location.toJSON()
+        
+        let request = Alamofire.request(ConnectMeRouter.updateLocation(parameters))
+            .response { response in
+                guard response.error == nil else {
+                    print(response.error!)
+                    completionHandler(.failure(response.error!))
+                    return
+                }
+                //Otherwise Success
+                completionHandler(.success(true))
+        }
+        print("\n\n\n\n  Update Location Request \n\n\n\n")
+        debugPrint(request)
+    }
+
+                        
     
     
     
