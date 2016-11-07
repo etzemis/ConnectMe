@@ -15,8 +15,12 @@ import UIKit
 class DataHolder{
     static let sharedInstance = DataHolder()
     
-    var travellers: [Traveller] = []
-    
+    var travellers: [Traveller] = [] {
+        didSet{
+            NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationNames.TravellersAroundMeUpdated), object: self)
+        }
+    }
+
     // MARK: Load Travellers Remote
     func loadTravellers(){
         ServerAPIManager.sharedInstance.fetchTravellersAroundMe{

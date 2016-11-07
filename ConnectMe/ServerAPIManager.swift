@@ -13,7 +13,7 @@ class ServerAPIManager {
     static let sharedInstance = ServerAPIManager()
     
     
-    //MARK: Check Authorization
+//MARK: Check Authorization
     func checkUnauthorized(urlResponse: HTTPURLResponse) -> (Error?) {
         if (urlResponse.statusCode == 401) {
             return ServerAPIManagerError.authLost(reason: "Not Logged In")
@@ -23,7 +23,12 @@ class ServerAPIManager {
     
     
     
-    //MARK: User Registration
+    
+    
+    
+    
+    
+//MARK: User Registration
     func register(username: String,
                   email: String,
                   password: String,
@@ -41,16 +46,8 @@ class ServerAPIManager {
             "profile_photo": "myimage"
         ]
         
-        Alamofire.request(ConnectMeRouter.register(parameters))
+        let request = Alamofire.request(ConnectMeRouter.register(parameters))
             .response { response in
-                //check authorization
-                if  let urlResponse = response.response,
-                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
-                {
-                    completionHandler(.failure(authError))
-                    return
-                }
-                //check Other Error
                 guard response.error == nil else {
                     print(response.error!)
                     completionHandler(.failure(response.error!))
@@ -59,14 +56,68 @@ class ServerAPIManager {
                 //Otherwise Success
                 completionHandler(.success(true))
         }
+        print("\n\n\n\n  Registration request \n\n\n\n")
+        debugPrint(request)
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//MARK: User Login
+    func login(email: String,
+               password: String,
+               completionHandler: @escaping (Result<String>) -> Void)
+    {
+        
+        let parameters: [String: Any] = [
+            "email": email,
+            "password": password
+        ]
+        
+        let request = Alamofire.request(ConnectMeRouter.login(parameters))
+            .responseJSON { response in
+                let result = self.tokenFromResponse(response:response)
+                completionHandler(result)
+        }
+        print("\n\n\n\n  Login request \n\n\n\n")
+        debugPrint(request)
+    }
+    
+    
+    //Parses the response and gets the Token we need for the Basic Authorization
+    private func tokenFromResponse(response: DataResponse<Any>) -> Result<String>
+    {
+
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(ServerAPIManagerError.network(error: response.result.error!))
+        }
+        
+        // make sure we got JSON and it's a single value
+        guard let jsonKey = response.result.value as? [String: Any] else {
+            print("\n Didn't get The Token as JSON from API")
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
+        }
+        
+        return .success(jsonKey["token"] as! String)
+    }
+
 
     
     
-    //MARK: Fetch Travellers Around Me
+    
+    
+    
+//MARK: Fetch Travellers Around Me
     func fetchTravellersAroundMe(completionHandler: @escaping (Result<[Traveller]>) -> Void)
     {
-        Alamofire.request(ConnectMeRouter.fetchTravellersAroundMe())
+       let request = Alamofire.request(ConnectMeRouter.fetchTravellersAroundMe())
             .responseJSON { response in
                 if  let urlResponse = response.response,
                     let authError = self.checkUnauthorized(urlResponse: urlResponse)
@@ -78,6 +129,9 @@ class ServerAPIManager {
                 let result = self.travellerArrayFromResponse(response:response)
                 completionHandler(result)
         }
+        
+        print("\n\n\n\n  FetchTravellersAroundMe request \n\n\n\n")
+        debugPrint(request)
     }
 
     // Parse Responce

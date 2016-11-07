@@ -55,7 +55,7 @@
                                 <segue destination="IyX-cp-6AP" kind="presentation" id="7Kp-Q1-Pgo"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Destination" id="bL7-mx-hDf">
+                        <barButtonItem key="rightBarButtonItem" image="destinationFlag" id="bL7-mx-hDf">
                             <connections>
                                 <action selector="showSearchBar:" destination="BYZ-38-t0r" id="lJ9-oy-cPC"/>
                                 <segue destination="t0q-Tp-Brk" kind="show" identifier="Select Destination" id="9qM-TL-PDm"/>
@@ -93,7 +93,10 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MMB-aZ-dfu">
                                                     <rect key="frame" x="8" y="8" width="304" height="43.5"/>
-                                                    <state key="normal" title="Logout"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <state key="normal" title="Logout">
+                                                        <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
                                                     <connections>
                                                         <action selector="logoutUser:" destination="Qyo-0C-cBi" eventType="touchUpInside" id="F0n-t7-qBh"/>
                                                         <action selector="logoutUser:" destination="zFE-Nx-wlO" eventType="touchUpInside" id="yce-ay-azG"/>
@@ -382,7 +385,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVj-vG-QHD">
                                         <rect key="frame" x="0.0" y="0.0" width="120" height="40"/>
-                                        <color key="backgroundColor" red="0.29187971900479887" green="0.33577325259890523" blue="0.385136217948718" alpha="0.49339978448275862" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" name="selectedMenuItemColor" catalog="System" colorSpace="catalog"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="OC5-AX-Bo5"/>
                                             <constraint firstAttribute="width" constant="120" id="rSe-dG-pbI"/>
@@ -397,7 +400,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19Y-lU-pKk">
                                         <rect key="frame" x="0.0" y="60" width="120" height="40"/>
-                                        <color key="backgroundColor" red="0.57495416197595661" green="0.6614170717999448" blue="0.75865384615384623" alpha="0.4919719827586207" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="ucv-Af-ylN"/>
                                             <constraint firstAttribute="height" constant="40" id="xuH-aT-JEv"/>
@@ -418,33 +421,33 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BCL-6f-S48">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="20.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="x4N-l3-GsS">
                                         <rect key="frame" x="0.0" y="25.5" width="288" height="30"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                                         <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sq4-x7-4FX">
                                         <rect key="frame" x="0.0" y="60.5" width="288" height="20.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Kc4-N2-6ez">
                                         <rect key="frame" x="0.0" y="86" width="288" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="MPR-jR-9QC" firstAttribute="top" secondItem="81T-Fp-Bcj" secondAttribute="bottom" constant="8" id="0Sp-l7-hAR"/>
                             <constraint firstAttribute="leadingMargin" secondItem="MPR-jR-9QC" secondAttribute="leading" id="Dx6-5c-yNO"/>
@@ -480,14 +483,16 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Nab-iF-K0z"/>
                                 </constraints>
-                                <state key="normal" title="Do you have an account? Please Log In"/>
+                                <state key="normal" title="Do you have an account? Please Log In">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
                                     <action selector="CancelRegistrationAndLogin:" destination="tEk-xp-T8m" eventType="touchUpInside" id="yVK-nl-1kW"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pfh-8S-yVc">
                                 <rect key="frame" x="100" y="303" width="120" height="40"/>
-                                <color key="backgroundColor" red="0.57495416200000005" green="0.66141707179999998" blue="0.75865384619999998" alpha="0.5" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.20000000000000001" green="0.60392156862745094" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="5Ma-h4-Nd2"/>
                                     <constraint firstAttribute="height" constant="40" id="dDw-kw-xOq"/>
@@ -500,66 +505,66 @@
                                     <action selector="registerButtonTapped:" destination="tEk-xp-T8m" eventType="touchUpInside" id="xHJ-r3-vxP"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Username" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="7Vg-IP-Ga5">
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="  Username" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="7Vg-IP-Ga5">
                                 <rect key="frame" x="124" y="101" width="180" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="gPC-Ta-tY8"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="next"/>
                                 <connections>
                                     <outlet property="delegate" destination="tEk-xp-T8m" id="bfG-ri-TEn"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="mX4-j2-c80">
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="  Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="mX4-j2-c80">
                                 <rect key="frame" x="124" y="139" width="180" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="DbU-x3-U4Y"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="next" secureTextEntry="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="tEk-xp-T8m" id="Dbp-Ze-j2k"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Retype Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Dfg-D8-tjL">
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="  Retype Password" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Dfg-D8-tjL">
                                 <rect key="frame" x="124" y="177" width="180" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="VRI-hg-0JE"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="next" secureTextEntry="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="tEk-xp-T8m" id="uDg-zZ-VCa"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Email Address" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="oNB-31-CNb">
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="  Email Address" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="oNB-31-CNb">
                                 <rect key="frame" x="16" y="215" width="288" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="SJV-1E-JoH"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next"/>
                                 <connections>
                                     <outlet property="delegate" destination="tEk-xp-T8m" id="6ql-3q-Myu"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Address" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="4uJ-7B-bEP">
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="  Address" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="4uJ-7B-bEP">
                                 <rect key="frame" x="16" y="253" width="288" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="CJh-cc-vyd"/>
                                 </constraints>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done"/>
                                 <connections>
                                     <outlet property="delegate" destination="tEk-xp-T8m" id="acR-3D-6Jo"/>
@@ -584,7 +589,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.40987172705531033" blue="0.82792467948717952" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Dfg-D8-tjL" firstAttribute="top" secondItem="mX4-j2-c80" secondAttribute="bottom" constant="8" id="1Th-H9-F3b"/>
@@ -861,6 +866,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="destinationFlag" width="30" height="30"/>
         <image name="profile" width="30" height="30"/>
     </resources>
 </document>

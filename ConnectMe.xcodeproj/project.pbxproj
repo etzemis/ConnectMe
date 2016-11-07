@@ -11,6 +11,8 @@
 		54027D691DB4B9B9009519F8 /* SearchDestinationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54027D681DB4B9B9009519F8 /* SearchDestinationVC.swift */; };
 		54027D6B1DB4F31E009519F8 /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54027D6A1DB4F31E009519F8 /* LocationSearchTable.swift */; };
 		540534021DC10CB3006AC13E /* SettingsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540534011DC10CB3006AC13E /* SettingsTVC.swift */; };
+		5413215D1DD0F2EA000A5D5B /* DismissKeyboardIfTappedOutside.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5413215C1DD0F2EA000A5D5B /* DismissKeyboardIfTappedOutside.swift */; };
+		541321601DD0F46D000A5D5B /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5413215F1DD0F46D000A5D5B /* AppConstants.swift */; };
 		541D0BF61DC0964D00003DF4 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D0BF51DC0964D00003DF4 /* RegisterVC.swift */; };
 		541D0BF81DC0965F00003DF4 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D0BF71DC0965F00003DF4 /* LoginVC.swift */; };
 		54235FD31DAE635B002AD465 /* Traveller+MKAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54235FD21DAE635B002AD465 /* Traveller+MKAnnotation.swift */; };
@@ -46,6 +48,8 @@
 		54027D681DB4B9B9009519F8 /* SearchDestinationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDestinationVC.swift; sourceTree = "<group>"; };
 		54027D6A1DB4F31E009519F8 /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
 		540534011DC10CB3006AC13E /* SettingsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTVC.swift; sourceTree = "<group>"; };
+		5413215C1DD0F2EA000A5D5B /* DismissKeyboardIfTappedOutside.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissKeyboardIfTappedOutside.swift; sourceTree = "<group>"; };
+		5413215F1DD0F46D000A5D5B /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		541D0BF51DC0964D00003DF4 /* RegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		541D0BF71DC0965F00003DF4 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		54235FD21DAE635B002AD465 /* Traveller+MKAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Traveller+MKAnnotation.swift"; sourceTree = "<group>"; };
@@ -138,6 +142,16 @@
 			name = Traveller;
 			sourceTree = "<group>";
 		};
+		5413215E1DD0F37A000A5D5B /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				548C4EDE1DCCD643001F9B2B /* Spinner.swift */,
+				5413215C1DD0F2EA000A5D5B /* DismissKeyboardIfTappedOutside.swift */,
+				5413215F1DD0F46D000A5D5B /* AppConstants.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		541D0BF91DC0966800003DF4 /* 1. Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,7 +205,7 @@
 		5446223F1DAA3BF400A9E92B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				548C4EDE1DCCD643001F9B2B /* Spinner.swift */,
+				5413215E1DD0F37A000A5D5B /* Utilities */,
 				544233031DBE577C00C2E25A /* Images */,
 				5446222A1DA8E74300A9E92B /* AppDelegate.swift */,
 				544622311DA8E74300A9E92B /* ConnectMe.xcdatamodeld */,
@@ -403,6 +417,7 @@
 				54BCE3711DB8A335002CBAD1 /* CustomSearchController.swift in Sources */,
 				548356B81DBF48E100C9D29D /* TravelVC.swift in Sources */,
 				5447DDDD1DC781AC00610A3D /* NetworkingVC.swift in Sources */,
+				541321601DD0F46D000A5D5B /* AppConstants.swift in Sources */,
 				5460947E1DC7A2A800E11983 /* ConnectMeRouter.swift in Sources */,
 				546094841DC7B3BC00E11983 /* ServerAPIManager.swift in Sources */,
 				54235FD31DAE635B002AD465 /* Traveller+MKAnnotation.swift in Sources */,
@@ -426,6 +441,7 @@
 				548C4EDF1DCCD643001F9B2B /* Spinner.swift in Sources */,
 				54736F1E1DCA18C00010B34C /* Traveller+Networking.swift in Sources */,
 				54736F221DCA3B240010B34C /* ServerAPIManagerError.swift in Sources */,
+				5413215D1DD0F2EA000A5D5B /* DismissKeyboardIfTappedOutside.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

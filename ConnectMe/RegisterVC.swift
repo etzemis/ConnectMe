@@ -18,13 +18,16 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     @IBOutlet weak var userProfileImage: UIImageView!
     @IBOutlet weak var addPhotoButton: UIButton!
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     
     //MARK: View Controller Lifecicle
     override func viewDidLoad() {
         super.viewDidLoad()
         // set empty Profile Image
         setCircularImage()
+        
+        //Call Method From Extension
+        self.hideKeyboardWhenTappedAround()
     }
     
     //MARK: IBActions
@@ -61,18 +64,10 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             return
         }
         
-        //Will not be happening here!!
-        //Store Data
-        let defaults  = UserDefaults.standard
-        defaults.set(name,  forKey: AppDelegate.Constants.UsernameUserDefaults)
-        defaults.set(email, forKey: AppDelegate.Constants.EmailUserDefaults)
-        defaults.set(password, forKey: AppDelegate.Constants.PasswordUserDefaults)
-        defaults.set(address, forKey: AppDelegate.Constants.AddressUserDefaults)
-        
         //present spinner :-)
         Spinner.sharedInstance.show(uiView: self.view)
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.0) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
 
         
         ServerAPIManager.sharedInstance.register(username: name!,
@@ -119,17 +114,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         }
     }
     
-    func registrationSucceededAlert(){
-        //Display alert message with Comfirmation
-        
-        let alert = UIAlertController(title: "User Registration Successful", message: "Your Account has been successfully created. Please Login to Start Using the Application", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) {
-            action in
-            self.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(okAction)
-        self.present(alert, animated: true, completion: nil)
-    }
+
     
     // MARK: Private Functions
     
@@ -149,7 +134,19 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         return emailTest.evaluate(with: testStr)
     }
     
-    //MARK: Alert Messages     //Lecture 15 35:00
+    //MARK: Alert Messages 
+    
+    func registrationSucceededAlert(){
+        //Display alert message with Comfirmation
+        
+        let alert = UIAlertController(title: "User Registration Successful", message: "Your Account has been successfully created. Please Login to Start Using the Application", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) {
+            action in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
     
     func displayAlertMessage(message: String){
         let alert = UIAlertController(title: "User Registration Incomplete", message: message, preferredStyle: .alert)
@@ -218,3 +215,6 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
 
 }
+
+
+

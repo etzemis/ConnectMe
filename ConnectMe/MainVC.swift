@@ -29,7 +29,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         static let PinNormalColor: UIColor = UIColor.brown
     }
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     
     // MARK: Variables
     private var CreateTripModeIsOn: Bool = false
@@ -60,23 +60,37 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     //MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Observe (listen for) "special notification key"
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnTravellersUpdatedNotification),
+                                               name: NSNotification.Name(AppConstants.NotificationNames.TravellersAroundMeUpdated), object: nil)
+
     }
     
+
+    
     override func viewWillAppear(_ animated: Bool) {
-        if !UserDefaults.standard.bool(forKey: AppDelegate.Constants.IsUserLoggedInUserDefaults){
+        if !UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults){
             performSegue(withIdentifier: Constants.UserLoginSegue, sender: self)
         }
-        else if !UserDefaults.standard.bool(forKey: AppDelegate.Constants.HasApplicationStartedWithLoggedInUserUserDefaults){
+        else if !UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.HasApplicationStartedWithLoggedInUserUserDefaults){
             //set it to false when Logging out!
-            UserDefaults.standard.set(true, forKey: AppDelegate.Constants.IsUserLoggedInUserDefaults)
+            UserDefaults.standard.set(true, forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
             UserDefaults.standard.synchronize()
             
             setUpLocationManager()
             displayUsers(users: createBotUsers())
         }
     }
+    
+// MARK: Act On Notifications
+    @objc private func actOnTravellersUpdatedNotification(){
+        print("Received Notification")
+    }
 
-    // MARK: Initialization Location Manager and Map
+    
+// MARK: Initialization Location Manager and Map
     func setUpLocationManager(){
         self.locationManager.delegate = self;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters

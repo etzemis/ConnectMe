@@ -11,9 +11,10 @@ import Alamofire
 
 enum ConnectMeRouter: URLRequestConvertible {
     static let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    static let baseURLString = "https://jsonplaceholder.typicode.co/"
+    static let baseURLString = "http://192.168.1.251:3000/"
     // posting
     case register([String: Any])
+    case login([String: Any])
     case updateLocation([String: Any])
     case insertDestination([String: Any])
     // fetching
@@ -24,6 +25,8 @@ enum ConnectMeRouter: URLRequestConvertible {
         var method: HTTPMethod {
             switch self {
             case .register:
+                return .post
+            case .login:
                 return .post
             case .updateLocation:
                 return .post
@@ -38,6 +41,8 @@ enum ConnectMeRouter: URLRequestConvertible {
             switch self {
             case .register(let userInfo):
                 return (userInfo)
+            case .login(let loginInfo):
+                return (loginInfo)
             case .updateLocation(let newLocation):
                 return (newLocation)
             case .insertDestination(let newDestination):
@@ -54,6 +59,8 @@ enum ConnectMeRouter: URLRequestConvertible {
             switch self {
             case .register:
                 relativePath = "register"
+            case .login:
+                relativePath = "login"
             case .updateLocation:
                 relativePath = "location"
             case .insertDestination:
@@ -74,14 +81,22 @@ enum ConnectMeRouter: URLRequestConvertible {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
         
-        //Create Basic Authentication
-        let defaults  = UserDefaults.standard
-        let username = defaults.string(forKey: AppDelegate.Constants.EmailUserDefaults)
-        let password = defaults.string(forKey: AppDelegate.Constants.PasswordUserDefaults)
-        
-        if let credentialData = "\(username):\(password)".data(using: String.Encoding.utf8) {
-            let base64Credentials = credentialData.base64EncodedString()
-            urlRequest.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
+        // Add HTTP Headers According to request
+        switch self {
+        case .register, .login:
+            // Define that we are sending JSON files and we Accept JSON Files
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        default:
+            //Create Basic Authentication
+            let defaults  = UserDefaults.standard
+            let username = defaults.string(forKey: AppConstants.HandleUserLogIn.UsernameUserDefaults)
+            let password = defaults.string(forKey: AppConstants.HandleUserLogIn.PasswordTokenUserDefaults)
+            
+            if let credentialData = "\(username):\(password)".data(using: String.Encoding.utf8) {
+                let base64Credentials = credentialData.base64EncodedString()
+                urlRequest.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
+            }
         }
         
         //Then we encode any parameters and add them to the request.

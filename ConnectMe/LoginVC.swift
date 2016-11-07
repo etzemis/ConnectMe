@@ -14,13 +14,13 @@ class LoginVC: UIViewController {
     @IBOutlet weak var userPassword: UITextField!
     
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        //Call Method From Extension
+        self.hideKeyboardWhenTappedAround()
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,34 +29,104 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func LoginButtonTapped(_ sender: AnyObject) {
-        let defaults  = UserDefaults.standard
-        let storedUserEmail = defaults.string(forKey: AppDelegate.Constants.EmailUserDefaults)
-        let storedPassword = defaults.string(forKey: AppDelegate.Constants.PasswordUserDefaults)
-        
-        if (userEmail.text == storedUserEmail && userPassword.text == storedPassword){
-            //Login Successful
-            defaults.set(true, forKey: AppDelegate.Constants.IsUserLoggedInUserDefaults)
-            defaults.synchronize()
-            
-            self.dismiss(animated: true, completion: nil)
-        }
-        else{
-            let alert = UIAlertController(title: "Login Denied", message: "Incorrect E-mail or Password!", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alert.addAction(okAction)
-            self.present(alert, animated: true, completion: nil)
+        let email = self.userEmail.text
+        let password = self.userPassword.text
+
+        //Check for Empty Fields
+        if (email!.isEmpty || password!.isEmpty){
+            //Display alert
+            displayAlertMessage(message: "All Fields are required")
             return
         }
+        
+        //dismiss the keyboard
+        view.endEditing(true)
+        
+        //present spinner :-)
+        Spinner.sharedInstance.show(uiView: self.view)
+        
+         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+            ServerAPIManager.sharedInstance.login(email: email!,
+                                                  password: password!)
+            {
+                result in
+                //stop spinner in main thread!
+                DispatchQueue.main.async {
+                    Spinner.sharedInstance.hide(uiView: self.view)
+                }
+                
+                //if encountered an error
+                guard result.error == nil else {
+                    print(result.error!)
+                    let errorMessage: String?
+                    
+                    switch result.error! {
+                    case ServerAPIManagerError.apiProvidedError, ServerAPIManagerError.network:
+                        errorMessage = "Sorry, there was an error in connecting with the server. Please check your internet connection and try again."
+                    default:
+                        errorMessage = "Sorry, login could not be completed. Please try again."
+                    }
+                    
+                    let alertController = UIAlertController(title: "Could not complete registration", message: errorMessage,
+                                                            preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alertController.addAction(okAction)
+                    
+                    DispatchQueue.main.async {
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                    return
+                }
+                if let token = result.value {
+                    print("\n\n\n Token is \(token)")
+                    //if Registration is complete then Save Results and dismiss View Controler
+                    DispatchQueue.main.async {
+                        let defaults = UserDefaults.standard
+                        defaults.set(true, forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
+                        defaults.set(email!, forKey: AppConstants.HandleUserLogIn.UsernameUserDefaults)
+                        defaults.set(token, forKey: AppConstants.HandleUserLogIn.PasswordTokenUserDefaults)
+                        defaults.synchronize()
+                        
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+                return
+
+            }
+        }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    
+    func displayAlertMessage(message: String) {
+        let alert = UIAlertController(title: "Login Denied", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+        return
     }
-    */
-
+    
 }
+
+
+
+
+//@IBAction func LoginButtonTapped(_ sender: AnyObject) {
+//    let defaults  = UserDefaults.standard
+//    let storedUserEmail = defaults.string(forKey: AppDelegate.Constants.EmailUserDefaults)
+//    let storedPassword = defaults.string(forKey: AppDelegate.Constants.PasswordUserDefaults)
+//    
+//    if (userEmail.text == storedUserEmail && userPassword.text == storedPassword){
+//        //Login Successful
+//        defaults.set(true, forKey: AppDelegate.Constants.IsUserLoggedInUserDefaults)
+//        defaults.synchronize()
+//        
+//        self.dismiss(animated: true, completion: nil)
+//    }
+//    else{
+//        let alert = UIAlertController(title: "Login Denied", message: "Incorrect E-mail or Password!", preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+//        alert.addAction(okAction)
+//        self.present(alert, animated: true, completion: nil)
+//        return
+//    }
+//}

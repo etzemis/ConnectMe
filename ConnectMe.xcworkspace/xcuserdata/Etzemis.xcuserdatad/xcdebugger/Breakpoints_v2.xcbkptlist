@@ -88,11 +88,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/RegisterVC.swift"
-            timestampString = "499953331.299024"
+            timestampString = "500233073.902526"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "registerButtonTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/RegisterVC.swift"
-            timestampString = "499963869.909375"
+            timestampString = "500233073.902526"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "registerButtonTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -120,11 +120,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/RegisterVC.swift"
-            timestampString = "499963869.909375"
+            timestampString = "500233073.902526"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "registerButtonTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -136,61 +136,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/ServerAPIManager.swift"
-            timestampString = "499957956.29482"
+            timestampString = "500215266.667517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
             landmarkName = "register(username:email:password:profileImage:address:completionHandler:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ConnectMe/ServerAPIManager.swift"
-            timestampString = "499957998.124147"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "register(username:email:password:profileImage:address:completionHandler:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ConnectMe.ServerAPIManager.(register (username : Swift.String, email : Swift.String, password : Swift.String, profileImage : Swift.Optional&lt;__ObjC.UIImage&gt;, address : Swift.String, completionHandler : (Alamofire.Result&lt;Swift.Bool&gt;) -&gt; ()) -&gt; ()).(closure #1)"
-                  moduleName = "ConnectMe"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Etzemis/Documents/WORKSPACES/XCODE%20Projects/ConnectMe/ConnectMe/ServerAPIManager.swift"
-                  timestampString = "499963993.245641"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47"
-                  offsetFromSymbolStart = "62">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ConnectMe.ServerAPIManager.(register (username : Swift.String, email : Swift.String, password : Swift.String, profileImage : Swift.Optional&lt;__ObjC.UIImage&gt;, address : Swift.String, completionHandler : (Alamofire.Result&lt;Swift.Bool&gt;) -&gt; ()) -&gt; ()).(closure #1)"
-                  moduleName = "ConnectMe"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Etzemis/Documents/WORKSPACES/XCODE%20Projects/ConnectMe/ConnectMe/ServerAPIManager.swift"
-                  timestampString = "499963993.246962"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47"
-                  offsetFromSymbolStart = "159">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -200,11 +152,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/RegisterVC.swift"
-            timestampString = "499964056.429971"
+            timestampString = "500233073.902526"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
             landmarkName = "registerButtonTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
