@@ -68,25 +68,27 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     }
     
-
-    
     override func viewWillAppear(_ animated: Bool) {
         if !UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults){
             performSegue(withIdentifier: Constants.UserLoginSegue, sender: self)
         }
         else if !UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.HasApplicationStartedWithLoggedInUserUserDefaults){
             //set it to false when Logging out!
-            UserDefaults.standard.set(true, forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
+            UserDefaults.standard.set(true, forKey: AppConstants.HandleUserLogIn.HasApplicationStartedWithLoggedInUserUserDefaults)
             UserDefaults.standard.synchronize()
             
             setUpLocationManager()
             displayUsers(users: createBotUsers())
         }
     }
+
+    
     
 // MARK: Act On Notifications
     @objc private func actOnTravellersUpdatedNotification(){
         print("Received Notification")
+        displayUsers(users: DataHolder.sharedInstance.travellers)
+        
     }
 
     
@@ -173,26 +175,36 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     func createBotUsers() -> [Traveller]{
         var users = [Traveller]()
         
-        var user = Traveller(travellerId: 1, name: "Vaggelis",
+        let user = Traveller(name: "Vaggelis",
                         destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
                         currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
         users.append(user)
         
-        user = Traveller(travellerId: 2, name: "Petros",
-                    destination: Location(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
-                    currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367))
-        users.append(user)
-        
-        user = Traveller(travellerId: 3 , name: "Hercules",
-                    destination: Location(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
-                    currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
-        users.append(user)
+//        user = Traveller(name: "Petros",
+//                    destination: Location(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
+//                    currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367))
+//        users.append(user)
+//        
+//        user = Traveller(name: "Hercules",
+//                    destination: Location(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
+//                    currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
+//        users.append(user)
         
         return users
     }
     
     
+    
+    
+    /// Change it and check if annotation is Selected.. if yes then postpone it until it is deselected
+    ///
+    /// - Parameter users: the travellers we will be displaying as Annotations in the MapView
     func displayUsers(users:[Traveller]){
+        let annotations = mapView.annotations
+        for an in mapView.selectedAnnotations{
+            mapView.deselectAnnotation(an, animated: true)
+        }
+        mapView.removeAnnotations(annotations)
         mapView.addAnnotations(users)
     }
 
@@ -223,7 +235,7 @@ extension MainVC{
             
         }
         // let userLocation:CLLocation = locations[0] as CLLocation
-//        manager.stopUpdatingLocation()
+        manager.stopUpdatingLocation()
     }
     
     private func locationManager(manager: CLLocationManager, didFailWithError error: NSError){ print("Error \(error)") }

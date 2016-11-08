@@ -19,4 +19,9 @@ struct AppConstants{
         static let IsUserLoggedInUserDefaults = "IsUserLoggedIn"
         static let HasApplicationStartedWithLoggedInUserUserDefaults = "AppStartedwithLoggedInuser"  // Used to handle the situation when user logs out while using the App!
     }
+    
+    struct ServerConnectivity{
+        static let fetchUsersAroundMeFrequency = 10.0  // Time Interval for Calling the Server FetchUsersAroundMe Function
+        static let serialqueue = "ConnectMeServerSerialQueue"
+    }
 }

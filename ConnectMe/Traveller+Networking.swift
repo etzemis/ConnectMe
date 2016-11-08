@@ -12,15 +12,14 @@ import CoreLocation
 extension Traveller{
     
     convenience init?(json: [String: Any]) {
-        guard let id = json["userId"] as? Int,
-            let name = json["username"] as? String,
+        guard let name = json["username"] as? String,
             let address = json["address"] as? String,
-            let region = json["Region"] as? String,
+            let region = json["region"] as? String,
             let currentLatitude = json["currentLatitude"] as? Double,
             let currentLongitude = json["currentLongitude"] as? Double,
             let destinationLatitude = json["destinationLatitude"] as? Double,
             let destinationLongitude = json["destinationLongitude"] as? Double,
-            let extraPersons = json["ExtraPersons"] as? Int
+            let extraPersons = json["extraPersons"] as? Int
             else {
                 return nil
         }
@@ -29,8 +28,7 @@ extension Traveller{
                                    region: region,
                                    coord: CLLocationCoordinate2D(latitude: destinationLatitude, longitude: destinationLongitude))
         // Use existing initializer
-        self.init(travellerId: id,
-                   name: name,
+        self.init(name: name,
                    destination: userDestination,
                    extraPersons: extraPersons,
                    currentCoord: CLLocationCoordinate2D(latitude: currentLatitude, longitude: currentLongitude))

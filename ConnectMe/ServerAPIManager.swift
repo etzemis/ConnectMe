@@ -146,10 +146,11 @@ class ServerAPIManager {
                 if  let urlResponse = response.response,
                     let authError = self.checkUnauthorized(urlResponse: urlResponse)
                 {
+                    print("\n AuthorizationError in FetchTravellersAroundMe \n")
                     completionHandler(.failure(authError))
                     return
                 }
-                
+                print(response)
                 let result = self.travellerArrayFromResponse(response:response)
                 completionHandler(result)
         }

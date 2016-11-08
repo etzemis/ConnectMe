@@ -87,6 +87,9 @@ class LoginVC: UIViewController {
                         defaults.set(token, forKey: AppConstants.HandleUserLogIn.PasswordTokenUserDefaults)
                         defaults.synchronize()
                         
+                        //Set Flag to allow Connectivity
+                        DataHolder.sharedInstance.startAllConnections()
+                        
                         self.dismiss(animated: true, completion: nil)
                     }
                 }
