@@ -69,10 +69,13 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if !UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults){
+        let isUserLoggedIn = UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
+        let viewIsReapearing = UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.HasApplicationStartedWithLoggedInUserUserDefaults)
+        
+        if !isUserLoggedIn{
             performSegue(withIdentifier: Constants.UserLoginSegue, sender: self)
         }
-        else if !UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.HasApplicationStartedWithLoggedInUserUserDefaults){
+        else if isUserLoggedIn && !viewIsReapearing{
             //set it to false when Logging out!
             UserDefaults.standard.set(true, forKey: AppConstants.HandleUserLogIn.HasApplicationStartedWithLoggedInUserUserDefaults)
             UserDefaults.standard.synchronize()
