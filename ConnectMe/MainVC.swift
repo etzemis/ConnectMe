@@ -32,6 +32,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     
     // MARK: Variables
+    private var isInitialized = false;
     private var CreateTripModeIsOn: Bool = false
     private var locationManager: CLLocationManager = CLLocationManager()
     
@@ -72,17 +73,18 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.TravellersAroundMeUpdated), object: nil);
     }
     
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         let isUserLoggedIn = UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
-        let viewIsReapearing = UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.HasApplicationStartedWithLoggedInUserUserDefaults)
-        
+
         if !isUserLoggedIn{
+            self.isInitialized = false //stop connections will be called form logging out
             performSegue(withIdentifier: Constants.UserLoginSegue, sender: self)
         }
-        else if isUserLoggedIn && !viewIsReapearing{
+        else if !self.isInitialized{
             //set it to false when Logging out!
-            UserDefaults.standard.set(true, forKey: AppConstants.HandleUserLogIn.HasApplicationStartedWithLoggedInUserUserDefaults)
-            UserDefaults.standard.synchronize()
+            self.isInitialized = !self.isInitialized
             
             setUpLocationManager()
             displayUsers(users: createBotUsers())

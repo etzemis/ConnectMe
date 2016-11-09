@@ -15,7 +15,6 @@ class SettingsTVC: UITableViewController {
         let alert = UIAlertController(title: "User Logout", message: "Are you sure you want to logout?", preferredStyle: .actionSheet)
         let okAction = UIAlertAction(title: "Logout", style: .default){ action in
             UserDefaults.standard.set(false, forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
-            UserDefaults.standard.set(false, forKey: AppConstants.HandleUserLogIn.HasApplicationStartedWithLoggedInUserUserDefaults)
             DataHolder.sharedInstance.stopAllConnections()
             UserDefaults.standard.synchronize()
             self.dismiss(animated: true, completion: nil)
