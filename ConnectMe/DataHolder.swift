@@ -28,6 +28,33 @@ class DataHolder{
         }
     }
     
+// MARK: Insert Destination Remote
+    func insertDestination(destination: Location, extraPersons: Int){
+        if(self.isAllowedToConnect){
+            serialQueue.async{
+                ServerAPIManager.sharedInstance.insertDestination(destination: destination, extraPersons: extraPersons) {
+                    result in
+                    guard result.error == nil else {
+                        self.handleInsertDestinationError(result.error!)
+                        //send Failed Notification
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationNames.DestinationFailedToUpdate), object: self)
+                        }
+                        return
+                    }
+                    //send success Notification
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationNames.DestinationUpdatedSuccessfuly), object: self)
+                    }
+                }
+            }
+        }
+    }
+    
+    func handleInsertDestinationError(_ error: Error) {
+        //TODO: Show Error
+        debugPrint("HandleUpdateLocationError: updateLocation error")
+    }
     
     
 

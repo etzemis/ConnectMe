@@ -177,6 +177,39 @@ class ServerAPIManager {
         return .success(travellers)
     }
     
+
+    
+//MARK: Insert Destination
+    func insertDestination(destination: Location, extraPersons: Int, completionHandler: @escaping (Result<Bool>) -> Void)
+    {
+        
+        //First Create JSON Object that you will be sending to the Server
+        var parameters: [String: Any] = destination.toJSON()
+        parameters["extraPersons"] = extraPersons  // add the extraPersons Parameter
+        
+        let request = Alamofire.request(ConnectMeRouter.insertDestination(parameters))
+            .responseJSON { response in
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in FetchTravellersAroundMe \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                
+                guard response.result.error == nil else {
+                    print(response.result.error!)
+                    completionHandler(.failure(ServerAPIManagerError.network(error: response.result.error!)))
+                    return
+                }
+                //Otherwise Success
+                completionHandler(.success(true))
+        }
+        
+        print("\n\n\n\n  Insert Destination request \n\n\n\n")
+        debugPrint(request)
+    }
+    
 }
 
 

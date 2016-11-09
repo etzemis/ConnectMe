@@ -11,7 +11,7 @@ import Alamofire
 
 enum ConnectMeRouter: URLRequestConvertible {
     static let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    static let baseURLString = "http://192.168.1.251:3000/"
+    static let baseURLString = "http://192.168.1.91:3000/"
     // posting
     case register([String: Any])
     case login([String: Any])
@@ -87,10 +87,9 @@ enum ConnectMeRouter: URLRequestConvertible {
             // Define that we are sending JSON files and we Accept JSON Files
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
             urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
-    
         default:
             // Define that we are sending JSON files and we Accept JSON Files
-            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
             urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
             
             //Create Basic Authentication

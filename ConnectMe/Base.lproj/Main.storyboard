@@ -751,7 +751,7 @@
                     <navigationItem key="navigationItem" title="Destination" id="UY2-ew-LFE">
                         <barButtonItem key="rightBarButtonItem" enabled="NO" title="Next" id="odK-QH-Ogn">
                             <connections>
-                                <action selector="BarButtonPressed:" destination="t0q-Tp-Brk" id="Je3-eA-3hd"/>
+                                <action selector="insertDestinationBarButtonPressed:" destination="t0q-Tp-Brk" id="fJH-Kb-2Vz"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

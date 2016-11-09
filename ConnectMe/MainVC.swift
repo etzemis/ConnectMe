@@ -68,6 +68,10 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.TravellersAroundMeUpdated), object: nil);
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         let isUserLoggedIn = UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
         let viewIsReapearing = UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.HasApplicationStartedWithLoggedInUserUserDefaults)
@@ -220,21 +224,10 @@ extension MainVC{
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first{
             
-            
             DataHolder.sharedInstance.updateLocation(location: Location(address: nil, region: nil, coord: location.coordinate))
             
             let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.01, 0.01) )
             mapView.setRegion(region, animated: true)
-//            let delayInSeconds = 4.0
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
-//                            SwiftSpinner.show("Getting Nearby Travellers...")
-//            }
-//            
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2*delayInSeconds) {
-//                SwiftSpinner.hide()
-//            }
-            
-
             
         }
         // let userLocation:CLLocation = locations[0] as CLLocation

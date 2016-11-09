@@ -16,28 +16,17 @@ protocol HandleMapSearch {
 }
 
 class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate {
-    
+//MARK: Variable Declaration
     struct Constants{
         static let ConfirmDestinationSegue = "Show Travellers"
         static let SpanAroundUserRegion = MKCoordinateSpanMake(0.2, 0.2)
     }
-    //MARK: Variable Declaration
     @IBOutlet weak var mapView: MKMapView!{ didSet { setUpMap() }}
     @IBOutlet weak var NextButton: UIBarButtonItem!
-    @IBAction func BarButtonPressed(_ sender: AnyObject) {
-        
-        if searchController!.isActive {
-            searchController?.isActive = false
-        }
-        else{
-            SwiftSpinner.show("Syncing Destination...")
-            let delayInSeconds = 3.0
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
-                SwiftSpinner.hide()
-                self.performSegue(withIdentifier: Constants.ConfirmDestinationSegue, sender: sender)
-            }
-        }
-    }
+    
+    var userDestination = MKPointAnnotation()
+
+//MARK: ExtraPersons Management
     @IBOutlet weak var extraPersonsLabel: UILabel!
     private var extraPersons = 0
     @IBAction func increaseExtraPersons(_ sender: Any) {
@@ -55,21 +44,72 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
     
     var userSelectedDestination = false
     var locationManager: CLLocationManager = CLLocationManager()
-    
     //Search Bar
     var searchController: UISearchController? = nil
     var selectedPin:MKPlacemark? = nil
 
-
-    // MARK: View Controller Lifecycle
+    
+//MARK: Sync Destination with Server
+    @IBAction func insertDestinationBarButtonPressed(_ sender: AnyObject) {
+        
+        if searchController!.isActive {
+            searchController?.isActive = false  //Dismiss the Search Controller
+        }
+        else{
+            Spinner.sharedInstance.show(uiView: self.view)
+            
+            let destination  = Location(address: userDestination.title, region: userDestination.subtitle, coord: userDestination.coordinate)
+            DataHolder.sharedInstance.insertDestination(destination: destination, extraPersons: self.extraPersons)
+            
+        }
+    }
+    
+    
+// MARK: View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnDestinationUpdatedSuccessfuly),
+                                               name: NSNotification.Name(AppConstants.NotificationNames.DestinationUpdatedSuccessfuly), object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnDestinationFailedToUpdate),
+                                               name: NSNotification.Name(AppConstants.NotificationNames.DestinationFailedToUpdate), object: nil)
+
+        //
         setUpSearchController()
         setUpLocationManager()
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.DestinationUpdatedSuccessfuly), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.DestinationFailedToUpdate), object: nil)
+    }
+    
+    
+    @objc private func actOnDestinationUpdatedSuccessfuly(){
+        DispatchQueue.main.async {
+            Spinner.sharedInstance.hide(uiView: self.view)
+            self.performSegue(withIdentifier: Constants.ConfirmDestinationSegue, sender: self.NextButton)
+        }
+    }
+    
+    @objc private func actOnDestinationFailedToUpdate(){
+        //present ALert
+        let alertController = UIAlertController(title: "Could not establish Connection", message: "Please check your internet connection and  try again" ,
+                                                preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        
+        DispatchQueue.main.async {
+            Spinner.sharedInstance.hide(uiView: self.view)
+            self.present(alertController, animated: true, completion: nil)
+        }
 
-    // MARK: Search Controller Initialization
+}
+    
+// MARK: Search Controller Initialization
     private func setUpSearchController(){
         
         let locationSearchTable = storyboard!.instantiateViewController(withIdentifier: "LocationSearchTable") as! LocationSearchTable
@@ -107,7 +147,7 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
 
     
 
-    // MARK: Map & LocationManager Initialization
+// MARK: Map & LocationManager Initialization
     private func setUpMap(){
         mapView.mapType = .standard
         mapView.showsUserLocation = true
@@ -122,7 +162,7 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
         self.locationManager.startUpdatingLocation()
     }
     
-    //MARK: MapView Delegate
+//MARK: MapView Delegate
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             //return nil so map view draws "blue dot" for standard user location
@@ -147,7 +187,7 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
         
     }
     
-    // MARK: Perform Segue
+// MARK: Perform Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.ConfirmDestinationSegue{
 
@@ -175,14 +215,14 @@ extension SearchDestinationVC: HandleMapSearch {
         selectedPin = placemark
         // clear existing pins
         mapView.removeAnnotations(mapView.annotations)
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = placemark.coordinate
-        annotation.title = placemark.name
+        self.userDestination = MKPointAnnotation()
+        self.userDestination.coordinate = placemark.coordinate
+        self.userDestination.title = placemark.name
         if let city = placemark.locality,
             let state = placemark.administrativeArea {
-            annotation.subtitle = "\(city), \(state)"
+            self.userDestination.subtitle = "\(city), \(state)"
         }
-        mapView.addAnnotation(annotation)
+        mapView.addAnnotation(self.userDestination)
         let span = MKCoordinateSpanMake(0.1, 0.1)
         let region = MKCoordinateRegionMake(placemark.coordinate, span)
         mapView.setRegion(region, animated: true)

@@ -11,6 +11,8 @@ import Foundation
 struct AppConstants{
     struct NotificationNames{
         static let TravellersAroundMeUpdated = "TravellersAroundMeUpdatedNotification"
+        static let DestinationUpdatedSuccessfuly = "DestinationUpdatedSuccessfulyNotification"
+        static let DestinationFailedToUpdate = "DestinationFailedToUpdateNotification"
     }
     
     struct HandleUserLogIn{
