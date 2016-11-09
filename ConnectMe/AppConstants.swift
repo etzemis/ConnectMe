@@ -25,4 +25,6 @@ struct AppConstants{
         static let fetchUsersAroundMeFrequency = 10.0  // Time Interval for Calling the Server FetchUsersAroundMe Function
         static let serialqueue = "ConnectMeServerSerialQueue"
     }
+    
+    static let UserLocationAccuracyinMeters = 10.0  // My location will not be updated if my location changes less than those meters
 }

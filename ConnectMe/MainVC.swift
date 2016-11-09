@@ -33,7 +33,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     // MARK: Variables
     private var isInitialized = false;
-    private var CreateTripModeIsOn: Bool = false
+    var userLastUpdatedLocation = CLLocation() //The last Location that has been send to the server
     private var locationManager: CLLocationManager = CLLocationManager()
     
     //MARK: Outlets
@@ -104,7 +104,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 // MARK: Initialization Location Manager and Map
     func setUpLocationManager(){
         self.locationManager.delegate = self;
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.startUpdatingLocation()
     }
@@ -225,15 +225,16 @@ extension MainVC{
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first{
-            
-            DataHolder.sharedInstance.updateLocation(location: Location(address: nil, region: nil, coord: location.coordinate))
-            
-            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.01, 0.01) )
-            mapView.setRegion(region, animated: true)
+            let distance = self.userLastUpdatedLocation.distance(from: location) as Double
+            debugPrint("Distance from Previous Location \(distance)")
+            if distance > AppConstants.UserLocationAccuracyinMeters{
+                self.userLastUpdatedLocation = location
+                DataHolder.sharedInstance.updateLocation(location: Location(address: nil, region: nil, coord: location.coordinate))
+                let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.01, 0.01) )
+                mapView.setRegion(region, animated: true)
+            }
             
         }
-        // let userLocation:CLLocation = locations[0] as CLLocation
-        manager.stopUpdatingLocation()
     }
     
     private func locationManager(manager: CLLocationManager, didFailWithError error: NSError){ print("Error \(error)") }
