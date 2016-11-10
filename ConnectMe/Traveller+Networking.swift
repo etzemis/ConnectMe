@@ -19,7 +19,8 @@ extension Traveller{
             let currentLongitude = json["currentLongitude"] as? Double,
             let destinationLatitude = json["destinationLatitude"] as? Double,
             let destinationLongitude = json["destinationLongitude"] as? Double,
-            let extraPersons = json["extraPersons"] as? Int
+            let extraPersons = json["extraPersons"] as? Int,
+            let imageUrl = json["imageUrl"] as? String
             else {
                 return nil
         }
@@ -31,7 +32,8 @@ extension Traveller{
         self.init(name: name,
                    destination: userDestination,
                    extraPersons: extraPersons,
-                   currentCoord: CLLocationCoordinate2D(latitude: currentLatitude, longitude: currentLongitude))
+                   currentCoord: CLLocationCoordinate2D(latitude: currentLatitude, longitude: currentLongitude),
+                   imageUrl:imageUrl)
     }
     
 

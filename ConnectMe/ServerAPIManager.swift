@@ -21,6 +21,21 @@ class ServerAPIManager {
         return nil
     }
     
+//MARK: Fetch Images
+    func imageFrom(urlString: String,
+                   completionHandler: @escaping (UIImage?, Error?) -> Void) {
+        let _ = Alamofire.request(urlString)
+            
+            .response { dataResponse in
+                // use the generic response serializer that returns Data
+                guard let data = dataResponse.data else {
+                    completionHandler(nil, dataResponse.error)
+                    return
+                }
+                let image = UIImage(data: data)
+                completionHandler(image, nil) }
+    }
+    
     
     
     

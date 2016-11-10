@@ -139,12 +139,14 @@ class TravellersTVC: UITableViewController {
         
         var user = Traveller(name: "Vaggelis",
                         destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
-                        currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
+                        currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877),
+                        imageUrl: "http://192.168.1.91:3000/photo2.jpg" )
         users.append(user)
         
         user = Traveller(name: "Petros",
                     destination: Location(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
-                    currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367))
+                    currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367),
+                    imageUrl: "http://192.168.1.91:3000/photo1.jpg")
         users.append(user)
         
         user = Traveller(name: "Hercules",

@@ -9,5 +9,5 @@ target 'ConnectMe' do
   pod 'SwiftyJSON'
   pod 'Alamofire', '~> 4.0'
   pod 'SwiftSpinner'
-
+  pod 'PINRemoteImage'
 end

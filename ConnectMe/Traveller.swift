@@ -14,11 +14,13 @@ class Traveller: NSObject {
     var destination: Location
     var extraPersons: Int
     var currentCoord: CLLocationCoordinate2D
+    var imageUrl: String?
     
-    init(name: String, destination: Location, extraPersons: Int = 0, currentCoord: CLLocationCoordinate2D){
+    init(name: String, destination: Location, extraPersons: Int = 0, currentCoord: CLLocationCoordinate2D, imageUrl: String = ""){
         self.name = name
         self.destination = destination
         self.extraPersons = extraPersons
         self.currentCoord = currentCoord
+        self.imageUrl = imageUrl
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PINRemoteImage
 
 class TravellerCell: UITableViewCell {
 
@@ -52,11 +53,31 @@ class TravellerCell: UITableViewCell {
     }
     
     private func setCircularImage(){
-        self.profileImage.image =  UIImage(named: "empty_profile")
-        self.profileImage.layer.cornerRadius = 32
-        self.profileImage.clipsToBounds = true
-        self.profileImage.layer.borderWidth = 1
-        self.profileImage.layer.borderColor = UIColor.blue.cgColor
+        if let urlString = traveller!.imageUrl,
+           let url = URL(string: urlString) {
+                self.profileImage.pin_setImage(from: url, placeholderImage:#imageLiteral(resourceName: "empty_profile")) {
+                    result in
+                        self.profileImage.layer.cornerRadius = 32
+                        self.profileImage.clipsToBounds = true
+                        self.profileImage.layer.borderWidth = 1
+                        self.profileImage.layer.borderColor = UIColor.lightGray.cgColor
+                        self.setNeedsLayout()
+                        return
+            }
+        } else {
+            self.profileImage.image =  #imageLiteral(resourceName: "empty_profile")
+            self.profileImage.layer.cornerRadius = 32
+            self.profileImage.clipsToBounds = true
+            self.profileImage.layer.borderWidth = 1
+            self.profileImage.layer.borderColor = UIColor.lightGray.cgColor
+        }
+        
+        
+//        self.profileImage.image =  UIImage(named: "empty_profile")
+//        self.profileImage.layer.cornerRadius = 32
+//        self.profileImage.clipsToBounds = true
+//        self.profileImage.layer.borderWidth = 1
+//        self.profileImage.layer.borderColor = UIColor.blue.cgColor
     }
 }
 

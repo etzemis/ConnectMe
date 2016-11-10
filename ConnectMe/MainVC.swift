@@ -10,6 +10,8 @@ import UIKit
 import MapKit
 import CoreLocation
 import SwiftSpinner
+import PINRemoteImage
+
 
 class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
@@ -156,6 +158,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                 view.rightCalloutAccessoryView = UIButton(type: UIButtonType.detailDisclosure) as UIButton
                 //set Left Callout Accessory View
                 view.leftCalloutAccessoryView = UIImageView(frame: Constants.LeftCalloutFrame)
+                
             }
             return view
         }
@@ -163,12 +166,31 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if let _ = view.annotation as? Traveller {
+        if let annotation = view.annotation as? Traveller {
             if let thumbnailImageView = view.leftCalloutAccessoryView as? UIImageView{
                 
                 thumbnailImageView.clipsToBounds = true
                 thumbnailImageView.contentMode = .scaleAspectFill
-                thumbnailImageView.image = #imageLiteral(resourceName: "empty_profile")
+//                thumbnailImageView.image = #imageLiteral(resourceName: "empty_profile")
+                
+//                if let urlString = annotation.imageUrl{
+//                    ServerAPIManager.sharedInstance.imageFrom(urlString: urlString)
+//                    {
+//                        (image, error) in
+//                        guard error == nil else{
+//                            print (error!)
+//                            return
+//                        }
+//                        thumbnailImageView.image = image                        
+//                    }
+//                }
+                
+                if let urlString = annotation.imageUrl,
+                   let url = URL(string: urlString) {
+                    thumbnailImageView.pin_setImage(from: url, placeholderImage: #imageLiteral(resourceName: "empty_profile")) { _ in return}
+                } else {
+                    thumbnailImageView.image = #imageLiteral(resourceName: "empty_profile")
+                }
             }
         }
     }
@@ -188,17 +210,6 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                         destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
                         currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
         users.append(user)
-        
-//        user = Traveller(name: "Petros",
-//                    destination: Location(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
-//                    currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367))
-//        users.append(user)
-//        
-//        user = Traveller(name: "Hercules",
-//                    destination: Location(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
-//                    currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
-//        users.append(user)
-        
         return users
     }
     
