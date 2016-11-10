@@ -31,7 +31,6 @@
                                 <segments>
                                     <segment title="Map"/>
                                     <segment title="Hybrid"/>
-                                    <segment title="Sateilte"/>
                                 </segments>
                                 <connections>
                                     <action selector="mapTypeChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="6go-DS-xj1"/>
@@ -642,7 +641,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="f3H-S6-E3O" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kwv-Ei-brf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="kwv-Ei-brf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

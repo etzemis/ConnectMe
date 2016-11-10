@@ -32,6 +32,14 @@ class TravellersTVC: UITableViewController {
         
         //Create Bot Users
         suggestedTravellers = createBotUsers()
+        
+        //add Refresh Control for pull to refresh
+        if (self.refreshControl == nil) {
+            self.refreshControl = UIRefreshControl()
+            self.refreshControl?.addTarget(self,
+                                           action: #selector(refresh(sender:)),
+                                           for: .valueChanged) }
+
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -41,7 +49,22 @@ class TravellersTVC: UITableViewController {
       performSegue(withIdentifier: Constants.StartNavigationSegue, sender: sender)
     }
 
-    // MARK: - Table view data source
+// MARK: - Pull to Refresh
+    @objc func refresh(sender: Any) {
+//        ServerAPIManager.sharedInstance.clearCache()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+            if self.refreshControl != nil,
+                self.refreshControl!.isRefreshing
+            {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+
+
+        
+    }
+    
+// MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return suggestedTravellers.count
@@ -66,73 +89,8 @@ class TravellersTVC: UITableViewController {
         }
     }
 
-    
-   //    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        let cell = self.tableView(tableView, cellForRowAt: indexPath)
-//        if cell.accessoryType != .none {
-//            cell.accessoryType = .none
-//            return
-//        }
-//        cell.accessoryType = .checkmark
-//        cell.backgroundColor = UIColor.white
-//    }
 
-    
-//    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-//        let cell = self.tableView(tableView, cellForRowAt: indexPath)
-//        if cell.accessoryType != .none {
-//            cell.accessoryType = .none
-//        }
-//        else{
-//            cell.accessoryType = .checkmark
-//        }
-//    }
- 
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func createBotUsers() -> [Traveller]{
         var users = [Traveller]()

@@ -52,10 +52,6 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
             self.mapView.mapType = .hybrid;
             self.mapTypeSegmentedControl.tintColor = UIColor.white
             break;
-        case 2:
-            self.mapView.mapType = .satellite;
-            self.mapTypeSegmentedControl.tintColor = UIColor.white
-            break;
         default:
             break;
         }

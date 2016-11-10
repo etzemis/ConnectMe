@@ -36,7 +36,15 @@ class ServerAPIManager {
                 completionHandler(image, nil) }
     }
     
+//MARK: Clear Alamofire Cache
     
+    /// Alamofire uses the default URLCache to cache the URL responses so we need to flush out the cache before refreshing. 
+    /// Otherwise we’ll just get the cached response and won’t see any new gists. 
+    /// To implement clearing the cache we can use removeAllCachedResponses() on the shared URL cache.
+    func clearCache() -> Void {
+        let cache = URLCache.shared
+        cache.removeAllCachedResponses()
+    }
     
     
     
