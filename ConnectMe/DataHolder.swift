@@ -157,12 +157,12 @@ class DataHolder{
             let alert = UIAlertController(title: "Lost Authorization", message: "You will be redirected on the login screen to start all over again", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default) {
                 action in
+                //log out USER
                 UserDefaults.standard.set(false, forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
                 DataHolder.sharedInstance.stopAllConnections()
                 UserDefaults.standard.synchronize()
             
                 //show LoginViewController
-            
                 let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                 guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC else {
                     assert(false, "Misnamed view controller")

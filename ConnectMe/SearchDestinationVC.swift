@@ -217,11 +217,8 @@ extension SearchDestinationVC: HandleMapSearch {
         mapView.removeAnnotations(mapView.annotations)
         self.userDestination = MKPointAnnotation()
         self.userDestination.coordinate = placemark.coordinate
-        self.userDestination.title = placemark.name
-        if let city = placemark.locality,
-            let state = placemark.administrativeArea {
-            self.userDestination.subtitle = "\(city), \(state)"
-        }
+        self.userDestination.title = parseAddress(selectedItem: placemark)
+        self.userDestination.subtitle = parseRegion(selectedItem: placemark)
         mapView.addAnnotation(self.userDestination)
         let span = MKCoordinateSpanMake(0.1, 0.1)
         let region = MKCoordinateRegionMake(placemark.coordinate, span)
@@ -250,7 +247,36 @@ extension SearchDestinationVC {
     {
         print("Error \(error)")
     }
-    
+}
+
+
+extension SearchDestinationVC{
+    func parseAddress(selectedItem:MKPlacemark) -> String {
+        // put a space between "4" and "Melrose Place"
+        let firstSpace = (selectedItem.subThoroughfare != nil && selectedItem.thoroughfare != nil) ? " " : ""
+        let addressLine = String(
+            format:"%@%@%@",
+            // street number
+            selectedItem.subThoroughfare ?? "",
+            firstSpace,
+            // street name
+            selectedItem.thoroughfare ?? ""
+        )
+        return addressLine
+    }
+    func parseRegion(selectedItem:MKPlacemark) -> String {
+        // put a space between "Washington" and "DC"
+        let region = String(
+            format:"%@%@%@",
+            // city
+            selectedItem.locality ?? "",
+            " ",
+            // state
+            selectedItem.administrativeArea ?? ""
+        )
+        return region
+    }
+
 
 }
 
