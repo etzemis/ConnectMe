@@ -45,14 +45,99 @@ class TravellersTVC: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
     }
     
+//MARK: SendInvitation
     @objc func sendInvitation(_ sender: AnyObject){
-      performSegue(withIdentifier: Constants.StartNavigationSegue, sender: sender)
+        
+        //Clear Suggested Array
+        selectedTravellers.removeAll()
+        //Calculate Travellers from Cells
+        for i in stride(from: 0, to: tableView.numberOfRows(inSection: 0), by: 1) {
+            let cell = tableView.cellForRow(at: IndexPath.init(row: i, section: 0))
+            if cell!.accessoryType == .checkmark {
+                let user = suggestedTravellers[i]
+                selectedTravellers.append(user)
+            }
+        }
+        //present ConfirmationAlert
+        showInvitedTotripAlert(travellers: selectedTravellers)
+         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+            self.showTripConfirmationAlert(travellers: self.selectedTravellers)
+        }
+    
+      
     }
+    
+    func showTripConfirmationAlert(travellers: [Traveller]){
+        
+        //create message
+        var i = 1
+        var message = "The following users will be invited:"
+        for traveller in travellers{
+            message.append("\n\n")
+            message.append("\(i). \(traveller.name.capitalized) \t -->  \(traveller.destination.region!) \t~100")
+            i += 1
+        }
+        
+        //create Alert
+        let confirmationAlert = UIAlertController(title: "Trip Confirmation",
+                                                  message: message,
+                                                  preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Confirm", style: .default){
+            _ in
+            self.performSegue(withIdentifier: Constants.StartNavigationSegue, sender: self)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        
+        confirmationAlert.addAction(confirmAction)
+        confirmationAlert.addAction(cancelAction)
+        
+        self.present(confirmationAlert, animated: true, completion: nil)
+        
+    }
+    
+    
+    func showInvitedTotripAlert(travellers: [Traveller]){
+        
+        //create message
+        var i = 1
+        var message = "You have been invited to join a Trip:"
+        for traveller in travellers{
+            message.append("\n\n")
+            if i==1 {
+                message.append("Creator:\n\n")
+                message.append("\(i). \(traveller.name.capitalized) \t -->  \(traveller.destination.region!) \t~100")
+            }
+            else{
+                if i==2{
+                    message.append("Co-Travellers:\n\n")
+                }
+                message.append("\(i). \(traveller.name.capitalized) \t -->  \(traveller.destination.region!) \t~100")
+            }
+            i += 1
+        }
+        
+        //create Alert
+        let confirmationAlert = UIAlertController(title: "Trip Invitation",
+                                                  message: message,
+                                                  preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Accept", style: .default){
+            _ in
+            self.performSegue(withIdentifier: Constants.StartNavigationSegue, sender: self)
+        }
+        let cancelAction = UIAlertAction(title: "Reject", style: .default, handler: nil)
+        
+        confirmationAlert.addAction(confirmAction)
+        confirmationAlert.addAction(cancelAction)
+        
+        self.present(confirmationAlert, animated: true, completion: nil)
+        
+    }
+    
 
 // MARK: - Pull to Refresh
     @objc func refresh(sender: Any) {
 //        ServerAPIManager.sharedInstance.clearCache()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
             if self.refreshControl != nil,
                 self.refreshControl!.isRefreshing
             {
@@ -66,7 +151,6 @@ class TravellersTVC: UITableViewController {
     
 // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return suggestedTravellers.count
     }
 
