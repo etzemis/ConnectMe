@@ -70,23 +70,25 @@ class ServerAPIManager {
         ]
         
         let request = Alamofire.request(ConnectMeRouter.register(parameters))
-            .response { response in
-                guard response.error == nil else {
-                    print(response.error!)
-                    completionHandler(.failure(response.error!))
-                    return
+            .responseJSON { response in
+                guard response.result.error == nil else {
+                    print(response.result.error!)
+                    return completionHandler(.failure(ServerAPIManagerError.network(error: response.result.error!)))
                 }
+                
+                // check for "message" errors in the JSON because this API does that
+                if  let jsonDictionary = response.result.value as? [String: Any],
+                    let errorMessage = jsonDictionary["message"] as? String
+                {
+                    return completionHandler(.failure(ServerAPIManagerError.apiProvidedError(reason: errorMessage)))
+                }
+                
                 //Otherwise Success
                 completionHandler(.success(true))
         }
         print("\n\n\n\n  Registration request \n\n\n\n")
         debugPrint(request)
     }
-    
-    
-    
-    
-    
     
     
     
@@ -128,6 +130,13 @@ class ServerAPIManager {
             return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
         }
         
+        // check for "message" errors in the JSON because this API does that
+        if  let jsonDictionary = response.result.value as? [String: Any],
+            let errorMessage = jsonDictionary["message"] as? String
+        {
+            return .failure(ServerAPIManagerError.apiProvidedError(reason: errorMessage))
+        }
+        
         return .success(jsonKey["token"] as! String)
     }
 
@@ -144,11 +153,21 @@ class ServerAPIManager {
         
         let request = Alamofire.request(ConnectMeRouter.updateLocation(parameters))
             .response { response in
-                guard response.error == nil else {
-                    print(response.error!)
-                    completionHandler(.failure(response.error!))
+                
+                //Error Handling
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in update Location \n")
+                    completionHandler(.failure(authError))
                     return
                 }
+                guard response.error == nil else {
+                    print(response.error!)
+                    completionHandler(.failure(ServerAPIManagerError.network(error: response.error!)))
+                    return
+                }
+                
                 //Otherwise Success
                 completionHandler(.success(true))
         }
@@ -189,12 +208,21 @@ class ServerAPIManager {
             print(response.result.error!)
             return .failure(ServerAPIManagerError.network(error: response.result.error!))
         }
+
+        // check for "message" errors in the JSON because this API does that
+        if  let jsonDictionary = response.result.value as? [String: Any],
+            let errorMessage = jsonDictionary["message"] as? String
+        {
+            return .failure(ServerAPIManagerError.apiProvidedError(reason: errorMessage))
+        }
         
-        // make sure we got JSON and it's an array
+        // make sure we got JSON Array
         guard let jsonArray = response.result.value as? [[String: Any]] else {
             print("Didn't get array of Travellers as JSON from API")
             return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
         }
+
+        
         
         let travellers = jsonArray.flatMap{ Traveller(json: $0) }
         return .success(travellers)
@@ -211,20 +239,21 @@ class ServerAPIManager {
         parameters["extraPersons"] = extraPersons  // add the extraPersons Parameter
         
         let request = Alamofire.request(ConnectMeRouter.insertDestination(parameters))
-            .responseJSON { response in
+            .response { response in
                 if  let urlResponse = response.response,
                     let authError = self.checkUnauthorized(urlResponse: urlResponse)
                 {
-                    print("\n AuthorizationError in FetchTravellersAroundMe \n")
+                    print("\n Authorization Error in Insert Destination \n")
                     completionHandler(.failure(authError))
                     return
                 }
                 
-                guard response.result.error == nil else {
-                    print(response.result.error!)
-                    completionHandler(.failure(ServerAPIManagerError.network(error: response.result.error!)))
+                guard response.error == nil else {
+                    print(response.error!)
+                    completionHandler(.failure(ServerAPIManagerError.network(error: response.error!)))
                     return
                 }
+                
                 //Otherwise Success
                 completionHandler(.success(true))
         }

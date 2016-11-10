@@ -88,14 +88,14 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
                 let errorMessage: String?
                 
                 switch result.error! {
-                case ServerAPIManagerError.apiProvidedError, ServerAPIManagerError.network:
-                    errorMessage = "Sorry, there was an error in connecting with the server. Please check your internet connection and try again."
-                default:
-                    errorMessage = "Sorry, registration could not be completed. Please try again."
+                case ServerAPIManagerError.apiProvidedError:
+                    errorMessage = "Email address already exists. Please either Login or use a unique email address."
+                default: // general error 500
+                    errorMessage = "Sorry, registration could not be completed. Please check your internet connection and try again."
                 }
                 
  
-                let alertController = UIAlertController(title: "Could not complete registration", message: errorMessage,
+                let alertController = UIAlertController(title: "Registration Failed", message: errorMessage,
                                                         preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alertController.addAction(okAction)

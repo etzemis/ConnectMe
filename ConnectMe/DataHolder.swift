@@ -52,7 +52,12 @@ class DataHolder{
     }
     
     func handleInsertDestinationError(_ error: Error) {
-        //TODO: Show Error
+        switch error {
+        case ServerAPIManagerError.authLost:
+            handleLostAuthorisation()
+        default:  // network
+            return
+        }
         debugPrint("HandleUpdateLocationError: updateLocation error")
     }
     
@@ -91,7 +96,19 @@ class DataHolder{
     }
     
     private func handleFetchTravellersTravellersAroundMeError(_ error: Error) {
-        //TODO: Show Error
+        switch error {
+        case ServerAPIManagerError.authLost:
+            handleLostAuthorisation()
+        case ServerAPIManagerError.network:
+            break
+        case ServerAPIManagerError.objectSerialization:
+            break
+        case ServerAPIManagerError.apiProvidedError:
+            break
+        default:
+            debugPrint("handleFetchTravellersTravellersAroundMeError -->  UNKNOWN Error")
+        }
+
         debugPrint("handleLoadTravellersError: LoadTravellers Error")
     }
 
@@ -119,10 +136,46 @@ class DataHolder{
     }
     
     func handleUpdateLocationError(_ error: Error) {
-        //TODO: Show Error
+        switch error {
+        case ServerAPIManagerError.authLost:
+            handleLostAuthorisation()
+        default:  // network
+            return
+        }
         debugPrint("HandleUpdateLocationError: updateLocation error")
     }
     
+//MARK: LOST AUTHORISATION
+    private func handleLostAuthorisation(){
+        //find the View in which we are in
+        if var topController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+        
+            //present Alert
+            let alert = UIAlertController(title: "Lost Authorization", message: "You will be redirected on the login screen to start all over again", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) {
+                action in
+                UserDefaults.standard.set(false, forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
+                DataHolder.sharedInstance.stopAllConnections()
+                UserDefaults.standard.synchronize()
+            
+                //show LoginViewController
+            
+                let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                guard let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC else {
+                    assert(false, "Misnamed view controller")
+                    return
+                }
+                topController.present(loginVC, animated: true, completion: nil)
+            }
+            alert.addAction(okAction)
+            topController.present(alert, animated: true, completion: nil)
+
+        }
+            return
+    }
     
 //MARK: Stop All Connectivity
     func stopAllConnections(){

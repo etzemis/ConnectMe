@@ -24,6 +24,10 @@ extension Traveller{
             else {
                 return nil
         }
+        // Since it is optional, unwrap it later
+//        let porximity = json["proximity"] as? String
+
+
 
         let userDestination = Location(address: address,
                                    region: region,

@@ -61,13 +61,13 @@ class LoginVC: UIViewController {
                     let errorMessage: String?
                     
                     switch result.error! {
-                    case ServerAPIManagerError.apiProvidedError, ServerAPIManagerError.network:
-                        errorMessage = "Sorry, there was an error in connecting with the server. Please check your internet connection and try again."
-                    default:
+                    case ServerAPIManagerError.apiProvidedError:
+                        errorMessage = "Invalid Credentials. Please try again."
+                    default:  //objectSerialization, 500
                         errorMessage = "Sorry, login could not be completed. Please try again."
                     }
                     
-                    let alertController = UIAlertController(title: "Could not complete registration", message: errorMessage,
+                    let alertController = UIAlertController(title: "Login Failed", message: errorMessage,
                                                             preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                     alertController.addAction(okAction)

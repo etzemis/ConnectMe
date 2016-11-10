@@ -9,15 +9,18 @@
 import Foundation
 
 enum ServerAPIManagerError: Error {
-    //A generic networking errorthat wraps up another error.When Alamofire gives us an error
-    case network(error: Error)
+    //A generic networking error that wraps up another error.When Alamofire gives us an error
+    case network(error: Error)  // if 500
+    
     //The API gave us an error in the JSON that it returned
-    case apiProvidedError(reason: String)
-    //Can not finish authorization login
-    case authCouldNot(reason: String)
+    case apiProvidedError(reason: String)  // if "message"
+    
+
     //Credentials are not valid anymore
-    case authLost(reason: String)
+    case authLost(reason: String)  // // Authorization Error
+
+    
     //Can not get the data we want out of the JSON
-    case objectSerialization(reason: String)
+    case objectSerialization(reason: String)  // if can not parse JSON
 }
 

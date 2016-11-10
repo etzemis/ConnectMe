@@ -19,7 +19,7 @@ extension Location{
             }
         // Since it is optional, unwrap it later
         let address = json["address"] as? String
-        let region = json["Region"] as? String
+        let region = json["region"] as? String
         
         
         // Use existing initializer

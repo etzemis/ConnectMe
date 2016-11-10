@@ -370,7 +370,7 @@
         <!--Login-->
         <scene sceneID="dXY-y6-8hj">
             <objects>
-                <viewController id="iTK-qp-psq" customClass="LoginVC" customModule="ConnectMe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginVC" id="iTK-qp-psq" customClass="LoginVC" customModule="ConnectMe" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="81T-Fp-Bcj"/>
                         <viewControllerLayoutGuide type="bottom" id="Lyt-Ao-Khd"/>
@@ -641,7 +641,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="f3H-S6-E3O" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="kwv-Ei-brf">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kwv-Ei-brf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
