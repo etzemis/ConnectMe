@@ -90,6 +90,10 @@ class LoginVC: UIViewController {
                         //Set Flag to allow Connectivity
                         DataHolder.sharedInstance.startAllConnections()
                         
+                        //Save the userName and User Image int the Data Holder
+                        DataHolder.sharedInstance.userLoggedIn.name = "Vaggelis"
+                        DataHolder.sharedInstance.userLoggedIn.imageUrl = "http://192.168.1.91:3000/photo2.jpg"
+                        
                         self.dismiss(animated: true, completion: nil)
                     }
                 }

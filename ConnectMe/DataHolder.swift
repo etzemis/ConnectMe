@@ -19,7 +19,8 @@ class DataHolder{
     let serialQueue = DispatchQueue(label: AppConstants.ServerConnectivity.serialqueue)
 
     var isAllowedToConnect = true // Flag to stop all connections
-
+    
+    
     var fetchTravellersAroundMeTimer = Timer()
     var travellers: [Traveller] = [] {
         didSet{
@@ -27,6 +28,8 @@ class DataHolder{
             NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationNames.TravellersAroundMeUpdated), object: self)
         }
     }
+//MARK: Update it Accordingly
+    var userLoggedIn = Traveller ()
     
 // MARK: Insert Destination Remote
     func insertDestination(destination: Location, extraPersons: Int){

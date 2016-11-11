@@ -17,7 +17,7 @@ class TravellersTVC: UITableViewController {
     
     struct Constants {
         static let CellIdentifier = "Traveller Cell"
-        static let StartNavigationSegue = "Start Navigation"
+        static let AwaitConfirmationSegue = "Wait for Traveller Confirmation"
     }
 
     override func viewDidLoad() {
@@ -59,15 +59,15 @@ class TravellersTVC: UITableViewController {
             }
         }
         //present ConfirmationAlert
-        showInvitedTotripAlert(travellers: selectedTravellers)
-         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
-            self.showTripConfirmationAlert(travellers: self.selectedTravellers)
-        }
+        showCreatedTripAlert(travellers: selectedTravellers)
+//         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+//            self.showTripConfirmationAlert(travellers: self.selectedTravellers)
+//        }
     
       
     }
     
-    func showTripConfirmationAlert(travellers: [Traveller]){
+    func showCreatedTripAlert(travellers: [Traveller]){
         
         //create message
         var i = 1
@@ -84,7 +84,7 @@ class TravellersTVC: UITableViewController {
                                                   preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Confirm", style: .default){
             _ in
-            self.performSegue(withIdentifier: Constants.StartNavigationSegue, sender: self)
+            self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
         
@@ -96,7 +96,7 @@ class TravellersTVC: UITableViewController {
     }
     
     
-    func showInvitedTotripAlert(travellers: [Traveller]){
+    func showInvitedTripAlert(travellers: [Traveller]){
         
         //create message
         var i = 1
@@ -122,7 +122,7 @@ class TravellersTVC: UITableViewController {
                                                   preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Accept", style: .default){
             _ in
-            self.performSegue(withIdentifier: Constants.StartNavigationSegue, sender: self)
+            self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
         }
         let cancelAction = UIAlertAction(title: "Reject", style: .default, handler: nil)
         
@@ -172,10 +172,24 @@ class TravellersTVC: UITableViewController {
             
         }
     }
-
-
-
     
+//MARK: Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.AwaitConfirmationSegue{
+        
+                if let awaitTravTVC = segue.destination as? AwaitTravellersTVC {
+                    //set the mode and the travellers
+                    awaitTravTVC.tripMode = .Created
+                    awaitTravTVC.travellers = selectedTravellers
+                    //Set the back button to have no title
+                    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+                }
+            
+        }
+    }
+
+
+
     func createBotUsers() -> [Traveller]{
         var users = [Traveller]()
         
@@ -197,19 +211,9 @@ class TravellersTVC: UITableViewController {
         users.append(user)
         
 
-        
+    
         return users
     }
 
 
-}
-
-extension Array where Element: Equatable {
-    
-    // Remove first collection element that is equal to the given `object`:
-    mutating func remove(object: Element) {
-        if let index = index(of: object) {
-            remove(at: index)
-        }
-    }
 }

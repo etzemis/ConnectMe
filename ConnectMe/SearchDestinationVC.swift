@@ -91,6 +91,12 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
     @objc private func actOnDestinationUpdatedSuccessfuly(){
         DispatchQueue.main.async {
             Spinner.sharedInstance.hide(uiView: self.view)
+            //Up-date the userLoggedInInstance!!!
+            DataHolder.sharedInstance.userLoggedIn.destination = Location(address: self.userDestination.title,
+                                                                          region: self.userDestination.subtitle,
+                                                                          coord: self.userDestination.coordinate)
+            DataHolder.sharedInstance.userLoggedIn.extraPersons = self.extraPersons
+            //Perform Segue
             self.performSegue(withIdentifier: Constants.ConfirmDestinationSegue, sender: self.NextButton)
         }
     }

@@ -17,6 +17,7 @@
 		541D0BF81DC0965F00003DF4 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541D0BF71DC0965F00003DF4 /* LoginVC.swift */; };
 		54235FD31DAE635B002AD465 /* Traveller+MKAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54235FD21DAE635B002AD465 /* Traveller+MKAnnotation.swift */; };
 		54235FD51DAE657F002AD465 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54235FD41DAE657F002AD465 /* Location.swift */; };
+		5437D28C1DD4EE1200508D7B /* AwaitTravellersTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5437D28B1DD4EE1200508D7B /* AwaitTravellersTVC.swift */; };
 		544181A01DBD0EA20050E27C /* TravellerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5441819F1DBD0EA20050E27C /* TravellerCell.swift */; };
 		5446222B1DA8E74300A9E92B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5446222A1DA8E74300A9E92B /* AppDelegate.swift */; };
 		5446222D1DA8E74300A9E92B /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5446222C1DA8E74300A9E92B /* MainVC.swift */; };
@@ -53,6 +54,7 @@
 		541D0BF71DC0965F00003DF4 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		54235FD21DAE635B002AD465 /* Traveller+MKAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Traveller+MKAnnotation.swift"; sourceTree = "<group>"; };
 		54235FD41DAE657F002AD465 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		5437D28B1DD4EE1200508D7B /* AwaitTravellersTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AwaitTravellersTVC.swift; sourceTree = "<group>"; };
 		5441819F1DBD0EA20050E27C /* TravellerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravellerCell.swift; sourceTree = "<group>"; };
 		544622271DA8E74300A9E92B /* ConnectMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConnectMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5446222A1DA8E74300A9E92B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 		54BCE3731DB8B7A3002CBAD1 /* 4. CreateTrip */ = {
 			isa = PBXGroup;
 			children = (
+				5437D28B1DD4EE1200508D7B /* AwaitTravellersTVC.swift */,
 				54BCE3741DB8B7FA002CBAD1 /* TravellersTVC.swift */,
 				5441819F1DBD0EA20050E27C /* TravellerCell.swift */,
 			);
@@ -413,6 +416,7 @@
 			files = (
 				54BCE3711DB8A335002CBAD1 /* CustomSearchController.swift in Sources */,
 				548356B81DBF48E100C9D29D /* TravelVC.swift in Sources */,
+				5437D28C1DD4EE1200508D7B /* AwaitTravellersTVC.swift in Sources */,
 				541321601DD0F46D000A5D5B /* AppConstants.swift in Sources */,
 				5460947E1DC7A2A800E11983 /* ConnectMeRouter.swift in Sources */,
 				546094841DC7B3BC00E11983 /* ServerAPIManager.swift in Sources */,
