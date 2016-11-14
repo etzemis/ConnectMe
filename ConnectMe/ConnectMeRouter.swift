@@ -11,7 +11,8 @@ import Alamofire
 
 enum ConnectMeRouter: URLRequestConvertible {
     static let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    static let baseURLString = "http://192.168.1.91:3000/"
+//    static let baseURLString = "http://192.168.1.91:3000/"
+    static let baseURLString = "http://connectmeserver-92909.onmodulus.net/"
     // posting
     case register([String: Any])
     case login([String: Any])
