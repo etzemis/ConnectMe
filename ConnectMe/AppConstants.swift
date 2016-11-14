@@ -16,8 +16,10 @@ struct AppConstants{
     }
     
     struct HandleUserLogIn{
-        static let UsernameUserDefaults = "username"
-        static let PasswordTokenUserDefaults = "passwordToken"
+        static let UsernameUserDefaults = "emailUser"
+        static let PasswordTokenUserDefaults = "passwordTokenUser"
+        static let nicknameUserDefaults = "nicknameUser"
+        static let imageUrlUserDefaults = "imageUrlUser"
         static let IsUserLoggedInUserDefaults = "IsUserLoggedIn"
     }
     

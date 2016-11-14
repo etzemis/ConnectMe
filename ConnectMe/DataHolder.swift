@@ -29,7 +29,8 @@ class DataHolder{
         }
     }
 //MARK: Update it Accordingly
-    var userLoggedIn = Traveller ()
+    
+    var userLoggedIn = Traveller()
     
 // MARK: Insert Destination Remote
     func insertDestination(destination: Location, extraPersons: Int){
@@ -193,7 +194,7 @@ class DataHolder{
     
 //MARL: Helper Functions
     func urlToDownload(image: String) -> String {
-        return AppConstants.ServerConnectivity.baseUrlString+"public/"+image
+        return AppConstants.ServerConnectivity.baseUrlString+image
     }
     
 }

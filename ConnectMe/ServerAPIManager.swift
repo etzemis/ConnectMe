@@ -113,7 +113,7 @@ class ServerAPIManager {
 //MARK: User Login
     func login(email: String,
                password: String,
-               completionHandler: @escaping (Result<String>) -> Void)
+               completionHandler: @escaping (Result<[String:String]>) -> Void)
     {
         
         let parameters: [String: Any] = [
@@ -132,7 +132,8 @@ class ServerAPIManager {
     
     
     //Parses the response and gets the Token we need for the Basic Authorization
-    private func tokenFromResponse(response: DataResponse<Any>) -> Result<String>
+    //Also Parse name and imageURL
+    private func tokenFromResponse(response: DataResponse<Any>) -> Result<[String: String]>
     {
 
         guard response.result.error == nil else {
@@ -153,7 +154,16 @@ class ServerAPIManager {
             return .failure(ServerAPIManagerError.apiProvidedError(reason: errorMessage))
         }
         
-        return .success(jsonKey["token"] as! String)
+        guard   let token = jsonKey["token"] as? String,
+                let username = jsonKey["username"] as? String,
+                let imageUrl = jsonKey["imageUrl"] as? String else{
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
+        }
+        
+        let res = ["token": token,
+                   "username": username,
+                   "imageUrl": imageUrl]
+        return .success(res)
     }
 
 

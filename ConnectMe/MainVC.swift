@@ -86,6 +86,11 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
             
             setUpLocationManager()
             displayUsers(users: createBotUsers())
+            
+            //Fetch User from User Defaults
+            let defaults  = UserDefaults.standard
+            DataHolder.sharedInstance.userLoggedIn.name = defaults.string(forKey: AppConstants.HandleUserLogIn.nicknameUserDefaults)!
+            DataHolder.sharedInstance.userLoggedIn.imageUrl = defaults.string(forKey: AppConstants.HandleUserLogIn.imageUrlUserDefaults)!
         }
     }
 

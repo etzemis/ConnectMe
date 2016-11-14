@@ -77,7 +77,9 @@ class LoginVC: UIViewController {
                     }
                     return
                 }
-                if let token = result.value {
+                if let res = result.value {
+                    
+                    let token  = res["token"]!
                     print("\n\n\n Token is \(token)")
                     //if Registration is complete then Save Results and dismiss View Controler
                     DispatchQueue.main.async {
@@ -85,15 +87,15 @@ class LoginVC: UIViewController {
                         defaults.set(true, forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
                         defaults.set(email!, forKey: AppConstants.HandleUserLogIn.UsernameUserDefaults)
                         defaults.set(token, forKey: AppConstants.HandleUserLogIn.PasswordTokenUserDefaults)
+                        let nickname = res["username"]!
+                        defaults.set(nickname, forKey: AppConstants.HandleUserLogIn.nicknameUserDefaults)
+                        let imageUrl = DataHolder.sharedInstance.urlToDownload(image: res["imageUrl"]!)
+                        defaults.set(imageUrl, forKey: AppConstants.HandleUserLogIn.imageUrlUserDefaults)
                         defaults.synchronize()
                         
                         //Set Flag to allow Connectivity
                         DataHolder.sharedInstance.startAllConnections()
-                        
-                        //Save the userName and User Image int the Data Holder
-                        DataHolder.sharedInstance.userLoggedIn.name = "Vaggelis"
-                        DataHolder.sharedInstance.userLoggedIn.imageUrl = "http://192.168.1.91:3000/photo2.jpg"
-                        
+
                         self.dismiss(animated: true, completion: nil)
                     }
                 }
