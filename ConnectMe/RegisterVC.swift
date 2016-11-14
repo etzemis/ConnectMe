@@ -18,6 +18,8 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     @IBOutlet weak var userProfileImage: UIImageView!
     @IBOutlet weak var addPhotoButton: UIButton!
     
+    private var hasSelectedImage = false
+    
 
     
     //MARK: View Controller Lifecicle
@@ -55,7 +57,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         let email = self.userEmail.text
         let password = self.userPassword.text
         let address = self.userAddress.text
-        let profileImage: UIImage? = nil
+        let profileImage:UIImage? = !hasSelectedImage ? nil : userProfileImage.image!
         
         //Check for Empty Fields
         if (name!.isEmpty || email!.isEmpty || password!.isEmpty || address!.isEmpty){
@@ -169,6 +171,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage //2
         userProfileImage.contentMode = .scaleAspectFill //3
         userProfileImage.image = chosenImage //4
+        hasSelectedImage = true
         dismiss(animated:true, completion: nil) //5
         
         addPhotoButton.titleLabel?.text = "Edit Photo"
@@ -215,6 +218,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     }
 
 }
+
 
 
 

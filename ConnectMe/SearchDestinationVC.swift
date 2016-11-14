@@ -271,6 +271,10 @@ extension SearchDestinationVC{
         return addressLine
     }
     func parseRegion(selectedItem:MKPlacemark) -> String {
+        
+        if selectedItem.locality == selectedItem.administrativeArea{
+            return selectedItem.locality!
+        }
         // put a space between "Washington" and "DC"
         let region = String(
             format:"%@%@%@",
