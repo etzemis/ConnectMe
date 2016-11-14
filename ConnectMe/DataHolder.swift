@@ -69,11 +69,12 @@ class DataHolder{
 // MARK: Fetch Travellers Remote
     
     func startFetchingTravellersAroundMe(){
-        self.fetchTravellersAroundMeTimer = Timer.scheduledTimer(timeInterval: AppConstants.ServerConnectivity.fetchUsersAroundMeFrequency,
-                                                                 target: self,
-                                                                 selector: #selector(fetchTravellersAroundMe),
-                                                                 userInfo: nil,
-                                                                 repeats: true)
+            self.fetchTravellersAroundMeTimer = Timer.scheduledTimer(timeInterval: AppConstants.ServerConnectivity.fetchUsersAroundMeFrequency,
+                                                                     target: self,
+                                                                     selector: #selector(fetchTravellersAroundMe),
+                                                                     userInfo: nil,
+                                                                     repeats: true)
+
     }
     
     func stopFetchingTravellersAroundMe(){
@@ -188,6 +189,11 @@ class DataHolder{
     func startAllConnections(){
         self.isAllowedToConnect = true
         stopFetchingTravellersAroundMe() // stop the timer
+    }
+    
+//MARL: Helper Functions
+    func urlToDownload(image: String) -> String {
+        return AppConstants.ServerConnectivity.baseUrlString+"public/"+image
     }
     
 }

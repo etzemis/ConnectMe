@@ -38,47 +38,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/ServerAPIManager.swift"
-            timestampString = "500825543.063874"
+            timestampString = "500830489.410706"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "register(username:email:password:profileImage:address:completionHandler:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "ConnectMe.ServerAPIManager.register (username : Swift.String, email : Swift.String, password : Swift.String, profileImage : Swift.Optional&lt;__ObjC.UIImage&gt;, address : Swift.String, completionHandler : (Alamofire.Result&lt;Swift.Bool&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "ConnectMe"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Etzemis/Documents/WORKSPACES/XCODE%20Projects/Connect%20Me/ConnectMe/ConnectMe/ServerAPIManager.swift"
-                  timestampString = "500829771.594201"
+                  timestampString = "500832044.206877"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
-                  offsetFromSymbolStart = "112">
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "216">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "ConnectMe.ServerAPIManager.register (username : Swift.String, email : Swift.String, password : Swift.String, profileImage : Swift.Optional&lt;__ObjC.UIImage&gt;, address : Swift.String, completionHandler : (Alamofire.Result&lt;Swift.Bool&gt;) -&gt; ()) -&gt; ()"
                   moduleName = "ConnectMe"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Etzemis/Documents/WORKSPACES/XCODE%20Projects/Connect%20Me/ConnectMe/ConnectMe/ServerAPIManager.swift"
-                  timestampString = "500829771.595405"
+                  timestampString = "500832044.208089"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
-                  offsetFromSymbolStart = "204">
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "252">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -102,15 +102,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/ServerAPIManager.swift"
-            timestampString = "500829621.307578"
+            timestampString = "500831704.401671"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "75"
-            endingLineNumber = "75"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "register(username:email:password:profileImage:address:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ConnectMe/ServerAPIManager.swift"
+            timestampString = "500831865.781443"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "register(username:email:password:profileImage:address:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ConnectMe/ServerAPIManager.swift"
+            timestampString = "500831866.54126"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "register(username:email:password:profileImage:address:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -60,11 +60,16 @@ class ServerAPIManager {
                   completionHandler: @escaping (Result<Bool>) -> Void)
     {
         
+        var imageAsData = ""
         //Compress the image
         if let image = profileImage {
             if let imageData = image.jpegData(.lowest) {
-                let encodedImageData = imageData.base64EncodedString()
-                print(encodedImageData)
+                imageAsData = imageData.base64EncodedString()
+                let test = NSData(base64Encoded: imageAsData, options: .ignoreUnknownCharacters)
+                if let _ = test?.isEqual(to: imageData) {
+                    print ("\n\n\n\ntrue\n\n\n")
+                }
+                print(imageAsData)
                 print(imageData.count)
                 
             }
@@ -77,7 +82,7 @@ class ServerAPIManager {
             "email": email,
             "password": password,
             "address": address,
-            "profile_photo": "myimage"
+            "profilePhoto": imageAsData
         ]
         
         let request = Alamofire.request(ConnectMeRouter.register(parameters))

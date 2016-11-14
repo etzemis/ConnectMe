@@ -22,6 +22,7 @@ struct AppConstants{
     }
     
     struct ServerConnectivity{
+        static let baseUrlString = "http://192.168.1.113:3000/"
         static let fetchUsersAroundMeFrequency = 10.0  // Time Interval for Calling the Server FetchUsersAroundMe Function
         static let serialqueue = "ConnectMeServerSerialQueue"
     }

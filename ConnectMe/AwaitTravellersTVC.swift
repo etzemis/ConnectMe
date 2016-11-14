@@ -57,14 +57,15 @@ class AwaitTravellersTVC: UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
-            self.navigationItem.title = "Remaining time: \(self.countDowntime) s"
-            if( self.countDowntime == 0) {
-                self.timer.invalidate()
-            }
-            self.countDowntime -= 1
-            
-        })
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateTimer(){
+        self.navigationItem.title = "Remaining time: \(self.countDowntime) s"
+        if( self.countDowntime == 0) {
+            self.timer.invalidate()
+        }
+        self.countDowntime -= 1
     }
 
 
