@@ -14,7 +14,15 @@ class Traveller: NSObject {
     var destination: Location
     var extraPersons: Int
     var currentCoord: CLLocationCoordinate2D
-    var imageUrl: String
+    private var _imageUrl: String = "default"
+    var imageUrl: String {
+        set{
+            _imageUrl = newValue
+        }
+        get{
+            return DataHolder.sharedInstance.urlToDownload(image: _imageUrl)
+        }
+    }
     
     
     override init(){
@@ -22,13 +30,12 @@ class Traveller: NSObject {
         self.destination = Location(address: nil, region: nil, coord: CLLocationCoordinate2D())
         self.extraPersons = 0
         self.currentCoord = CLLocationCoordinate2D()
-        self.imageUrl = ""
     }
-    init(name: String, destination: Location, extraPersons: Int = 0, currentCoord: CLLocationCoordinate2D, imageUrl: String = ""){
+    init(name: String, destination: Location, extraPersons: Int = 0, currentCoord: CLLocationCoordinate2D, imageUrl: String = "default"){
         self.name = name
         self.destination = destination
         self.extraPersons = extraPersons
         self.currentCoord = currentCoord
-        self.imageUrl = imageUrl
+        self._imageUrl = imageUrl
     }
 }

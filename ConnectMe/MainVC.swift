@@ -186,7 +186,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 //                    }
 //                }
                 
-                let urlString = DataHolder.sharedInstance.urlToDownload(image: annotation.imageUrl)
+                let urlString = annotation.imageUrl
                 let url = URL(string: urlString)
                 thumbnailImageView.pin_setImage(from: url, placeholderImage: #imageLiteral(resourceName: "empty_profile")) { _ in return}
 //                } else {

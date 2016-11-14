@@ -53,7 +53,7 @@ class TravellerCell: UITableViewCell {
     }
     
     private func setCircularImage(){
-        let urlString = DataHolder.sharedInstance.urlToDownload(image:traveller!.imageUrl)
+        let urlString = traveller!.imageUrl
         let url = URL(string: urlString)
         self.profileImage.pin_setImage(from: url, placeholderImage:#imageLiteral(resourceName: "empty_profile")) {
             result in
