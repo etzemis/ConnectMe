@@ -60,7 +60,7 @@ class ServerAPIManager {
                   completionHandler: @escaping (Result<Bool>) -> Void)
     {
         
-        var imageAsData = ""
+        var imageAsData = "default"
         //Compress the image
         if let image = profileImage {
             if let imageData = image.jpegData(.lowest) {

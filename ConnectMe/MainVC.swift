@@ -186,12 +186,20 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 //                    }
 //                }
                 
-                if let urlString = annotation.imageUrl,
-                   let url = URL(string: urlString) {
-                    thumbnailImageView.pin_setImage(from: url, placeholderImage: #imageLiteral(resourceName: "empty_profile")) { _ in return}
-                } else {
-                    thumbnailImageView.image = #imageLiteral(resourceName: "empty_profile")
-                }
+                let urlString = DataHolder.sharedInstance.urlToDownload(image: annotation.imageUrl)
+                let url = URL(string: urlString)
+                thumbnailImageView.pin_setImage(from: url, placeholderImage: #imageLiteral(resourceName: "empty_profile")) { _ in return}
+//                } else {
+//                    thumbnailImageView.image = #imageLiteral(resourceName: "empty_profile")
+//                }
+
+                
+//                if let urlString = annotation.imageUrl,
+//                   let url = URL(string: urlString) {
+//                    thumbnailImageView.pin_setImage(from: url, placeholderImage: #imageLiteral(resourceName: "empty_profile")) { _ in return}
+//                } else {
+//                    thumbnailImageView.image = #imageLiteral(resourceName: "empty_profile")
+//                }
             }
         }
     }

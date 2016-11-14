@@ -14,7 +14,7 @@ class Traveller: NSObject {
     var destination: Location
     var extraPersons: Int
     var currentCoord: CLLocationCoordinate2D
-    var imageUrl: String?
+    var imageUrl: String
     
     
     override init(){

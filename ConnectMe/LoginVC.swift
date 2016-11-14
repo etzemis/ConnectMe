@@ -89,7 +89,7 @@ class LoginVC: UIViewController {
                         defaults.set(token, forKey: AppConstants.HandleUserLogIn.PasswordTokenUserDefaults)
                         let nickname = res["username"]!
                         defaults.set(nickname, forKey: AppConstants.HandleUserLogIn.nicknameUserDefaults)
-                        let imageUrl = DataHolder.sharedInstance.urlToDownload(image: res["imageUrl"]!)
+                        let imageUrl = res["imageUrl"]!
                         defaults.set(imageUrl, forKey: AppConstants.HandleUserLogIn.imageUrlUserDefaults)
                         defaults.synchronize()
                         
