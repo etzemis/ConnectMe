@@ -133,6 +133,7 @@ class DataHolder{
                     // If it is the first time The update Locatino is Called
                     // Then Fire the Timer for Fetching the users around us
                     if (!self.fetchTravellersAroundMeTimer.isValid){
+                        self.fetchTravellersAroundMe() // Cal it instantly and then it will start every 10s
                         self.startFetchingTravellersAroundMe()
                     }
                 }

@@ -22,6 +22,7 @@ enum ConnectMeRouter: URLRequestConvertible {
     case fetchTravellersAroundMe()
     case activate()
     case deactivate()
+    case fetchTravellersAroundMeTrip()
 
     
     func asURLRequest() throws -> URLRequest { // TODO: implement
@@ -41,6 +42,8 @@ enum ConnectMeRouter: URLRequestConvertible {
                 return .get
             case .deactivate:
                 return .get
+            case .fetchTravellersAroundMeTrip:
+                return .get
             }
         }
         
@@ -59,6 +62,8 @@ enum ConnectMeRouter: URLRequestConvertible {
             case .activate:
                 return nil
             case .deactivate:
+                return nil
+            case .fetchTravellersAroundMeTrip:
                 return nil
             }
         }()
@@ -82,6 +87,8 @@ enum ConnectMeRouter: URLRequestConvertible {
                 relativePath = "user/activate"
             case .deactivate:
                 relativePath = "user/deactivate"
+            case .fetchTravellersAroundMeTrip:
+                relativePath = "trip/travellers"
 
             }
             

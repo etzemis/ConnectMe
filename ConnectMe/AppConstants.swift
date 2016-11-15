@@ -13,6 +13,8 @@ struct AppConstants{
         static let TravellersAroundMeUpdated = "TravellersAroundMeUpdatedNotification"
         static let DestinationUpdatedSuccessfuly = "DestinationUpdatedSuccessfulyNotification"
         static let DestinationFailedToUpdate = "DestinationFailedToUpdateNotification"
+        //Trip
+        static let TravellersAroundMeTripUpdated = "TravellersAroundMeTripUpdatedNotification"
     }
     
     struct HandleUserLogIn{

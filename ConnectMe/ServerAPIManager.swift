@@ -8,9 +8,11 @@
 
 import Foundation
 import Alamofire
-// Class Responsible for the API Interactions
+
 class ServerAPIManager {
     static let sharedInstance = ServerAPIManager()
+    
+    
     
     
 //MARK: Check Authorization
@@ -220,7 +222,7 @@ class ServerAPIManager {
     
     
     //*************************************************************
-    //MARK: Activate
+    //MARK: Deactivate
     //*************************************************************
     
     func deactivate(completionHandler: @escaping (Result<Bool>) -> Void)
@@ -291,9 +293,11 @@ class ServerAPIManager {
                         
     
     
-    
-    
-//MARK: Fetch Travellers Around Me
+    //*************************************************************
+    //MARK: Fetch Travellers Around Me
+    //*************************************************************
+
+
     func fetchTravellersAroundMe(completionHandler: @escaping (Result<[Traveller]>) -> Void)
     {
        let request = Alamofire.request(ConnectMeRouter.fetchTravellersAroundMe())
@@ -374,6 +378,81 @@ class ServerAPIManager {
         print("\n\n\n\n  Insert Destination request \n\n\n\n")
         debugPrint(request)
     }
+    
+    
+    
+    
+    
+    //*************************************************************
+    //MARK: Trip
+    //*************************************************************
+    
+    
+    
+    //*************************************************************
+    //MARK: Fetch Travellers Around Me TRIP
+    //*************************************************************
+    
+    
+    func fetchTravellersAroundMeTrip(completionHandler: @escaping (Result<[Traveller]>) -> Void)
+    {
+        let request = Alamofire.request(ConnectMeRouter.fetchTravellersAroundMeTrip())
+            .responseJSON { response in
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in FetchTravellersAroundMe \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                print(response)
+                let result = self.tripTravellerArrayFromResponse(response:response)
+                completionHandler(result)
+        }
+        
+        print("\n\n\n\n  FetchTravellersAroundMe request \n\n\n\n")
+        debugPrint(request)
+    }
+    
+    // Parse Responce
+    private func tripTravellerArrayFromResponse(response: DataResponse<Any>) -> Result<[Traveller]>
+    {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(ServerAPIManagerError.network(error: response.result.error!))
+        }
+        
+        // check for "message" errors in the JSON because this API does that
+        if  let jsonDictionary = response.result.value as? [String: Any],
+            let errorMessage = jsonDictionary["message"] as? String
+        {
+            return .failure(ServerAPIManagerError.apiProvidedError(reason: errorMessage))
+        }
+        
+        // make sure we got JSON Array
+        guard let jsonArray = response.result.value as? [String:Any] else {
+            print("Didn't get array of Travellers as JSON from API")
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
+        }
+        
+        guard let highproxJson = jsonArray["0"] as? [[String: Any]],
+            let medproxJson = jsonArray["1"] as? [[String: Any]],
+            let lowproxJson = jsonArray["2"] as? [[String: Any]] else {
+                return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
+        }
+        
+        var travellers = [Traveller]()
+
+        let highProxTravellers = highproxJson.flatMap{ Traveller(json: $0, proximity: 0) }
+        let medProxTravellers = medproxJson.flatMap{ Traveller(json: $0, proximity: 1) }
+        let lowProxTravellers = lowproxJson.flatMap{ Traveller(json: $0, proximity:2) }
+        
+        travellers = highProxTravellers+medProxTravellers+lowProxTravellers
+        
+        return .success(travellers)
+    }
+
+
     
 }
 

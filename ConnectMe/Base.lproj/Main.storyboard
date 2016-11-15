@@ -225,16 +225,16 @@
         <scene sceneID="McL-No-vQv">
             <objects>
                 <tableViewController id="xPL-I9-eAc" customClass="TravellersTVC" customModule="ConnectMe" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="xzX-2N-eYf">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="80" sectionHeaderHeight="18" sectionFooterHeight="18" id="xzX-2N-eYf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="Traveller Cell" id="UWF-Tn-2AN" customClass="TravellerCell" customModule="ConnectMe" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="80"/>
+                                <rect key="frame" x="0.0" y="56" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UWF-Tn-2AN" id="CoF-oV-ALZ">
-                                    <rect key="frame" x="0.0" y="0.0" width="281" height="80"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="281" height="79.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ndr-sI-h10">

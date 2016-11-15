@@ -11,9 +11,40 @@ import CoreLocation
 
 class TravellersTVC: UITableViewController {
     
-    // add users when you create a trip
+    //*************************************************************
+    //MARK: Variables for storing Travellers
+    //*************************************************************
+
     private var selectedTravellers: [Traveller] = []
     private var suggestedTravellers: [Traveller] = []
+    {
+        didSet{
+            calculateTravellersByProximity()
+            tableView.reloadData()
+        }
+    }
+    
+    private var highProximityTravellers: [Traveller] = []
+    private var mediumProximityTravellers: [Traveller] = []
+    private var lowProximityTravellers: [Traveller] = []
+
+    private func calculateTravellersByProximity(){
+        highProximityTravellers.removeAll()
+        mediumProximityTravellers.removeAll()
+        lowProximityTravellers.removeAll()
+        
+        for t in suggestedTravellers{
+            switch t.proximity{
+            case 0:
+                highProximityTravellers.append(t)
+            case 1:
+                mediumProximityTravellers.append(t)
+            default:
+                lowProximityTravellers.append(t)
+            }
+            
+        }
+    }
     
     struct Constants {
         static let CellIdentifier = "Traveller Cell"
@@ -38,8 +69,6 @@ class TravellersTVC: UITableViewController {
         //SetUp TableView Appearence
         tableView.allowsMultipleSelection = false
         
-        //Create Bot Users
-        suggestedTravellers = createBotUsers()
         
         //add Refresh Control for pull to refresh
         if (self.refreshControl == nil) {
@@ -47,11 +76,21 @@ class TravellersTVC: UITableViewController {
             self.refreshControl?.addTarget(self,
                                            action: #selector(refresh(sender:)),
                                            for: .valueChanged) }
+        
+        //fetch Users
+        self.refresh(sender: self)
 
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
+        
+
     }
+    
+    deinit {
+    }
+    
+
  
     
     //*************************************************************
@@ -64,14 +103,25 @@ class TravellersTVC: UITableViewController {
         //Clear Suggested Array
         selectedTravellers.removeAll()
         //Calculate Travellers from Cells
-        for i in stride(from: 0, to: tableView.numberOfRows(inSection: 0), by: 1)
+        for i in stride(from: 0, to: tableView.numberOfSections, by: 1)
         {
-            let cell = tableView.cellForRow(at: IndexPath.init(row: i, section: 0))
-            
-            if cell!.accessoryType == .checkmark
+            for j in stride(from: 0, to: tableView.numberOfRows(inSection: i), by: 1)
             {
-                let user = suggestedTravellers[i]
-                selectedTravellers.append(user)
+                let cell = tableView.cellForRow(at: IndexPath.init(row: j, section: i))
+            
+                if cell!.accessoryType == .checkmark
+                {
+                    var user: Traveller
+                    switch i{
+                    case 0:
+                        user = highProximityTravellers[j]
+                    case 1:
+                        user = mediumProximityTravellers[j]
+                    default:
+                        user = lowProximityTravellers[j]
+                    }
+                    selectedTravellers.append(user)
+                }
             }
         }
         if(!selectedTravellers.isEmpty)
@@ -83,6 +133,13 @@ class TravellersTVC: UITableViewController {
       
     }
     
+    
+    
+    
+    //*************************************************************
+    //MARK: Trip Invitation - Creation Alerts
+    //*************************************************************
+
     func showCreatedTripAlert(travellers: [Traveller]){
         
         //create message
@@ -112,6 +169,7 @@ class TravellersTVC: UITableViewController {
         self.present(confirmationAlert, animated: true, completion: nil)
         
     }
+    
     
     
     func showInvitedTripAlert(travellers: [Traveller]){
@@ -163,33 +221,81 @@ class TravellersTVC: UITableViewController {
 
     
     @objc func refresh(sender: Any) {
-//        ServerAPIManager.sharedInstance.clearCache()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
-            if self.refreshControl != nil,
-                self.refreshControl!.isRefreshing
+
+        ServerAPIManager.sharedInstance.fetchTravellersAroundMeTrip
+        {
+            result in
+            guard result.error == nil else {
+                self.handleFetchTravellersTravellersAroundMeTripError(result.error!)
+                return
+            }
+            if let fetchedTravellers = result.value
             {
-                self.refreshControl?.endRefreshing()
+                DispatchQueue.main.async
+                {      //Avoid Race Conditions
+                    
+                    if self.refreshControl != nil,
+                        self.refreshControl!.isRefreshing
+                    {
+                        self.refreshControl?.endRefreshing()
+                    }
+                    self.suggestedTravellers = fetchedTravellers
+                }
             }
         }
-
-
-        
     }
    
+    private func handleFetchTravellersTravellersAroundMeTripError(_ error: Error) {
+        switch error{
+        case ServerAPIManagerError.authLost:
+            DataHolder.sharedInstance.handleLostAuthorisation()
+        case ServerAPIManagerError.network:
+            break
+        case ServerAPIManagerError.objectSerialization:
+            break
+        case ServerAPIManagerError.apiProvidedError:
+            break
+        default:
+            debugPrint("handleFetchTravellersTravellersAroundMeError -->  UNKNOWN Error")
+        }
+        
+        debugPrint("handleLoadTravellersError: LoadTravellers Error")
+    }
+    
+    
     
     //*************************************************************
     //MARK: Table View Delegate
     //*************************************************************
 
-    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return suggestedTravellers.count
+        switch section {
+        case 0:
+            return highProximityTravellers.count
+        case 1:
+            return mediumProximityTravellers.count
+        default:
+            return lowProximityTravellers.count
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier, for: indexPath) as! TravellerCell
-        let user = suggestedTravellers[indexPath.row]
+        
+        var user: Traveller
+        switch indexPath.section {
+        case 0:
+            user = highProximityTravellers[indexPath.row]
+        case 1:
+            user = mediumProximityTravellers[indexPath.row]
+        default:
+            user = lowProximityTravellers[indexPath.row]
+        }
+        
         cell.traveller = user
         return cell
     }
@@ -205,7 +311,17 @@ class TravellersTVC: UITableViewController {
             {
                 cell.accessoryType = .checkmark
             }
-            
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "High Proximity"
+        case 1:
+            return "Medium Proximity"
+        default:
+            return "Low Proximity"
         }
     }
 
@@ -234,36 +350,6 @@ class TravellersTVC: UITableViewController {
 
 
     
-    //*************************************************************
-    //MARK: Bot Users
-    //*************************************************************
-
-
-    func createBotUsers() -> [Traveller]
-    {
-        var users = [Traveller]()
-        
-        var user = Traveller(email: "",name: "Vaggelis",
-                        destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
-                        currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877),
-                        imageUrl: "photo2.jpg" )
-        users.append(user)
-        
-        user = Traveller(email: "",name: "Petros",
-                    destination: Location(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
-                    currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367),
-                    imageUrl: "photo1.jpg")
-        users.append(user)
-        
-        user = Traveller(email: "",name: "Hercules",
-                    destination: Location(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
-                    currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
-        users.append(user)
-        
-
-    
-        return users
-    }
 
 
 }

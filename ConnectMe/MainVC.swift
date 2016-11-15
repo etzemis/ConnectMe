@@ -96,7 +96,6 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                 
                 DispatchQueue.main.async {
                     self.setUpLocationManager()
-                    self.displayUsers(users: self.createBotUsers())
                 }
                 
             })
@@ -204,17 +203,17 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         performSegue(withIdentifier: Constants.ShowUserSegue, sender: view)
     }
     
-// MARK: Bot Users
-    func createBotUsers() -> [Traveller]{
-        var users = [Traveller]()
-        
-        let user = Traveller(email: "", name: "Vaggelis",
-                        destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
-                        currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
-        users.append(user)
-        return users
-    }
-    
+//// Bot Users
+//    func createBotUsers() -> [Traveller]{
+//        var users = [Traveller]()
+//        
+//        let user = Traveller(email: "", name: "Vaggelis",
+//                        destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
+//                        currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
+//        users.append(user)
+//        return users
+//    }
+//    
     
     
     

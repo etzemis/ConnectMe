@@ -203,6 +203,12 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
                     //SET Users Destination
                     //Call load Suggestions
                     //Set the back button to have no title
+                    
+                    //Stop Fetching Users
+                    
+                    DataHolder.sharedInstance.stopFetchingTravellersAroundMe() //!!!!!!!!
+                    
+                    
                     self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
                 }
             }

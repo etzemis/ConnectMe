@@ -15,6 +15,7 @@ class Traveller: NSObject {
     var destination: Location
     var extraPersons: Int
     var currentCoord: CLLocationCoordinate2D
+    var proximity: Int
     private var _imageUrl: String = "default"
     var imageUrl: String {
         set{
@@ -31,12 +32,14 @@ class Traveller: NSObject {
         self.name = ""
         self.destination = Location(address: nil, region: nil, coord: CLLocationCoordinate2D())
         self.extraPersons = 0
+        self.proximity = 1
         self.currentCoord = CLLocationCoordinate2D()
     }
-    init(email: String, name: String, destination: Location, extraPersons: Int = 0, currentCoord: CLLocationCoordinate2D, imageUrl: String = "default"){
+    init(email: String, name: String, destination: Location, proximity: Int, extraPersons: Int = 0, currentCoord: CLLocationCoordinate2D, imageUrl: String = "default"){
         self.email = email
         self.name = name
         self.destination = destination
+        self.proximity = proximity
         self.extraPersons = extraPersons
         self.currentCoord = currentCoord
         self._imageUrl = imageUrl

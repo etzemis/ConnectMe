@@ -49,7 +49,15 @@ class TravellerCell: UITableViewCell {
     }
     
     private func setProximityImage(){
-        self.proximityImageView.image =  #imageLiteral(resourceName: "travellerPinHighProximity")
+        switch traveller!.proximity{
+        case 0:
+            self.proximityImageView.image =  #imageLiteral(resourceName: "travellerPinHighProximity")
+        case 1:
+            self.proximityImageView.image =  #imageLiteral(resourceName: "travellerPinMediumProximity")
+        default:
+            self.proximityImageView.image =  #imageLiteral(resourceName: "travellerPinLowProximity")
+        }
+        
     }
     
     private func setCircularImage(){
