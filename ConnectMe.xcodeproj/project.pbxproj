@@ -25,7 +25,6 @@
 		544622331DA8E74300A9E92B /* ConnectMe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 544622311DA8E74300A9E92B /* ConnectMe.xcdatamodeld */; };
 		544622351DA8E74300A9E92B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 544622341DA8E74300A9E92B /* Assets.xcassets */; };
 		544622381DA8E74300A9E92B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 544622361DA8E74300A9E92B /* LaunchScreen.storyboard */; };
-		544622431DAA4A8600A9E92B /* botUsers in Resources */ = {isa = PBXBuildFile; fileRef = 544622421DAA4A8600A9E92B /* botUsers */; };
 		544622471DAC0DFF00A9E92B /* Traveller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 544622461DAC0DFF00A9E92B /* Traveller.swift */; };
 		5460947E1DC7A2A800E11983 /* ConnectMeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460947D1DC7A2A800E11983 /* ConnectMeRouter.swift */; };
 		546094821DC7AC2500E11983 /* Location+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546094811DC7AC2500E11983 /* Location+Networking.swift */; };
@@ -64,7 +63,6 @@
 		544622341DA8E74300A9E92B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		544622371DA8E74300A9E92B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		544622391DA8E74300A9E92B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		544622421DAA4A8600A9E92B /* botUsers */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = botUsers; sourceTree = "<group>"; };
 		544622461DAC0DFF00A9E92B /* Traveller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Traveller.swift; sourceTree = "<group>"; };
 		5460947D1DC7A2A800E11983 /* ConnectMeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectMeRouter.swift; sourceTree = "<group>"; };
 		546094811DC7AC2500E11983 /* Location+Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+Networking.swift"; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 				544622461DAC0DFF00A9E92B /* Traveller.swift */,
 				54235FD41DAE657F002AD465 /* Location.swift */,
 				54235FD21DAE635B002AD465 /* Traveller+MKAnnotation.swift */,
-				544622421DAA4A8600A9E92B /* botUsers */,
 			);
 			name = Traveller;
 			sourceTree = "<group>";
@@ -355,7 +352,6 @@
 				544622381DA8E74300A9E92B /* LaunchScreen.storyboard in Resources */,
 				544622351DA8E74300A9E92B /* Assets.xcassets in Resources */,
 				544622301DA8E74300A9E92B /* Main.storyboard in Resources */,
-				544622431DAA4A8600A9E92B /* botUsers in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

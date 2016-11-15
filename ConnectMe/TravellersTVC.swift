@@ -20,12 +20,20 @@ class TravellersTVC: UITableViewController {
         static let AwaitConfirmationSegue = "Wait for Traveller Confirmation"
     }
 
+    
+    //*************************************************************
+    //MARK: Application Lifecycle
+    //*************************************************************
+
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //SetUp Navigation Bar
         self.navigationItem.title = "Travellers"
         self.navigationItem.setRightBarButton(UIBarButtonItem(title: "Send", style: .plain, target: self, action: #selector(sendInvitation(_:))), animated: true)
+        self.navigationItem.setHidesBackButton(true, animated:true);
+
         
         //SetUp TableView Appearence
         tableView.allowsMultipleSelection = false
@@ -44,26 +52,34 @@ class TravellersTVC: UITableViewController {
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
     }
+ 
     
-//MARK: SendInvitation
+    //*************************************************************
+    //MARK: Create Ivitation
+    //*************************************************************
+
+   
     @objc func sendInvitation(_ sender: AnyObject){
         
         //Clear Suggested Array
         selectedTravellers.removeAll()
         //Calculate Travellers from Cells
-        for i in stride(from: 0, to: tableView.numberOfRows(inSection: 0), by: 1) {
+        for i in stride(from: 0, to: tableView.numberOfRows(inSection: 0), by: 1)
+        {
             let cell = tableView.cellForRow(at: IndexPath.init(row: i, section: 0))
-            if cell!.accessoryType == .checkmark {
+            
+            if cell!.accessoryType == .checkmark
+            {
                 let user = suggestedTravellers[i]
                 selectedTravellers.append(user)
             }
         }
-        //present ConfirmationAlert
-        showCreatedTripAlert(travellers: selectedTravellers)
-//         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
-//            self.showTripConfirmationAlert(travellers: self.selectedTravellers)
-//        }
-    
+        if(!selectedTravellers.isEmpty)
+        {
+
+            showCreatedTripAlert(travellers: selectedTravellers)
+        }
+
       
     }
     
@@ -72,7 +88,8 @@ class TravellersTVC: UITableViewController {
         //create message
         var i = 1
         var message = "The following users will be invited:"
-        for traveller in travellers{
+        for traveller in travellers
+        {
             message.append("\n\n")
             message.append("\(i). \(traveller.name.capitalized) \t -->  \(traveller.destination.region!) \t~100")
             i += 1
@@ -82,7 +99,8 @@ class TravellersTVC: UITableViewController {
         let confirmationAlert = UIAlertController(title: "Trip Confirmation",
                                                   message: message,
                                                   preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Confirm", style: .default){
+        let confirmAction = UIAlertAction(title: "Confirm", style: .default)
+        {
             _ in
             self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
         }
@@ -103,12 +121,15 @@ class TravellersTVC: UITableViewController {
         var message = "You have been invited to join a Trip:"
         for traveller in travellers{
             message.append("\n\n")
-            if i==1 {
+            if i==1
+            {
                 message.append("Creator:\n\n")
                 message.append("\(i). \(traveller.name.capitalized) \t -->  \(traveller.destination.region!) \t~100")
             }
-            else{
-                if i==2{
+            else
+            {
+                if i==2
+                {
                     message.append("Co-Travellers:\n\n")
                 }
                 message.append("\(i). \(traveller.name.capitalized) \t -->  \(traveller.destination.region!) \t~100")
@@ -120,7 +141,8 @@ class TravellersTVC: UITableViewController {
         let confirmationAlert = UIAlertController(title: "Trip Invitation",
                                                   message: message,
                                                   preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "Accept", style: .default){
+        let confirmAction = UIAlertAction(title: "Accept", style: .default)
+        {
             _ in
             self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
         }
@@ -134,7 +156,12 @@ class TravellersTVC: UITableViewController {
     }
     
 
-// MARK: - Pull to Refresh
+    
+    //*************************************************************
+    //MARK: Pull to Refresh
+    //*************************************************************
+
+    
     @objc func refresh(sender: Any) {
 //        ServerAPIManager.sharedInstance.clearCache()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0) {
@@ -148,13 +175,19 @@ class TravellersTVC: UITableViewController {
 
         
     }
+   
     
-// MARK: - Table view data source
+    //*************************************************************
+    //MARK: Table View Delegate
+    //*************************************************************
+
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return suggestedTravellers.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier, for: indexPath) as! TravellerCell
         let user = suggestedTravellers[indexPath.row]
         cell.traveller = user
@@ -162,22 +195,33 @@ class TravellersTVC: UITableViewController {
     }
     
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
         if let cell = tableView.cellForRow(at: indexPath){
-            if cell.accessoryType == .checkmark {
+            if cell.accessoryType == .checkmark
+            {
                 cell.accessoryType = .none
-            } else {
+            } else
+            {
                 cell.accessoryType = .checkmark
             }
             
         }
     }
+
     
-//MARK: Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constants.AwaitConfirmationSegue{
-        
-                if let awaitTravTVC = segue.destination as? AwaitTravellersTVC {
+    //*************************************************************
+    //MARK: Navigation
+    //*************************************************************
+
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if segue.identifier == Constants.AwaitConfirmationSegue
+        {
+                if let awaitTravTVC = segue.destination as? AwaitTravellersTVC
+                {
                     //set the mode and the travellers
                     awaitTravTVC.tripMode = .Created
                     awaitTravTVC.travellers = selectedTravellers
@@ -189,23 +233,29 @@ class TravellersTVC: UITableViewController {
     }
 
 
+    
+    //*************************************************************
+    //MARK: Bot Users
+    //*************************************************************
 
-    func createBotUsers() -> [Traveller]{
+
+    func createBotUsers() -> [Traveller]
+    {
         var users = [Traveller]()
         
-        var user = Traveller(name: "Vaggelis",
+        var user = Traveller(email: "",name: "Vaggelis",
                         destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
                         currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877),
                         imageUrl: "photo2.jpg" )
         users.append(user)
         
-        user = Traveller(name: "Petros",
+        user = Traveller(email: "",name: "Petros",
                     destination: Location(address: "Ermou 83-85", region: "Athens", coord: CLLocationCoordinate2D(latitude: 37.976648, longitude: 23.726223)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.984470, longitude: 23.680367),
                     imageUrl: "photo1.jpg")
         users.append(user)
         
-        user = Traveller(name: "Hercules",
+        user = Traveller(email: "",name: "Hercules",
                     destination: Location(address: "Andromachis 237", region: "Pireas", coord: CLLocationCoordinate2D(latitude: 37.941077, longitude: 23.670781)),
                     currentCoord: CLLocationCoordinate2D(latitude: 37.985240, longitude: 23.680818))
         users.append(user)

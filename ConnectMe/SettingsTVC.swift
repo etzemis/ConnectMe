@@ -14,10 +14,24 @@ class SettingsTVC: UITableViewController {
         
         let alert = UIAlertController(title: "User Logout", message: "Are you sure you want to logout?", preferredStyle: .actionSheet)
         let okAction = UIAlertAction(title: "Logout", style: .destructive){ action in
-            UserDefaults.standard.set(false, forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
-            DataHolder.sharedInstance.stopAllConnections()
-            UserDefaults.standard.synchronize()
-            self.dismiss(animated: true, completion: nil)
+            
+            ServerAPIManager.sharedInstance.deactivate(completionHandler: { (result) in
+                guard result.error == nil else
+                {
+                    print(result.error!)
+                    DataHolder.sharedInstance.handleLostAuthorisation()
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    UserDefaults.standard.set(false, forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
+                    DataHolder.sharedInstance.stopAllConnections()
+                    UserDefaults.standard.synchronize()
+                    self.dismiss(animated: true, completion: nil)
+
+                }
+                
+            })
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(okAction)

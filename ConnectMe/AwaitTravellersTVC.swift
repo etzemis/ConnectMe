@@ -50,6 +50,9 @@ class AwaitTravellersTVC: UITableViewController {
 //MARK: Application Lifecycle & Countdown
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.setHidesBackButton(true, animated:true);
+
 
     }
     

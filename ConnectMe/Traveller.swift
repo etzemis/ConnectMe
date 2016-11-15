@@ -10,6 +10,7 @@ import Foundation
 import MapKit
 
 class Traveller: NSObject {
+    var email: String
     var name: String
     var destination: Location
     var extraPersons: Int
@@ -26,12 +27,14 @@ class Traveller: NSObject {
     
     
     override init(){
+        self.email = ""
         self.name = ""
         self.destination = Location(address: nil, region: nil, coord: CLLocationCoordinate2D())
         self.extraPersons = 0
         self.currentCoord = CLLocationCoordinate2D()
     }
-    init(name: String, destination: Location, extraPersons: Int = 0, currentCoord: CLLocationCoordinate2D, imageUrl: String = "default"){
+    init(email: String, name: String, destination: Location, extraPersons: Int = 0, currentCoord: CLLocationCoordinate2D, imageUrl: String = "default"){
+        self.email = email
         self.name = name
         self.destination = destination
         self.extraPersons = extraPersons

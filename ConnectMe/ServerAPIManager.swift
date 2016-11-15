@@ -51,7 +51,19 @@ class ServerAPIManager {
     
     
     
-//MARK: User Registration
+    
+    
+    
+    
+    
+    
+    
+    
+    //*************************************************************
+    //MARK: Registration
+    //*************************************************************
+
+
     func register(username: String,
                   email: String,
                   password: String,
@@ -108,9 +120,11 @@ class ServerAPIManager {
     
     
     
+    //*************************************************************
+    //MARK: User Login
+    //*************************************************************
+
     
-    
-//MARK: User Login
     func login(email: String,
                password: String,
                completionHandler: @escaping (Result<[String:String]>) -> Void)
@@ -167,10 +181,83 @@ class ServerAPIManager {
     }
 
 
+  
+    
+    
+    //*************************************************************
+    //MARK: Activate
+    //*************************************************************
 
+    func activate(completionHandler: @escaping (Result<Bool>) -> Void)
+    {
+        let request = Alamofire.request(ConnectMeRouter.activate())
+            .response { response in
+                
+                //Error Handling
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in update Location \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                guard response.error == nil else {
+                    print(response.error!)
+                    completionHandler(.failure(ServerAPIManagerError.network(error: response.error!)))
+                    return
+                }
+                
+                //Otherwise Success
+                completionHandler(.success(true))
+        }
+        print("\n\n\n\n  Activate Request \n\n\n\n")
+        debugPrint(request)
+        
+    }
+    
+   
+    
+    
+    
+    //*************************************************************
+    //MARK: Activate
+    //*************************************************************
+    
+    func deactivate(completionHandler: @escaping (Result<Bool>) -> Void)
+    {
+        let request = Alamofire.request(ConnectMeRouter.deactivate())
+            .response { response in
+                
+                //Error Handling
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in update Location \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                guard response.error == nil else {
+                    print(response.error!)
+                    completionHandler(.failure(ServerAPIManagerError.network(error: response.error!)))
+                    return
+                }
+                
+                //Otherwise Success
+                completionHandler(.success(true))
+        }
+        print("\n\n\n\n  Deactivate Request \n\n\n\n")
+        debugPrint(request)
+        
+    }
     
 
-//MARK: Update Location
+    
+    
+    //*************************************************************
+    //MARK: Update Location
+    //*************************************************************
+
+
     func updateLocation(location: Location,
                         completionHandler: @escaping (Result<Bool>) -> Void)
     {

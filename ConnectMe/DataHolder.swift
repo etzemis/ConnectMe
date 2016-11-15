@@ -151,7 +151,7 @@ class DataHolder{
     }
     
 //MARK: LOST AUTHORISATION
-    private func handleLostAuthorisation(){
+    public func handleLostAuthorisation(){
         //find the View in which we are in
         if var topController = UIApplication.shared.keyWindow?.rootViewController {
             while let presentedViewController = topController.presentedViewController {

@@ -21,18 +21,22 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     private var hasSelectedImage = false
     
 
-    
+    //*************************************************************
     //MARK: View Controller Lifecicle
+    //*************************************************************
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // set empty Profile Image
         setCircularImage()
-        
         //Call Method From Extension
         self.hideKeyboardWhenTappedAround()
     }
-    
+
+    //*************************************************************
     //MARK: IBActions
+    //*************************************************************
+
     
     @IBAction func CancelRegistrationAndLogin(_ sender: AnyObject) {
         dismiss(animated: true, completion: nil)
@@ -52,6 +56,11 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         }
     }
     
+    
+    //*************************************************************
+    //MARK: Perform Registration
+    //*************************************************************
+
     @IBAction func registerButtonTapped(_ sender: AnyObject) {
         let name = self.userName.text
         let email = self.userEmail.text
@@ -118,7 +127,10 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
     
 
     
-    // MARK: Private Functions
+    //*************************************************************
+    //MARK: Make Image Circular
+    //*************************************************************
+
     
     private func setCircularImage(){
         userProfileImage.image =  UIImage(named: "empty_profile")
@@ -128,7 +140,11 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         userProfileImage.layer.borderColor = UIColor.lightText.cgColor
     }
 
-    // MARK: Validation
+    
+    //*************************************************************
+    //MARK: Email Validation
+    //*************************************************************
+
     
     func isValidEmail(testStr:String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -136,7 +152,10 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         return emailTest.evaluate(with: testStr)
     }
     
-    //MARK: Alert Messages 
+    //*************************************************************
+    //MARK: Alert Messages
+    //*************************************************************
+
     
     func registrationSucceededAlert(){
         //Display alert message with Comfirmation
@@ -164,9 +183,10 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         present(alertVC, animated: true, completion: nil)
     }
     
-    
+    //*************************************************************
     //MARK: UIImagePickerControllerDelegate
-    
+    //*************************************************************
+
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage //2
         userProfileImage.contentMode = .scaleAspectFill //3
@@ -182,7 +202,12 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         dismiss(animated: true, completion: nil)
     }
     
-    // MARK: TextField Delegate Methods
+    
+    
+    //*************************************************************
+    //MARK: TextField Delegate Methods
+    //*************************************************************
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField.placeholder! {
         case "  Username":

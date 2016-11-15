@@ -84,8 +84,23 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
             //set it to false when Logging out!
             self.isInitialized = !self.isInitialized
             
-            setUpLocationManager()
-            displayUsers(users: createBotUsers())
+            ///MARK: Initiate User
+            
+            ServerAPIManager.sharedInstance.activate(completionHandler: { (result) in
+                guard result.error == nil else
+                {
+                    print(result.error!)
+                    DataHolder.sharedInstance.handleLostAuthorisation()
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.setUpLocationManager()
+                    self.displayUsers(users: self.createBotUsers())
+                }
+                
+            })
+            
             
             //Fetch User from User Defaults
             let defaults  = UserDefaults.standard
@@ -172,34 +187,12 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                 
                 thumbnailImageView.clipsToBounds = true
                 thumbnailImageView.contentMode = .scaleAspectFill
-//                thumbnailImageView.image = #imageLiteral(resourceName: "empty_profile")
-                
-//                if let urlString = annotation.imageUrl{
-//                    ServerAPIManager.sharedInstance.imageFrom(urlString: urlString)
-//                    {
-//                        (image, error) in
-//                        guard error == nil else{
-//                            print (error!)
-//                            return
-//                        }
-//                        thumbnailImageView.image = image                        
-//                    }
-//                }
+
                 
                 let urlString = annotation.imageUrl
                 let url = URL(string: urlString)
                 thumbnailImageView.pin_setImage(from: url, placeholderImage: #imageLiteral(resourceName: "empty_profile")) { _ in return}
-//                } else {
-//                    thumbnailImageView.image = #imageLiteral(resourceName: "empty_profile")
-//                }
 
-                
-//                if let urlString = annotation.imageUrl,
-//                   let url = URL(string: urlString) {
-//                    thumbnailImageView.pin_setImage(from: url, placeholderImage: #imageLiteral(resourceName: "empty_profile")) { _ in return}
-//                } else {
-//                    thumbnailImageView.image = #imageLiteral(resourceName: "empty_profile")
-//                }
             }
         }
     }
@@ -215,7 +208,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     func createBotUsers() -> [Traveller]{
         var users = [Traveller]()
         
-        let user = Traveller(name: "Vaggelis",
+        let user = Traveller(email: "", name: "Vaggelis",
                         destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
                         currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877))
         users.append(user)
