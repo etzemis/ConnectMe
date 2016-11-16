@@ -83,8 +83,6 @@ class TravellersTVC: UITableViewController {
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-        
-
     }
     
     deinit {
@@ -126,21 +124,42 @@ class TravellersTVC: UITableViewController {
         }
         if(!selectedTravellers.isEmpty)
         {
+            if (tripHasValidNumberOfPersons()){
+                showCreatedTripAlert(travellers: selectedTravellers)
+            }
+            else{
+                let confirmationAlert = UIAlertController(title: "Trip Creation Invalid",
+                                                          message: "You have exceeded the maximum number (4) of persons than can be in the same trip.",
+                                                          preferredStyle: .alert)
+                let confirmAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                
+                confirmationAlert.addAction(confirmAction)
+                self.present(confirmationAlert, animated: true, completion: nil)
 
-            showCreatedTripAlert(travellers: selectedTravellers)
+            }
         }
 
       
     }
     
     
+    private func tripHasValidNumberOfPersons() -> Bool{
+        let noPersons = selectedTravellers.reduce(DataHolder.sharedInstance.userLoggedIn.extraPersons + 1)
+        {
+           (result, t2) in result + t2.extraPersons + 1
+        }
+        return noPersons <= 4
+    }
+    
+    
     
     
     //*************************************************************
-    //MARK: Trip Invitation - Creation Alerts
+    //MARK: Trip Creation  Remote
     //*************************************************************
 
-    func showCreatedTripAlert(travellers: [Traveller]){
+    func showCreatedTripAlert(travellers: [Traveller])
+    {
         
         //create message
         var i = 1
@@ -159,7 +178,7 @@ class TravellersTVC: UITableViewController {
         let confirmAction = UIAlertAction(title: "Confirm", style: .default)
         {
             _ in
-            self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
+            self.sendTripInvitationRemote(travellers: travellers)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
         
@@ -171,6 +190,64 @@ class TravellersTVC: UITableViewController {
     }
     
     
+    func sendTripInvitationRemote(travellers: [Traveller])
+    {
+        Spinner.sharedInstance.show(uiView: self.view)
+        
+        let travellerEmails = travellers.map {$0.email}
+        
+        
+        ServerAPIManager.sharedInstance.createTripRequest(travellers: travellerEmails)
+        {
+            result in
+            //if encountered an error
+            guard result.error == nil else {
+                print(result.error!)
+                let errorMessage: String?
+                
+                switch result.error! {
+                case ServerAPIManagerError.apiProvidedError:
+                    errorMessage = "You have already been invited to join a Trip"
+                default: // general error 500
+                    errorMessage = "Please check your internet connection and try again."
+                }
+                
+                
+                let alertController = UIAlertController(title: "Trip Cretion Failed", message: errorMessage,
+                                                        preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                
+                DispatchQueue.main.async {
+                    //stop spinner
+                    Spinner.sharedInstance.hide(uiView: self.view)
+                    
+                    self.present(alertController, animated: true, completion: nil)
+                }
+                return
+            }
+            //if Trip Creation is complete
+            DispatchQueue.main.async {
+                
+                //filter Selected Users to Match the ones returned from The Server
+                
+                let filteredTravellers = self.selectedTravellers.filter{ result.value!.contains($0.email)}
+                self.selectedTravellers = filteredTravellers
+                
+                //stop spinner
+                Spinner.sharedInstance.hide(uiView: self.view)
+                
+                self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
+                
+            }
+            return
+        }
+    }
+    
+    //*************************************************************
+    //MARK: Trip Invitation Remote
+    //*************************************************************
+
     
     func showInvitedTripAlert(travellers: [Traveller]){
         

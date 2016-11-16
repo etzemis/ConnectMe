@@ -13,17 +13,38 @@ enum ConnectMeRouter: URLRequestConvertible {
     static let appDelegate = UIApplication.shared.delegate as! AppDelegate
     static let baseURLString = AppConstants.ServerConnectivity.baseUrlString
     //    static let baseURLString = "http://connectmeserver-92909.onmodulus.net/"
-    // posting
+    
+    //*************************************************************
+    //MARK: Registration
+    //*************************************************************
+
     case register([String: Any])
     case login([String: Any])
-    case updateLocation([String: Any])
-    case insertDestination([String: Any])
-    // fetching
-    case fetchTravellersAroundMe()
     case activate()
     case deactivate()
-    case fetchTravellersAroundMeTrip()
+    
+    //*************************************************************
+    //MARK: Before Trip
+    //*************************************************************
 
+    case updateLocation([String: Any])
+    case insertDestination([String: Any])
+    case fetchTravellersAroundMe()
+
+    //*************************************************************
+    //MARK: TripRequest
+    //*************************************************************
+
+    case fetchTravellersAroundMeTrip()
+    case createTripRequest([String: Any])
+    case refreshTripRequest()
+    case respondToTripRequest([String: Any])
+    case cancelTripRequest()
+    
+    //*************************************************************
+    //MARK: Trip
+    //*************************************************************
+    
     
     func asURLRequest() throws -> URLRequest { // TODO: implement
         var method: HTTPMethod {
@@ -44,6 +65,15 @@ enum ConnectMeRouter: URLRequestConvertible {
                 return .get
             case .fetchTravellersAroundMeTrip:
                 return .get
+            case .createTripRequest:
+                return .post
+            case .refreshTripRequest:
+                return .get
+            case .respondToTripRequest:
+                return .post
+            case .cancelTripRequest:
+                return .get
+                
             }
         }
         
@@ -64,6 +94,14 @@ enum ConnectMeRouter: URLRequestConvertible {
             case .deactivate:
                 return nil
             case .fetchTravellersAroundMeTrip:
+                return nil
+            case .createTripRequest(let tripRequest):
+                return (tripRequest)
+            case .refreshTripRequest:
+                return nil
+            case .respondToTripRequest(let response):
+                return response
+            case .cancelTripRequest:
                 return nil
             }
         }()
@@ -89,7 +127,14 @@ enum ConnectMeRouter: URLRequestConvertible {
                 relativePath = "user/deactivate"
             case .fetchTravellersAroundMeTrip:
                 relativePath = "trip/travellers"
-
+            case .createTripRequest:
+                relativePath = "tripRequest/create"
+            case .refreshTripRequest:
+                relativePath = "tripRequest/refresh"
+            case .respondToTripRequest:
+                relativePath = "tripRequest/response"
+            case .cancelTripRequest:
+                relativePath = "tripRequest/cancel"
             }
             
             var url = URL(string: ConnectMeRouter.baseURLString)!

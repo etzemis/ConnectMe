@@ -14,8 +14,10 @@ class ServerAPIManager {
     
     
     
-    
-//MARK: Check Authorization
+    //*************************************************************
+    //MARK: Helepr Functions
+    //*************************************************************
+
     func checkUnauthorized(urlResponse: HTTPURLResponse) -> (Error?) {
         if (urlResponse.statusCode == 401) {
             return ServerAPIManagerError.authLost(reason: "Not Logged In")
@@ -23,7 +25,7 @@ class ServerAPIManager {
         return nil
     }
     
-//MARK: Fetch Images
+    //Fetch Images
     func imageFrom(urlString: String,
                    completionHandler: @escaping (UIImage?, Error?) -> Void) {
         let _ = Alamofire.request(urlString)
@@ -37,8 +39,7 @@ class ServerAPIManager {
                 let image = UIImage(data: data)
                 completionHandler(image, nil) }
     }
-    
-//MARK: Clear Alamofire Cache
+
     
     /// Alamofire uses the default URLCache to cache the URL responses so we need to flush out the cache before refreshing. 
     /// Otherwise we’ll just get the cached response and won’t see any new gists. 
@@ -49,17 +50,12 @@ class ServerAPIManager {
     }
     
     
+  
     
     
     
     
-    
-    
-    
-    
-    
-    
-    
+
     
     //*************************************************************
     //MARK: Registration
@@ -183,9 +179,6 @@ class ServerAPIManager {
     }
 
 
-  
-    
-    
     //*************************************************************
     //MARK: Activate
     //*************************************************************
@@ -218,9 +211,6 @@ class ServerAPIManager {
     }
     
    
-    
-    
-    
     //*************************************************************
     //MARK: Deactivate
     //*************************************************************
@@ -253,8 +243,6 @@ class ServerAPIManager {
     }
     
 
-    
-    
     //*************************************************************
     //MARK: Update Location
     //*************************************************************
@@ -291,7 +279,6 @@ class ServerAPIManager {
     }
 
                         
-    
     
     //*************************************************************
     //MARK: Fetch Travellers Around Me
@@ -347,7 +334,11 @@ class ServerAPIManager {
     
 
     
-//MARK: Insert Destination
+    //*************************************************************
+    //MARK: Insert Destination
+    //*************************************************************
+
+
     func insertDestination(destination: Location, extraPersons: Int, completionHandler: @escaping (Result<Bool>) -> Void)
     {
         
@@ -382,15 +373,14 @@ class ServerAPIManager {
     
     
     
+//*************************************************************
+//MARK: Trip Request
+//*************************************************************
+    
+    
     
     //*************************************************************
-    //MARK: Trip
-    //*************************************************************
-    
-    
-    
-    //*************************************************************
-    //MARK: Fetch Travellers Around Me TRIP
+    //MARK: Fetch Travellers Around Me TRIP Request
     //*************************************************************
     
     
@@ -410,7 +400,7 @@ class ServerAPIManager {
                 completionHandler(result)
         }
         
-        print("\n\n\n\n  FetchTravellersAroundMe request \n\n\n\n")
+        print("\n\n\n\n  FetchTravellersAroundMe Trip request \n\n\n\n")
         debugPrint(request)
     }
     
@@ -451,10 +441,136 @@ class ServerAPIManager {
         
         return .success(travellers)
     }
+    
+    
+    //*************************************************************
+    //MARK: Create Trip Request
+    //*************************************************************
+    func createTripRequest(travellers: [String], completionHandler: @escaping (Result<[String]>) -> Void)
+    {
+        let parameters: [String: Any] = [
+            "travellers": travellers
+        ]
 
+        let request = Alamofire.request(ConnectMeRouter.createTripRequest(parameters))
+            .responseJSON { response in
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in createTripRequest \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                print(response)
+                let result = self.createTripRequestHandleResponse(response: response)
+                completionHandler(result)
+        }
+        
+        print("\n\n\n\n  Create Trip Request \n\n\n\n")
+        debugPrint(request)
+    }
+    
+    private func createTripRequestHandleResponse(response: DataResponse<Any>) -> Result<[String]>
+    {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(ServerAPIManagerError.network(error: response.result.error!))
+        }
+        
+        // check for "message" errors in the JSON because this API does that
+        if  let jsonDictionary = response.result.value as? [String: Any],
+            let errorMessage = jsonDictionary["message"] as? String
+        {
+            return .failure(ServerAPIManagerError.apiProvidedError(reason: errorMessage))
+        }
+        
+        // make sure we got JSON Array
+        guard let jsonArray = response.result.value as? [String:Any] else {
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
+        }
+        
+        
+        guard let travellers = jsonArray["success"] as? [String] else {
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get an array with The users invited to the Trip Request"))
+        }
+        
+        return .success(travellers)
+    }
+    
+    //*************************************************************
+    //MARK: Refresh Trip Request
+    //*************************************************************
+    func refreshTripRequest(completionHandler: @escaping (Result<[Traveller]>) -> Void)
+    {
+        let request = Alamofire.request(ConnectMeRouter.refreshTripRequest())
+            .responseJSON { response in
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in createTripRequest \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                print(response)
+                let result = self.refreshTripRequestHandleResponse(response: response)
+                completionHandler(result)
+        }
+        
+        print("\n\n\n\n  Create Trip Request \n\n\n\n")
+        debugPrint(request)
+
+    }
+    
+    private func refreshTripRequestHandleResponse(response: DataResponse<Any>) -> Result<[Traveller]>
+    {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(ServerAPIManagerError.network(error: response.result.error!))
+        }
+        
+        // check for "message" errors in the JSON because this API does that
+        if  let jsonDictionary = response.result.value as? [String: Any],
+            let errorMessage = jsonDictionary["message"] as? String
+        {
+            return .failure(ServerAPIManagerError.apiProvidedError(reason: errorMessage))
+        }
+        
+        // make sure we got JSON Array
+        guard let jsonArray = response.result.value as? [String:Any] else {
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
+        }
+        
+        
+        guard let travellers = jsonArray["success"] as? [Traveller] else {
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get an array with The users invited to the Trip Request"))
+        }
+        
+        return .success(travellers)
+    }
 
     
+    //*************************************************************
+    //MARK: Respond to Trip Request
+    //*************************************************************
+    func respondToTripRequest(completionHandler: @escaping (Result<[Traveller]>) -> Void)
+    {
+        
+    }
+    
+    //*************************************************************
+    //MARK: Cancel Trip Request
+    //*************************************************************
+    func cancelTripRequest(completionHandler: @escaping (Result<[Traveller]>) -> Void)
+    {
+        
+    }
+    
+    
 }
+
+
+
+
 
 
 

@@ -6,9 +6,15 @@
 //  Copyright © 2016 etzemis. All rights reserved.
 //
 
+
 import UIKit
 
 class AwaitTravellersTVC: UITableViewController {
+
+    
+    //*************************************************************
+    //MARK: Trip Request Constants
+    //*************************************************************
 
     struct Constants {
         static let CellIdentifier = "Traveller Cell"
@@ -45,9 +51,14 @@ class AwaitTravellersTVC: UITableViewController {
     private var countDowntime = 120 // in seconds
     private var timer = Timer()
     
+
     
-    
-//MARK: Application Lifecycle & Countdown
+
+
+    //*************************************************************
+    //MARK: Application Lifecycle & Countdown
+    //*************************************************************
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,6 +74,7 @@ class AwaitTravellersTVC: UITableViewController {
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
+    //Timer
     @objc func updateTimer(){
         self.navigationItem.title = "Remaining time: \(self.countDowntime) s"
         if( self.countDowntime == 0) {
@@ -72,8 +84,11 @@ class AwaitTravellersTVC: UITableViewController {
     }
 
 
-    
-// MARK: - Table view data source
+
+
+    //*************************************************************
+    //MARK: Table View Data Source
+    //*************************************************************
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return tripMode.sections()
@@ -121,7 +136,13 @@ class AwaitTravellersTVC: UITableViewController {
 
     }
     
-//MARK: Helper Functions!
+
+    
+
+    //*************************************************************
+    //MARK: Helper Functions
+    //*************************************************************
+
     func getUser(forIndexPath indexPath: IndexPath) -> Traveller{
         if indexPath.section == 0 {
             return DataHolder.sharedInstance.userLoggedIn

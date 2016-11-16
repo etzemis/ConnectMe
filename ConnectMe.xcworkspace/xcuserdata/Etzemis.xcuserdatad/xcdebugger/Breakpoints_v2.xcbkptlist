@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/ServerAPIManager.swift"
-            timestampString = "500917038.150124"
+            timestampString = "500995955.516205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "344"
-            endingLineNumber = "344"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
             landmarkName = "travellerArrayFromResponse(response:)"
             landmarkType = "7">
             <Locations>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/ServerAPIManager.swift"
-            timestampString = "500917038.150124"
+            timestampString = "500995955.516205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "324"
-            endingLineNumber = "324"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
             landmarkName = "travellerArrayFromResponse(response:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/ServerAPIManager.swift"
-            timestampString = "500917038.150124"
+            timestampString = "500995955.516205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "325"
-            endingLineNumber = "325"
+            startingLineNumber = "312"
+            endingLineNumber = "312"
             landmarkName = "travellerArrayFromResponse(response:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/ServerAPIManager.swift"
-            timestampString = "500917038.150124"
+            timestampString = "500995955.516205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
+            startingLineNumber = "320"
+            endingLineNumber = "320"
             landmarkName = "travellerArrayFromResponse(response:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/ServerAPIManager.swift"
-            timestampString = "500917038.150124"
+            timestampString = "500995955.516205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
+            startingLineNumber = "326"
+            endingLineNumber = "326"
             landmarkName = "travellerArrayFromResponse(response:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/TravellersTVC.swift"
-            timestampString = "500920535.205479"
+            timestampString = "501001919.2656"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
             landmarkName = "numberOfSections(in:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/TravellersTVC.swift"
-            timestampString = "500920535.205479"
+            timestampString = "501001919.2656"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
+            startingLineNumber = "356"
+            endingLineNumber = "356"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/TravellersTVC.swift"
-            timestampString = "500920200.915928"
+            timestampString = "500995955.516205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "sendInvitation(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/TravellersTVC.swift"
-            timestampString = "500920210.451553"
+            timestampString = "500995955.516205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "sendInvitation(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,7 +298,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ConnectMe/TravellersTVC.swift"
-            timestampString = "500920558.783514"
+            timestampString = "500995955.516205"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "sendInvitation(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ConnectMe/TravellersTVC.swift"
+            timestampString = "500995955.516205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "109"
@@ -313,13 +329,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ConnectMe/TravellersTVC.swift"
-            timestampString = "500920560.22354"
+            filePath = "ConnectMe/ServerAPIManager.swift"
+            timestampString = "500995955.516205"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "sendInvitation(_:)"
+            startingLineNumber = "428"
+            endingLineNumber = "428"
+            landmarkName = "tripTravellerArrayFromResponse(response:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -329,14 +345,62 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ConnectMe/ServerAPIManager.swift"
-            timestampString = "500921934.985103"
+            filePath = "ConnectMe/TravellersTVC.swift"
+            timestampString = "501001919.2656"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "438"
-            endingLineNumber = "438"
-            landmarkName = "tripTravellerArrayFromResponse(response:)"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "tripHasValidNumberOfPersons()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ConnectMe/AppDelegate.swift"
+            timestampString = "501002825.3645"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "applicationWillTerminate(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ConnectMe.AppDelegate.applicationWillTerminate (__ObjC.UIApplication) -&gt; ()"
+                  moduleName = "ConnectMe"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Etzemis/Documents/WORKSPACES/XCODE%20Projects/Connect%20Me/ConnectMe/ConnectMe/AppDelegate.swift"
+                  timestampString = "501002888.182174"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ConnectMe.AppDelegate.(applicationWillTerminate (__ObjC.UIApplication) -&gt; ()).(closure #1)"
+                  moduleName = "ConnectMe"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Etzemis/Documents/WORKSPACES/XCODE%20Projects/Connect%20Me/ConnectMe/ConnectMe/AppDelegate.swift"
+                  timestampString = "501002888.183265"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -245,6 +245,14 @@
 			name = ServerAPIManager;
 			sourceTree = "<group>";
 		};
+		546B50A51DDC849F00156A4C /* Table Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5441819F1DBD0EA20050E27C /* TravellerCell.swift */,
+			);
+			name = "Table Cells";
+			sourceTree = "<group>";
+		};
 		548356B91DBF48EF00C9D29D /* 5. Travel */ = {
 			isa = PBXGroup;
 			children = (
@@ -267,7 +275,7 @@
 			children = (
 				5437D28B1DD4EE1200508D7B /* AwaitTravellersTVC.swift */,
 				54BCE3741DB8B7FA002CBAD1 /* TravellersTVC.swift */,
-				5441819F1DBD0EA20050E27C /* TravellerCell.swift */,
+				546B50A51DDC849F00156A4C /* Table Cells */,
 			);
 			name = "4. CreateTrip";
 			sourceTree = "<group>";
@@ -508,7 +516,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -553,7 +561,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
