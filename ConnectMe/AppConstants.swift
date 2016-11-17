@@ -14,7 +14,7 @@ struct AppConstants{
         static let DestinationUpdatedSuccessfuly = "DestinationUpdatedSuccessfulyNotification"
         static let DestinationFailedToUpdate = "DestinationFailedToUpdateNotification"
         //Trip
-        static let TravellersAroundMeTripUpdated = "TravellersAroundMeTripUpdatedNotification"
+        static let InvitationToTripReceived = "InvitationToTripReceivedNotification"
     }
     
     struct HandleUserLogIn{
@@ -28,6 +28,7 @@ struct AppConstants{
     struct ServerConnectivity{
         static let baseUrlString = "http://192.168.1.113:3000/"
         static let fetchUsersAroundMeFrequency = 10.0  // Time Interval for Calling the Server FetchUsersAroundMe Function
+        static let listenForInvitationsFrequency = 1.0  // Time Interval for updating Invitation Requests
         static let serialqueue = "ConnectMeServerSerialQueue"
     }
     

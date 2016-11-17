@@ -16,7 +16,11 @@ protocol HandleMapSearch {
 }
 
 class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate {
-//MARK: Variable Declaration
+
+    //*************************************************************
+    //MARK: Variable Declaration
+    //*************************************************************
+
     struct Constants{
         static let ConfirmDestinationSegue = "Show Travellers"
         static let SpanAroundUserRegion = MKCoordinateSpanMake(0.2, 0.2)
@@ -26,7 +30,10 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
     
     var userDestination = MKPointAnnotation()
 
-//MARK: ExtraPersons Management
+    //*************************************************************
+    //MARK: ExtraPersons Management
+    //*************************************************************
+
     @IBOutlet weak var extraPersonsLabel: UILabel!
     private var extraPersons = 0
     @IBAction func increaseExtraPersons(_ sender: Any) {
@@ -49,7 +56,10 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
     var selectedPin:MKPlacemark? = nil
 
     
-//MARK: Sync Destination with Server
+    //*************************************************************
+    //MARK: Insert Destination Remote
+    //*************************************************************
+
     @IBAction func insertDestinationBarButtonPressed(_ sender: AnyObject) {
         
         if searchController!.isActive {
@@ -65,7 +75,11 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
     }
     
     
-// MARK: View Controller Lifecycle
+    //*************************************************************
+    //MARK: ViewController Lifecycle
+    //*************************************************************
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -85,6 +99,13 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
     deinit {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.DestinationUpdatedSuccessfuly), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.DestinationFailedToUpdate), object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.navigationController?.isToolbarHidden = true
+        
     }
     
     
@@ -208,7 +229,7 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
                     
                     DataHolder.sharedInstance.stopFetchingTravellersAroundMe() //!!!!!!!!
                     
-                    
+                    //set Toolbar
                     self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
                 }
             }

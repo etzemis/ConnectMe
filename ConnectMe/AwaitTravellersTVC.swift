@@ -63,8 +63,29 @@ class AwaitTravellersTVC: UITableViewController {
         super.viewDidLoad()
         
         self.navigationItem.setHidesBackButton(true, animated:true);
+        
+        //set Toolbar
+        
+        var items = [UIBarButtonItem]()
+        
+        items.append(
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        )
+        items.append(
+            UIBarButtonItem(title: "Cancel Trip", style: .plain, target: self, action: #selector(cancelTrip))
+        )
+        items.append(
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        )
+        self.toolbarItems = items
 
 
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // show The Toolbar
+        self.navigationController?.isToolbarHidden = false
     }
     
     // Use it for the CountDown
@@ -84,7 +105,13 @@ class AwaitTravellersTVC: UITableViewController {
     }
 
 
+    //*************************************************************
+    //MARK: Cancel Trip
+    //*************************************************************
 
+    @objc func cancelTrip(){
+        _ = self.navigationController?.popViewController(animated: true)
+    }
 
     //*************************************************************
     //MARK: Table View Data Source

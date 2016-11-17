@@ -64,6 +64,7 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.actOnTravellersUpdatedNotification),
                                                name: NSNotification.Name(AppConstants.NotificationNames.TravellersAroundMeUpdated), object: nil)
+        
 
     }
     
@@ -74,6 +75,10 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        self.navigationController?.isToolbarHidden = true
+        
+        
         let isUserLoggedIn = UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
 
         if !isUserLoggedIn{

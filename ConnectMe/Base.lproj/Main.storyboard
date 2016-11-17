@@ -234,7 +234,7 @@
                                 <rect key="frame" x="0.0" y="56" width="320" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UWF-Tn-2AN" id="CoF-oV-ALZ">
-                                    <rect key="frame" x="0.0" y="0.0" width="281" height="79.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="281" height="80"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ndr-sI-h10">
@@ -315,6 +315,7 @@
                                     <outlet property="name" destination="Z6S-0f-gO0" id="fOw-0X-91e"/>
                                     <outlet property="profileImage" destination="M9e-oB-wjb" id="YVh-gk-yxg"/>
                                     <outlet property="proximityImageView" destination="JOM-ih-eOe" id="vlE-Fd-SYh"/>
+                                    <outlet property="proximityLabel" destination="uki-Kz-m16" id="KMB-2C-o1Y"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -941,7 +942,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CyF-Vi-26Y" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="zs2-4c-bGV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zs2-4c-bGV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

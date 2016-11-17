@@ -16,6 +16,7 @@ class TravellerCell: UITableViewCell {
     @IBOutlet weak var destination: UILabel!
     @IBOutlet weak var extraPersons: UILabel!
     @IBOutlet weak var proximityImageView: UIImageView!
+    @IBOutlet weak var proximityLabel: UILabel!
     
     private var _name: String{
         set{ self.name.text = "\(newValue)"}
@@ -32,6 +33,13 @@ class TravellerCell: UITableViewCell {
         get{ return self._extraPersons}
     }
     
+    private var _proximity: String{
+        set{ self.proximityLabel.text = "Prox: \(newValue)"}
+        get{ return self._proximity}
+    }
+    
+    
+    
     var traveller: Traveller?{
         didSet{
             updateUI()
@@ -41,7 +49,7 @@ class TravellerCell: UITableViewCell {
     func updateUI(){
         self._name = traveller!.name
         self._destination = "\(traveller!.destination.region!), \(traveller!.destination.address!)"
-        self._extraPersons = "1"
+        self._extraPersons = String(traveller!.extraPersons)
         setCircularImage()
         setProximityImage()
         self.accessoryType = .none
@@ -52,10 +60,13 @@ class TravellerCell: UITableViewCell {
         switch traveller!.proximity{
         case 0:
             self.proximityImageView.image =  #imageLiteral(resourceName: "travellerPinHighProximity")
+            self._proximity = "1km"
         case 1:
             self.proximityImageView.image =  #imageLiteral(resourceName: "travellerPinMediumProximity")
+            self._proximity = "2km"
         default:
             self.proximityImageView.image =  #imageLiteral(resourceName: "travellerPinLowProximity")
+            self._proximity = "10km"
         }
         
     }

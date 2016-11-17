@@ -23,6 +23,7 @@ class TravellersTVC: UITableViewController {
             tableView.reloadData()
         }
     }
+    private var SegueDueToInvitation = false
     
     private var highProximityTravellers: [Traveller] = []
     private var mediumProximityTravellers: [Traveller] = []
@@ -53,7 +54,7 @@ class TravellersTVC: UITableViewController {
 
     
     //*************************************************************
-    //MARK: Application Lifecycle
+    //MARK: ViewController Lifecycle
     //*************************************************************
 
    
@@ -64,6 +65,20 @@ class TravellersTVC: UITableViewController {
         self.navigationItem.title = "Travellers"
         self.navigationItem.setRightBarButton(UIBarButtonItem(title: "Send", style: .plain, target: self, action: #selector(sendInvitation(_:))), animated: true)
         self.navigationItem.setHidesBackButton(true, animated:true);
+        //set Toolbar
+
+        var items = [UIBarButtonItem]()
+
+        items.append(
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        )
+        items.append(
+            UIBarButtonItem(title: "Change Destination", style: .plain, target: self, action: #selector(dismissToChangeDestination))
+        )
+        items.append(
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        )
+        self.toolbarItems = items
 
         
         //SetUp TableView Appearence
@@ -83,9 +98,42 @@ class TravellersTVC: UITableViewController {
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
+        
+        
+        // Activate Trip DataHolder
+        TripDataHolder.sharedInstance.startAllConnections()
+        
+
+        
+
     }
     
     deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.InvitationToTripReceived), object: nil)
+    }
+    
+    @objc func dismissToChangeDestination(){
+        _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.isToolbarHidden = false
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnInvitationToTrip),
+                                               name: NSNotification.Name(AppConstants.NotificationNames.InvitationToTripReceived), object: nil)
+        
+        TripDataHolder.sharedInstance.startListeningForInvitations()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.InvitationToTripReceived), object: nil)
+
+        TripDataHolder.sharedInstance.stopListeningForInvitations()
     }
     
 
@@ -96,7 +144,7 @@ class TravellersTVC: UITableViewController {
     //*************************************************************
 
    
-    @objc func sendInvitation(_ sender: AnyObject){
+   @objc func sendInvitation(_ sender: AnyObject){
         
         //Clear Suggested Array
         selectedTravellers.removeAll()
@@ -237,6 +285,7 @@ class TravellersTVC: UITableViewController {
                 //stop spinner
                 Spinner.sharedInstance.hide(uiView: self.view)
                 
+                self.SegueDueToInvitation = false
                 self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
                 
             }
@@ -245,9 +294,12 @@ class TravellersTVC: UITableViewController {
     }
     
     //*************************************************************
-    //MARK: Trip Invitation Remote
+    //MARK: Invitation to Trip
     //*************************************************************
 
+    @objc func actOnInvitationToTrip(){
+        showInvitedTripAlert(travellers: TripDataHolder.sharedInstance.travellersInInvitation)
+    }
     
     func showInvitedTripAlert(travellers: [Traveller]){
         
@@ -279,6 +331,7 @@ class TravellersTVC: UITableViewController {
         let confirmAction = UIAlertAction(title: "Accept", style: .default)
         {
             _ in
+            self.SegueDueToInvitation = true
             self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
         }
         let cancelAction = UIAlertAction(title: "Reject", style: .default, handler: nil)
@@ -415,11 +468,24 @@ class TravellersTVC: UITableViewController {
         {
                 if let awaitTravTVC = segue.destination as? AwaitTravellersTVC
                 {
-                    //set the mode and the travellers
-                    awaitTravTVC.tripMode = .Created
-                    awaitTravTVC.travellers = selectedTravellers
-                    //Set the back button to have no title
-                    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+
+                    if SegueDueToInvitation
+                    {
+                        //set the mode and the travellers
+                        awaitTravTVC.tripMode = .Invited
+                        awaitTravTVC.travellers = TripDataHolder.sharedInstance.travellersInInvitation
+                        //Set the back button to have no title
+                        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+                    }
+                    else
+                    {
+                        //set the mode and the travellers
+                        awaitTravTVC.tripMode = .Created
+                        awaitTravTVC.travellers = selectedTravellers
+                        //Set the back button to have no title
+                        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+                    }
+
                 }
             
         }

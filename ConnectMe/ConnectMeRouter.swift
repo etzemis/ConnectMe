@@ -37,7 +37,8 @@ enum ConnectMeRouter: URLRequestConvertible {
 
     case fetchTravellersAroundMeTrip()
     case createTripRequest([String: Any])
-    case refreshTripRequest()
+    case refreshInvitations()
+    case refreshStatusTripRequest()
     case respondToTripRequest([String: Any])
     case cancelTripRequest()
     
@@ -67,7 +68,9 @@ enum ConnectMeRouter: URLRequestConvertible {
                 return .get
             case .createTripRequest:
                 return .post
-            case .refreshTripRequest:
+            case .refreshInvitations:
+                return .get
+            case .refreshStatusTripRequest:
                 return .get
             case .respondToTripRequest:
                 return .post
@@ -97,7 +100,9 @@ enum ConnectMeRouter: URLRequestConvertible {
                 return nil
             case .createTripRequest(let tripRequest):
                 return (tripRequest)
-            case .refreshTripRequest:
+            case .refreshInvitations:
+                return nil
+            case .refreshStatusTripRequest:
                 return nil
             case .respondToTripRequest(let response):
                 return response
@@ -129,8 +134,10 @@ enum ConnectMeRouter: URLRequestConvertible {
                 relativePath = "trip/travellers"
             case .createTripRequest:
                 relativePath = "tripRequest/create"
-            case .refreshTripRequest:
-                relativePath = "tripRequest/refresh"
+            case .refreshInvitations:
+                relativePath = "tripRequest/refresh/invitations"
+            case .refreshStatusTripRequest:
+                relativePath = "tripRequest/refresh/status"
             case .respondToTripRequest:
                 relativePath = "tripRequest/response"
             case .cancelTripRequest:

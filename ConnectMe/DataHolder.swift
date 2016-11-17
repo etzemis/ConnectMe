@@ -13,7 +13,6 @@ import UIKit
 /// Registration and Logging In are on thei respective View Controllers
 /// Trip MAnagement is inside TripDataHolder.swift file
 class DataHolder{
-//MARK: Class variables
     static let sharedInstance = DataHolder()
     
     let serialQueue = DispatchQueue(label: AppConstants.ServerConnectivity.serialqueue)
@@ -22,17 +21,30 @@ class DataHolder{
     
     
     var fetchTravellersAroundMeTimer = Timer()
+    
     var travellers: [Traveller] = [] {
         didSet{
             //Wiil be called from Main Thread so it is safe
             NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationNames.TravellersAroundMeUpdated), object: self)
         }
-    }
-//MARK: Update it Accordingly
     
+    }
+    
+    
+    
+    //*************************************************************
+    //MARK: Variable to Store the User that is LOGGED IN
+    //*************************************************************
     var userLoggedIn = Traveller()
     
-// MARK: Insert Destination Remote
+    
+    
+    
+    
+    //*************************************************************
+    //MARK: Insert Destination Remote
+    //*************************************************************
+
     func insertDestination(destination: Location, extraPersons: Int){
         if(self.isAllowedToConnect){
             serialQueue.async{
@@ -66,8 +78,12 @@ class DataHolder{
     }
     
     
+    
+    
 
-// MARK: Fetch Travellers Remote
+    //*************************************************************
+    //MARK: Fetch Travellers Remote
+    //*************************************************************
     
     func startFetchingTravellersAroundMe(){
             self.fetchTravellersAroundMeTimer = Timer.scheduledTimer(timeInterval: AppConstants.ServerConnectivity.fetchUsersAroundMeFrequency,
@@ -119,7 +135,11 @@ class DataHolder{
 
 
     
-//MARK: Update User Location
+    
+    //*************************************************************
+    //MARK: Update User Location
+    //*************************************************************
+
     func updateLocation(location: Location){
         if(self.isAllowedToConnect){
             serialQueue.async{
@@ -151,7 +171,15 @@ class DataHolder{
         debugPrint("HandleUpdateLocationError: updateLocation error")
     }
     
-//MARK: LOST AUTHORISATION
+    
+    
+    
+    
+    
+    //*************************************************************
+    //MARK: Handle LOST AUTHORISATION
+    //*************************************************************
+
     public func handleLostAuthorisation(){
         //find the View in which we are in
         if var topController = UIApplication.shared.keyWindow?.rootViewController {
@@ -183,7 +211,16 @@ class DataHolder{
             return
     }
     
-//MARK: Stop All Connectivity
+    
+    
+    
+    
+    
+    //*************************************************************
+    //MARK: Manage Connectivity
+    //*************************************************************
+
+    
     func stopAllConnections(){
         self.isAllowedToConnect = false
     }
@@ -193,7 +230,15 @@ class DataHolder{
         stopFetchingTravellersAroundMe() // stop the timer
     }
     
-//MARL: Helper Functions
+    
+    
+    
+    
+    
+    //*************************************************************
+    //MARK: Helper Functions
+    //*************************************************************
+
     func urlToDownload(image: String) -> String {
         return AppConstants.ServerConnectivity.baseUrlString+image
     }
