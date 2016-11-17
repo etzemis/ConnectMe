@@ -19,12 +19,23 @@ class TripDataHolder{
     var isAllowedToConnect = true // Flag to stop all connections
     
     var listenForInvitationsTimer = Timer()
+    var RefreshStatusTimer = Timer()
     var travellersInInvitation: [Traveller] = [] {
         didSet{
-//            //Wiil be called from Main Thread so it is safe
+//            //Will be called from Main Thread so it is safe
             NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationNames.InvitationToTripReceived), object: self)
         }
     }
+    
+    
+//    STATUS =
+//    {
+//      0: HAVE NOT YET RESPONDED
+//      1: REJECTED
+//      2: ACCEPTED
+//      3: Cancelled
+//    }
+    var TravellersInInvitationStatus: [String: Int] = [:]
     
     
     
@@ -69,11 +80,11 @@ class TripDataHolder{
         case ServerAPIManagerError.authLost:
             handleLostAuthorisation()
         case ServerAPIManagerError.network:
-            break
+            debugPrint("Network problem")
         case ServerAPIManagerError.objectSerialization:
-            break
+            debugPrint("Problem in Serialization")
         case ServerAPIManagerError.apiProvidedError:
-            break
+            debugPrint("No Invitations")
         default:
             debugPrint("handleListenForInvitationsError -->  UNKNOWN Error")
         }
@@ -83,9 +94,73 @@ class TripDataHolder{
     
     
     
-    private func handleLostAuthorisation(){
-        DataHolder.sharedInstance.handleLostAuthorisation()
+
+    
+    
+    
+    //*************************************************************
+    //MARK: Trip Request Status Update
+    //*************************************************************
+    
+    
+    func startRefreshingStatus(){
+        self.RefreshStatusTimer = Timer.scheduledTimer(timeInterval: AppConstants.ServerConnectivity.TripRequestRefreshStatusFrequency,
+                                                              target: self,
+                                                              selector: #selector(refreshStatus),
+                                                              userInfo: nil,
+                                                              repeats: true)
+        
     }
+    
+    func stopRefreshingStatus(){
+        self.listenForInvitationsTimer.invalidate()
+    }
+    
+    
+    @objc private func refreshStatus(){
+        if(self.isAllowedToConnect){
+            ServerAPIManager.sharedInstance.refreshInvitations{
+                result in
+                guard result.error == nil else {
+                    self.handleListenForInvitationsError(result.error!)
+                    return
+                }
+                // handle Response
+                self.updateTripStatus()
+                self.updateTravellersInInvitationStatus()
+            }
+        }
+    }
+    
+    private func handleRefreshStatusError(_ error: Error) {
+        switch error {
+        case ServerAPIManagerError.authLost:
+            handleLostAuthorisation()
+        case ServerAPIManagerError.network:
+            debugPrint("Network problem")
+        case ServerAPIManagerError.objectSerialization:
+            debugPrint("Problem in Serialization")
+        case ServerAPIManagerError.apiProvidedError:
+            debugPrint("No News!")
+        default:
+            debugPrint("handle Refresh Status Error -->  UNKNOWN Error")
+        }
+        
+        debugPrint("handle Refresh Status Error!!!!")
+    }
+    
+    
+    func updateTripStatus(){
+    
+    }
+    
+    func updateTravellersInInvitationStatus(){
+        
+    }
+    
+    
+
+    
     
     //*************************************************************
     //MARK: Handle All Connectivity
@@ -98,5 +173,12 @@ class TripDataHolder{
     func startAllConnections(){
         self.isAllowedToConnect = true
     }
+    
+    private func handleLostAuthorisation(){
+        DataHolder.sharedInstance.handleLostAuthorisation()
+    }
+    
+    
+    
 
 }

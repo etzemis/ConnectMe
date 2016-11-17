@@ -17,7 +17,7 @@ class AwaitTravellersTVC: UITableViewController {
     //*************************************************************
 
     struct Constants {
-        static let CellIdentifier = "Traveller Cell"
+        static let CellIdentifier = "Traveller Status Cell"
     }
     
     enum Trip {
@@ -110,9 +110,77 @@ class AwaitTravellersTVC: UITableViewController {
     //*************************************************************
 
     @objc func cancelTrip(){
-        _ = self.navigationController?.popViewController(animated: true)
+        showCancelTripAlert()
     }
 
+    
+    func showCancelTripAlert(){
+        var message = ""
+        switch self.tripMode{
+        case .Created:
+            message = "Are you sure you want to cancel the trip? All invited travellers will be pulled out of the trip"
+            break
+        default:
+            message = "Are you sure you want to pull out from the trip?"
+        }
+        
+        //create Alert
+        let confirmationAlert = UIAlertController(title: "Trip Cancellation",
+                                                  message: message,
+                                                  preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Pull out", style: .default)
+        {
+            _ in
+            DispatchQueue.main.async { // Start Spinner
+                Spinner.sharedInstance.show(uiView: self.view)
+            }
+            self.sendResponse()
+            
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        
+        confirmationAlert.addAction(confirmAction)
+        confirmationAlert.addAction(cancelAction)
+        
+        self.present(confirmationAlert, animated: true, completion: nil)
+        
+    }
+    
+    
+    func sendResponse() {
+        ServerAPIManager.sharedInstance.cancelTripRequest
+        {
+            result in
+            guard result.error == nil else {
+                self.handleResponseToInvitationError(result.error!)
+                self.sendResponse()
+                return
+            }
+            // We DO NOT need to start listening again for invitations
+            DispatchQueue.main.async {
+                Spinner.sharedInstance.hide(uiView: self.view)
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+            
+        }
+    }
+    
+    
+    func handleResponseToInvitationError(_ error: Error) {
+        switch error {
+        case ServerAPIManagerError.authLost:
+            handleLostAuthorisation()
+        default:  // network
+            return
+        }
+        debugPrint("HandleUpdateLocationError: updateLocation error")
+    }
+
+    
+    
+    
+    
     //*************************************************************
     //MARK: Table View Data Source
     //*************************************************************
@@ -140,7 +208,7 @@ class AwaitTravellersTVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier, for: indexPath) as! TravellerCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier, for: indexPath) as! TravellerStatusCell
         cell.traveller = getUser(forIndexPath: indexPath)
         return cell
     }
@@ -186,5 +254,12 @@ class AwaitTravellersTVC: UITableViewController {
             return travellers[indexPath.row + 1]
         }
     }
+    
+    private func handleLostAuthorisation()
+    {
+        DataHolder.sharedInstance.handleLostAuthorisation()
+    }
+    
+
 
 }

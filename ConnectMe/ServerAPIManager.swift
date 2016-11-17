@@ -519,7 +519,7 @@ class ServerAPIManager {
                 completionHandler(result)
         }
         
-        print("\n\n\n\n  Create Trip Request \n\n\n\n")
+        print("\n\n\n\n  Refresh Invitations \n\n\n\n")
         debugPrint(request)
 
     }
@@ -539,16 +539,16 @@ class ServerAPIManager {
         }
         
         // make sure we got JSON Array
-        guard let jsonArray = response.result.value as? [String:Any] else {
+        guard let jsonArray = response.result.value as? [[String: Any]] else {
+            print("Didn't get array of Travellers as JSON from API")
             return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
         }
         
         
-        guard let travellers = jsonArray["invitation"] as? [Traveller] else {
-            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get an array with The users invited to the Trip Request"))
-        }
         
+        let travellers = jsonArray.flatMap{ Traveller(json: $0) }
         return .success(travellers)
+
     }
     
     
@@ -608,16 +608,63 @@ class ServerAPIManager {
     //*************************************************************
     //MARK: Respond to Trip Request
     //*************************************************************
-    func respondToTripRequest(completionHandler: @escaping (Result<[Traveller]>) -> Void)
+    func respondToTripRequest(accepted: Bool,  completionHandler: @escaping (Result<Bool>) -> Void)
     {
+        //First Create JSON Object that you will be sending to the Server
+        let parameters: [String: Any] = ["response": accepted]
         
+        let request = Alamofire.request(ConnectMeRouter.respondToTripRequest(parameters))
+            .response { response in
+                
+                //Error Handling
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in Respond To Trip Request \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                guard response.error == nil else {
+                    print(response.error!)
+                    completionHandler(.failure(ServerAPIManagerError.network(error: response.error!)))
+                    return
+                }
+                
+                //Otherwise Success
+                completionHandler(.success(true))
+        }
+        print("\n\n\n\n  Respond To Trip Request \n\n\n\n")
+        debugPrint(request)
     }
     
     //*************************************************************
     //MARK: Cancel Trip Request
     //*************************************************************
-    func cancelTripRequest(completionHandler: @escaping (Result<[Traveller]>) -> Void)
+    func cancelTripRequest(completionHandler: @escaping (Result<Bool>) -> Void)
     {
+        
+        let request = Alamofire.request(ConnectMeRouter.cancelTripRequest())
+            .response { response in
+                
+                //Error Handling
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in Respond To Trip Request \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                guard response.error == nil else {
+                    print(response.error!)
+                    completionHandler(.failure(ServerAPIManagerError.network(error: response.error!)))
+                    return
+                }
+                
+                //Otherwise Success
+                completionHandler(.success(true))
+        }
+        print("\n\n\n\n  Cancel Trip Request \n\n\n\n")
+        debugPrint(request)
         
     }
     

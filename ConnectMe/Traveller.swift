@@ -32,7 +32,7 @@ class Traveller: NSObject {
         self.name = ""
         self.destination = Location(address: nil, region: nil, coord: CLLocationCoordinate2D())
         self.extraPersons = 0
-        self.proximity = 1
+        self.proximity = -1
         self.currentCoord = CLLocationCoordinate2D()
     }
     init(email: String, name: String, destination: Location, proximity: Int, extraPersons: Int = 0, currentCoord: CLLocationCoordinate2D, imageUrl: String = "default"){

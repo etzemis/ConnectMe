@@ -9,14 +9,14 @@
 import UIKit
 import PINRemoteImage
 
-class TravellerCell: UITableViewCell {
-
+class TravellerStatusCell: UITableViewCell {
+    
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var destination: UILabel!
     @IBOutlet weak var extraPersons: UILabel!
-    @IBOutlet weak var proximityImageView: UIImageView!
     
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     private var _name: String{
         set{ self.name.text = "\(newValue)"}
         get{ return self._name}
@@ -40,30 +40,17 @@ class TravellerCell: UITableViewCell {
             updateUI()
         }
     }
-
+    
     func updateUI(){
         self._name = traveller!.name
         self._destination = "\(traveller!.destination.region!), \(traveller!.destination.address!)"
         self._extraPersons = String(traveller!.extraPersons)
         setCircularImage()
-        setProximityImage()
         self.accessoryType = .none
         self.selectionStyle = .none
+        updateTravellerStatus()
     }
     
-    private func setProximityImage(){
-        switch traveller!.proximity{
-        case 0:
-            self.proximityImageView.image =  #imageLiteral(resourceName: "travellerPinHighProximity")
-        case 1:
-            self.proximityImageView.image =  #imageLiteral(resourceName: "travellerPinMediumProximity")
-        case 2:
-            self.proximityImageView.image =  #imageLiteral(resourceName: "travellerPinLowProximity")
-        default:
-            self.proximityImageView.image = #imageLiteral(resourceName: "travellerPinLowProximity")
-        }
-        
-    }
     
     private func setCircularImage(){
         let urlString = traveller!.imageUrl
@@ -77,31 +64,16 @@ class TravellerCell: UITableViewCell {
             self.setNeedsLayout()
             return
         }
-//        } else {
-//            self.profileImage.image =  #imageLiteral(resourceName: "empty_profile")
-//            self.profileImage.layer.cornerRadius = 32
-//            self.profileImage.clipsToBounds = true
-//            self.profileImage.layer.borderWidth = 1
-//            self.profileImage.layer.borderColor = UIColor.lightGray.cgColor
-//        }
-        
-        
-//        self.profileImage.image =  UIImage(named: "empty_profile")
-//        self.profileImage.layer.cornerRadius = 32
-//        self.profileImage.clipsToBounds = true
-//        self.profileImage.layer.borderWidth = 1
-//        self.profileImage.layer.borderColor = UIColor.blue.cgColor
+
     }
+    
+    private func updateTravellerStatus(){
+        if !self.spinner.isAnimating{
+            self.spinner.startAnimating()
+        }
+        
+    }
+
 }
 
 
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//////        super.setSelected(selected, animated: animated)
-////        if selected{
-////            self.backgroundColor = UIColor.blue
-////        }
-////        else{
-////            self.backgroundColor = UIColor.clear
-////        }
-////        // Configure the view for the selected state
-//

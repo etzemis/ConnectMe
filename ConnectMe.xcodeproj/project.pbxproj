@@ -29,6 +29,7 @@
 		5460947E1DC7A2A800E11983 /* ConnectMeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5460947D1DC7A2A800E11983 /* ConnectMeRouter.swift */; };
 		546094821DC7AC2500E11983 /* Location+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546094811DC7AC2500E11983 /* Location+Networking.swift */; };
 		546094841DC7B3BC00E11983 /* ServerAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546094831DC7B3BC00E11983 /* ServerAPIManager.swift */; };
+		54678A531DDE17C10060432B /* TravellerStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54678A521DDE17C10060432B /* TravellerStatusCell.swift */; };
 		54736F1E1DCA18C00010B34C /* Traveller+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54736F1D1DCA18C00010B34C /* Traveller+Networking.swift */; };
 		54736F201DCA27270010B34C /* DataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54736F1F1DCA27270010B34C /* DataHolder.swift */; };
 		54736F221DCA3B240010B34C /* ServerAPIManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54736F211DCA3B240010B34C /* ServerAPIManagerError.swift */; };
@@ -68,6 +69,7 @@
 		5460947D1DC7A2A800E11983 /* ConnectMeRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectMeRouter.swift; sourceTree = "<group>"; };
 		546094811DC7AC2500E11983 /* Location+Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Location+Networking.swift"; sourceTree = "<group>"; };
 		546094831DC7B3BC00E11983 /* ServerAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerAPIManager.swift; sourceTree = "<group>"; };
+		54678A521DDE17C10060432B /* TravellerStatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravellerStatusCell.swift; sourceTree = "<group>"; };
 		54736F1D1DCA18C00010B34C /* Traveller+Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Traveller+Networking.swift"; sourceTree = "<group>"; };
 		54736F1F1DCA27270010B34C /* DataHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHolder.swift; sourceTree = "<group>"; };
 		54736F211DCA3B240010B34C /* ServerAPIManagerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerAPIManagerError.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				5441819F1DBD0EA20050E27C /* TravellerCell.swift */,
+				54678A521DDE17C10060432B /* TravellerStatusCell.swift */,
 			);
 			name = "Table Cells";
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				54BCE3751DB8B7FA002CBAD1 /* TravellersTVC.swift in Sources */,
 				54BC01AC1DB025D700DAD0DA /* UserDetailsVC.swift in Sources */,
 				54736F201DCA27270010B34C /* DataHolder.swift in Sources */,
+				54678A531DDE17C10060432B /* TravellerStatusCell.swift in Sources */,
 				54BCE36F1DB8A310002CBAD1 /* CustomSearchBar.swift in Sources */,
 				5446222B1DA8E74300A9E92B /* AppDelegate.swift in Sources */,
 				54B75F371DDB5C650050467F /* TripDataHolder.swift in Sources */,

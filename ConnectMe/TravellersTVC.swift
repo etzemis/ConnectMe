@@ -298,6 +298,9 @@ class TravellersTVC: UITableViewController {
     //*************************************************************
 
     @objc func actOnInvitationToTrip(){
+        //enable it again after our response
+        TripDataHolder.sharedInstance.stopListeningForInvitations()
+        
         showInvitedTripAlert(travellers: TripDataHolder.sharedInstance.travellersInInvitation)
     }
     
@@ -331,10 +334,20 @@ class TravellersTVC: UITableViewController {
         let confirmAction = UIAlertAction(title: "Accept", style: .default)
         {
             _ in
-            self.SegueDueToInvitation = true
-            self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
+            DispatchQueue.main.async { // Start Spinner
+                Spinner.sharedInstance.show(uiView: self.view)
+            }
+            self.sendResponse(isAccepted: true)
+
         }
-        let cancelAction = UIAlertAction(title: "Reject", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: "Reject", style: .default)
+        {
+            _ in
+            DispatchQueue.main.async {
+                Spinner.sharedInstance.show(uiView: self.view)
+            }
+            self.sendResponse(isAccepted: false)
+        }
         
         confirmationAlert.addAction(confirmAction)
         confirmationAlert.addAction(cancelAction)
@@ -343,6 +356,59 @@ class TravellersTVC: UITableViewController {
         
     }
     
+
+    func sendResponse(isAccepted: Bool) {
+        if isAccepted
+        {
+            ServerAPIManager.sharedInstance.respondToTripRequest(accepted: isAccepted)
+            {
+                result in
+                guard result.error == nil else {
+                    self.handleResponseToInvitationError(result.error!)
+                    self.sendResponse(isAccepted: isAccepted)
+                    return
+                }
+                // We DO NOT need to start listening again for invitations
+                DispatchQueue.main.async {
+                    Spinner.sharedInstance.hide(uiView: self.view)
+                    self.SegueDueToInvitation = true
+                    self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
+                }
+                
+            }
+        }
+        else
+        {
+            ServerAPIManager.sharedInstance.respondToTripRequest(accepted: isAccepted)
+            {
+                result in
+                guard result.error == nil else {
+                    self.handleResponseToInvitationError(result.error!)
+                    self.sendResponse(isAccepted: isAccepted)
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    Spinner.sharedInstance.hide(uiView: self.view)
+                    //enable it again after our response
+                    TripDataHolder.sharedInstance.startListeningForInvitations()
+                }
+                
+            }
+            
+        }
+    }
+    
+
+    func handleResponseToInvitationError(_ error: Error) {
+        switch error {
+        case ServerAPIManagerError.authLost:
+            handleLostAuthorisation()
+        default:  // network
+            return
+        }
+        debugPrint("HandleUpdateLocationError: updateLocation error")
+    }
 
     
     //*************************************************************
@@ -447,11 +513,11 @@ class TravellersTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return "High Proximity"
+            return "High Proximity (Within 1km)"
         case 1:
-            return "Medium Proximity"
+            return "Medium Proximity (Within 2km)"
         default:
-            return "Low Proximity"
+            return "Low Proximity (More than 2km)"
         }
     }
 
@@ -492,6 +558,11 @@ class TravellersTVC: UITableViewController {
     }
 
 
+    
+    private func handleLostAuthorisation()
+    {
+        DataHolder.sharedInstance.handleLostAuthorisation()
+    }
     
 
 
