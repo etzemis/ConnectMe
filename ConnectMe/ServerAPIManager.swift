@@ -555,53 +555,57 @@ class ServerAPIManager {
     //*************************************************************
     //MARK: Refresh Status
     //*************************************************************
-//    func refreshStatusTripRequest(completionHandler: @escaping (Result<[Traveller]>) -> Void)
-//    {
-////        let request = Alamofire.request(ConnectMeRouter.refreshTripRequest())
-////            .responseJSON { response in
-////                if  let urlResponse = response.response,
-////                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
-////                {
-////                    print("\n AuthorizationError in createTripRequest \n")
-////                    completionHandler(.failure(authError))
-////                    return
-////                }
-////                print(response)
-////                let result = self.refreshTripRequestHandleResponse(response: response)
-////                completionHandler(result)
-////        }
-////        
-////        print("\n\n\n\n  Create Trip Request \n\n\n\n")
-////        debugPrint(request)
-//        
-//    }
-//    
-//    private func refreshStatusTripRequestHandleResponse(response: DataResponse<Any>) -> Result<[Traveller]>
-//    {
-//        guard response.result.error == nil else {
-//            print(response.result.error!)
-//            return .failure(ServerAPIManagerError.network(error: response.result.error!))
-//        }
-//        
-//        // check for "message" errors in the JSON because this API does that
-//        if  let jsonDictionary = response.result.value as? [String: Any],
-//            let errorMessage = jsonDictionary["message"] as? String
-//        {
-//            return .failure(ServerAPIManagerError.apiProvidedError(reason: errorMessage))
-//        }
-//        
-//        // make sure we got JSON Array
-//        guard let jsonArray = response.result.value as? [String:Any] else {
-//            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
-//        }
-//        
-//        
-//        guard let travellers = jsonArray["success"] as? [Traveller] else {
-//            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get an array with The users invited to the Trip Request"))
-//        }
-//        
-//        return .success(travellers)
-//    }
+    func refreshStatusTripRequest(completionHandler: @escaping (Result<(Int, [String:Int])>) -> Void)
+    {
+        let request = Alamofire.request(ConnectMeRouter.refreshStatusTripRequest())
+            .responseJSON { response in
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in createTripRequest \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                print(response.result)
+                let result = self.refreshStatusTripRequestHandleResponse(response: response)
+                completionHandler(result)
+        }
+        
+        print("\n\n\n\n  Create Refresh status Trip Request \n\n\n\n")
+        debugPrint(request)
+        
+    }
+    
+    private func refreshStatusTripRequestHandleResponse(response: DataResponse<Any>) -> Result<(Int, [String:Int])>
+    {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(ServerAPIManagerError.network(error: response.result.error!))
+        }
+        
+        // check for "message" errors in the JSON because this API does that
+        if  let jsonDictionary = response.result.value as? [String: Any],
+            let errorMessage = jsonDictionary["message"] as? String
+        {
+            return .failure(ServerAPIManagerError.apiProvidedError(reason: errorMessage))
+        }
+        
+        // make sure we got JSON Array
+        guard let jsonArray = response.result.value as? [String:Any] else {
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
+        }
+        
+        
+        guard let tripStatus = jsonArray["tripStatus"] as? Int else {
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON in the correct format"))
+        }
+        
+        guard let travellerStatus = jsonArray["travellerStatus"] as? [String:Int] else {
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON in the correct format"))
+        }
+        
+        return .success((tripStatus, travellerStatus))
+    }
 
 
     

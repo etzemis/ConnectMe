@@ -68,9 +68,34 @@ class TravellerStatusCell: UITableViewCell {
     }
     
     private func updateTravellerStatus(){
-        if !self.spinner.isAnimating{
-            self.spinner.startAnimating()
+        
+        if let travellerStatus = TripDataHolder.sharedInstance.TravellersInInvitationStatus[traveller!.email]
+        { //it is not me
+            switch travellerStatus {
+            case .waiting:
+                break
+            case .accepted:
+                self.spinner.stopAnimating()
+                self.accessoryType = .checkmark
+                break
+            case .rejected:
+                self.spinner.stopAnimating()
+                self.accessoryType = .detailButton
+                break
+            case .cancelled:
+                self.spinner.stopAnimating()
+                self.accessoryType = .detailDisclosureButton
+                break
+            
+            }
+            
         }
+        else{
+            // It is the user Logged In
+            self.spinner.stopAnimating()
+        }
+        
+
         
     }
 

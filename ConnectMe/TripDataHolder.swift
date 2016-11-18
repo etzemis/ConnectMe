@@ -17,25 +17,39 @@ class TripDataHolder{
     static let sharedInstance = TripDataHolder()
 
     var isAllowedToConnect = true // Flag to stop all connections
-    
     var listenForInvitationsTimer = Timer()
     var RefreshStatusTimer = Timer()
+    
+    
+    
+    
     var travellersInInvitation: [Traveller] = [] {
         didSet{
-//            //Will be called from Main Thread so it is safe
             NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationNames.InvitationToTripReceived), object: self)
         }
     }
     
     
-//    STATUS =
-//    {
-//      0: HAVE NOT YET RESPONDED
-//      1: REJECTED
-//      2: ACCEPTED
-//      3: Cancelled
-//    }
-    var TravellersInInvitationStatus: [String: Int] = [:]
+    
+    
+    //*************************************************************
+    //MARK: Travaller & Trip Status
+    //*************************************************************
+
+    
+    enum travellerStatusEnum: Int {
+        case waiting, accepted, rejected, cancelled
+    }
+    
+    enum tripStatusEnum: Int {
+        case waiting, started, cancelled
+    }
+    
+    var travellerStatus: travellerStatusEnum = .waiting
+    var tripStatus: tripStatusEnum = .waiting
+    
+    
+    var TravellersInInvitationStatus: [String: travellerStatusEnum] = [:]
     
     
     
@@ -113,21 +127,24 @@ class TripDataHolder{
     }
     
     func stopRefreshingStatus(){
-        self.listenForInvitationsTimer.invalidate()
+        self.RefreshStatusTimer.invalidate()
     }
     
     
     @objc private func refreshStatus(){
         if(self.isAllowedToConnect){
-            ServerAPIManager.sharedInstance.refreshInvitations{
+            ServerAPIManager.sharedInstance.refreshStatusTripRequest{
                 result in
                 guard result.error == nil else {
-                    self.handleListenForInvitationsError(result.error!)
+                    self.handleRefreshStatusError(result.error!)
                     return
                 }
                 // handle Response
-                self.updateTripStatus()
-                self.updateTravellersInInvitationStatus()
+                
+                if let (tripStatus, travellerStatus) = result.value {
+                    self.updateTripStatus(tripStatus: tripStatus)
+                    self.updateTravellersInInvitationStatus(travellerStatus: travellerStatus)
+                }
             }
         }
     }
@@ -150,12 +167,26 @@ class TripDataHolder{
     }
     
     
-    func updateTripStatus(){
-    
+    func updateTripStatus(tripStatus: Int){
+        self.tripStatus = tripStatusEnum(rawValue: tripStatus)!
+        
+        //post Notification!!
+        
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationNames.TripRequestTripStatusChanged), object: self)
+        }
     }
     
-    func updateTravellersInInvitationStatus(){
+    func updateTravellersInInvitationStatus(travellerStatus: [String: Int]){
+        for (email, _) in self.TravellersInInvitationStatus{
+            TravellersInInvitationStatus[email] = travellerStatusEnum(rawValue: travellerStatus[email]!)
+        }
         
+        //post Notification!
+        
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name(AppConstants.NotificationNames.TripRequestTravellerStatusChanged), object: self)
+        }
     }
     
     

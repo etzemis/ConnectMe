@@ -181,6 +181,10 @@ class DataHolder{
     //*************************************************************
 
     public func handleLostAuthorisation(){
+        
+        //stop All Connections!!!
+        TripDataHolder.sharedInstance.stopAllConnections()
+        DataHolder.sharedInstance.stopAllConnections()
         //find the View in which we are in
         if var topController = UIApplication.shared.keyWindow?.rootViewController {
             while let presentedViewController = topController.presentedViewController {

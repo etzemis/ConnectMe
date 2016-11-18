@@ -296,7 +296,7 @@ class TravellersTVC: UITableViewController {
     }
     
     //*************************************************************
-    //MARK: Invitation to Trip
+    //MARK: Invitation to Trip + Auto Rejection
     //*************************************************************
 
     @objc func actOnInvitationToTrip(){
@@ -304,7 +304,7 @@ class TravellersTVC: UITableViewController {
         TripDataHolder.sharedInstance.stopListeningForInvitations()
         
         
-        self.autoInvitationRejectionTimer = Timer.scheduledTimer(timeInterval: 5,
+        self.autoInvitationRejectionTimer = Timer.scheduledTimer(timeInterval: AppConstants.HandleTripRequest.InvitationAutoRejectTime,
                                                                  target: self,
                                                                  selector: #selector(autoRejectInvitation),
                                                                  userInfo: nil,

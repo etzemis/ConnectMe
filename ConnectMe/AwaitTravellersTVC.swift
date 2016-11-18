@@ -78,6 +78,8 @@ class AwaitTravellersTVC: UITableViewController {
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         )
         self.toolbarItems = items
+        
+        
 
 
     }
@@ -86,7 +88,27 @@ class AwaitTravellersTVC: UITableViewController {
         
         // show The Toolbar
         self.navigationController?.isToolbarHidden = false
+        
+        
+        TripDataHolder.sharedInstance.startRefreshingStatus()
+        //Listen for Notification
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnTripStatusChanged),
+                                               name: NSNotification.Name(AppConstants.NotificationNames.TripRequestTripStatusChanged), object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.actOnTravellerStatusChanged),
+                                               name: NSNotification.Name(AppConstants.NotificationNames.TripRequestTravellerStatusChanged), object: nil)
+
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        TripDataHolder.sharedInstance.stopRefreshingStatus()
+    }
+    
+    
     
     // Use it for the CountDown
     override func viewDidAppear(_ animated: Bool) {
@@ -104,6 +126,51 @@ class AwaitTravellersTVC: UITableViewController {
         self.countDowntime -= 1
     }
 
+    //*************************************************************
+    //MARK: Act On Status change
+    //*************************************************************
+
+    @objc func actOnTripStatusChanged(){
+        switch TripDataHolder.sharedInstance.tripStatus
+        {
+        case .waiting:
+            break
+        case .cancelled:
+            actOnTripWasCancelled()
+            break
+        case .started:
+            actOnTripHasStarted()
+            break
+        }
+    }
+    
+    
+    @objc func actOnTravellerStatusChanged(){
+        if TripDataHolder.sharedInstance.tripStatus != .cancelled{
+            self.tableView.reloadData()
+        }
+    }
+    
+    
+    //*************************************************************
+    //MARK: Act On Trip Cancelled
+    //*************************************************************
+    
+    private func actOnTripWasCancelled()
+    {
+        //Navigate back to TravellersVC
+    }
+    
+    //*************************************************************
+    //MARK: Act On Trip Started
+    //*************************************************************
+    
+    private func actOnTripHasStarted()
+    {
+        print("Trip Started")
+        //Navigate to TravelVC
+        
+    }
 
     //*************************************************************
     //MARK: Cancel Trip
@@ -134,7 +201,7 @@ class AwaitTravellersTVC: UITableViewController {
             DispatchQueue.main.async { // Start Spinner
                 Spinner.sharedInstance.show(uiView: self.view)
             }
-            self.sendResponse()
+            self.sendCancelTrip()
             
         }
 
@@ -148,16 +215,14 @@ class AwaitTravellersTVC: UITableViewController {
     }
     
     
-    func sendResponse() {
+    func sendCancelTrip() {
         ServerAPIManager.sharedInstance.cancelTripRequest
         {
             result in
             guard result.error == nil else {
-                self.handleResponseToInvitationError(result.error!)
-                self.sendResponse()
+                self.handleSendCancelTripError(result.error!)
                 return
             }
-            // We DO NOT need to start listening again for invitations
             DispatchQueue.main.async {
                 Spinner.sharedInstance.hide(uiView: self.view)
                 _ = self.navigationController?.popViewController(animated: true)
@@ -167,7 +232,7 @@ class AwaitTravellersTVC: UITableViewController {
     }
     
     
-    func handleResponseToInvitationError(_ error: Error) {
+    func handleSendCancelTripError(_ error: Error) {
         switch error {
         case ServerAPIManagerError.authLost:
             handleLostAuthorisation()

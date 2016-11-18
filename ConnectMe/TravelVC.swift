@@ -153,18 +153,14 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
 extension TravelVC{
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        if let location = locations.first{
-//            
-////            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.01, 0.01) )
-////            mapView.setRegion(region, animated: true)
-//            
-//        }
-        // let userLocation:CLLocation = locations[0] as CLLocation
-        manager.stopUpdatingLocation()
+        if let location = locations.first{
+                let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.015, 0.015) )
+                mapView.setRegion(region, animated: true)
+        }
     }
     
     private func locationManager(manager: CLLocationManager, didFailWithError error: NSError){ print("Error \(error)") }
+    
 }
-
 
 

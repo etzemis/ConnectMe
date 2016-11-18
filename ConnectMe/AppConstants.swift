@@ -13,10 +13,10 @@ struct AppConstants{
         static let TravellersAroundMeUpdated = "TravellersAroundMeUpdatedNotification"
         static let DestinationUpdatedSuccessfuly = "DestinationUpdatedSuccessfulyNotification"
         static let DestinationFailedToUpdate = "DestinationFailedToUpdateNotification"
-        //Trip
+        //TripRequest
         static let InvitationToTripReceived = "InvitationToTripReceivedNotification"
-        static let TripRequestStatusChanged = "TripRequestStatusChangedNotification"
-        static let TripRequestCancelled = "TripRequestCancelledNotification"
+        static let TripRequestTripStatusChanged = "TripRequestTripStatusChangedNotification"
+        static let TripRequestTravellerStatusChanged = "TripRequestTravellerStatusChangedNotification"
     }
     
     struct HandleUserLogIn{
@@ -31,8 +31,12 @@ struct AppConstants{
         static let baseUrlString = "http://192.168.1.113:3000/"
         static let fetchUsersAroundMeFrequency = 10.0  // Time Interval for Calling the Server FetchUsersAroundMe Function
         static let listenForInvitationsFrequency = 1.0  // Time Interval for updating Invitation Requests
-         static let TripRequestRefreshStatusFrequency = 3.0  // Time Interval for Refreshing Status
+        static let TripRequestRefreshStatusFrequency = 5.0  // Time Interval for Refreshing Status
         static let serialqueue = "ConnectMeServerSerialQueue"
+    }
+    
+    struct HandleTripRequest{
+        static let InvitationAutoRejectTime = 300.0
     }
     
     static let UserLocationAccuracyinMeters = 10.0  // My location will not be updated if my location changes less than those meters
