@@ -206,6 +206,8 @@ class TravellersTVC: UITableViewController {
     //MARK: Trip Creation  Remote
     //*************************************************************
 
+    
+    var autoInvitationRejectionTimer = Timer()
     func showCreatedTripAlert(travellers: [Traveller])
     {
         
@@ -301,7 +303,24 @@ class TravellersTVC: UITableViewController {
         //enable it again after our response
         TripDataHolder.sharedInstance.stopListeningForInvitations()
         
+        
+        self.autoInvitationRejectionTimer = Timer.scheduledTimer(timeInterval: 5,
+                                                                 target: self,
+                                                                 selector: #selector(autoRejectInvitation),
+                                                                 userInfo: nil,
+                                                                 repeats: false)
+        
         showInvitedTripAlert(travellers: TripDataHolder.sharedInstance.travellersInInvitation)
+    }
+    
+    @objc func autoRejectInvitation(){
+        DispatchQueue.main.async {
+            //dismiss alert
+            self.dismiss(animated: true, completion: nil)
+            //present Spinner
+            Spinner.sharedInstance.show(uiView: self.view)
+        }
+        sendResponse(isAccepted: false)
     }
     
     func showInvitedTripAlert(travellers: [Traveller]){
@@ -334,6 +353,10 @@ class TravellersTVC: UITableViewController {
         let confirmAction = UIAlertAction(title: "Accept", style: .default)
         {
             _ in
+            
+            //cancel the auto rejection
+            self.autoInvitationRejectionTimer.invalidate()
+            
             DispatchQueue.main.async { // Start Spinner
                 Spinner.sharedInstance.show(uiView: self.view)
             }
@@ -343,6 +366,10 @@ class TravellersTVC: UITableViewController {
         let cancelAction = UIAlertAction(title: "Reject", style: .default)
         {
             _ in
+            
+            //cancel the auto rejection
+            self.autoInvitationRejectionTimer.invalidate()
+            
             DispatchQueue.main.async {
                 Spinner.sharedInstance.show(uiView: self.view)
             }
