@@ -355,30 +355,31 @@ extension TravelVC{
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first{
-            self.myCurrentLocation = location
             
-            if( isApproachingMeetingPoint )
-            {
-                if (self.myCurrentLocation.distance(from: self.meetingPoint) < Constants.MinimumDistanceFromMeetingPoint)
+            let distance = self.myCurrentLocation.distance(from: location) as Double
+            
+            if distance > AppConstants.UserLocationAccuracyinMeters{
+                self.myCurrentLocation = location
+                if( isApproachingMeetingPoint )
                 {
-                    self.isApproachingMeetingPoint = false
-                    self.actOnArrivedAtMeetingPoint()
+                    if (self.myCurrentLocation.distance(from: self.meetingPoint) < Constants.MinimumDistanceFromMeetingPoint)
+                    {
+                        self.isApproachingMeetingPoint = false
+                        self.actOnArrivedAtMeetingPoint()
+                    }
                 }
-            }
-            else
-            {
-                let destinationCoord = DataHolder.sharedInstance.userLoggedIn.destination.coord
-                let destination = CLLocation(latitude: destinationCoord.latitude, longitude: destinationCoord.longitude)
+                else
+                {
+                    let destinationCoord = DataHolder.sharedInstance.userLoggedIn.destination.coord
+                    let destination = CLLocation(latitude: destinationCoord.latitude, longitude: destinationCoord.longitude)
+                    
+                    if (self.myCurrentLocation.distance(from: destination ) < Constants.MinimumDistanceFromDestination)
+                    {
+                        self.actOnArrivedAtDestination()
+                    }
+                }
                 
-                if (self.myCurrentLocation.distance(from: destination ) < Constants.MinimumDistanceFromDestination)
-                {
-                    self.actOnArrivedAtDestination()
-                }
             }
-            
-//            _ = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.005, 0.005) )
-           // mapView.setRegion(region, animated: false)
-            
         }
         
     }
