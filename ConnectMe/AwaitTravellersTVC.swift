@@ -290,7 +290,8 @@ class AwaitTravellersTVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellIdentifier, for: indexPath) as! TravellerStatusCell
-        cell.traveller = getUser(forIndexPath: indexPath)
+        let (userToDisplay, hasAccepted) = getUser(forIndexPath: indexPath)
+        cell.setTraveller(traveller: userToDisplay, hasAlreadyAccepted: hasAccepted)
         return cell
     }
     
@@ -319,20 +320,20 @@ class AwaitTravellersTVC: UITableViewController {
     //MARK: Helper Functions
     //*************************************************************
 
-    func getUser(forIndexPath indexPath: IndexPath) -> Traveller{
+    func getUser(forIndexPath indexPath: IndexPath) -> (Traveller, Bool){
         if indexPath.section == 0 {
-            return DataHolder.sharedInstance.userLoggedIn
+            return (DataHolder.sharedInstance.userLoggedIn, true)
         }
         if indexPath.section == 1 {
             switch tripMode {
             case .Created:
-                return travellers[indexPath.row]
+                return (travellers[indexPath.row], false) // has not said yes
             default:
-                return travellers[0]
+                return (travellers[0], true)
             }
         }
         else{
-            return travellers[indexPath.row + 1]
+            return (travellers[indexPath.row + 1], false)
         }
     }
     

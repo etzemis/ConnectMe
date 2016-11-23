@@ -139,7 +139,7 @@ enum ConnectMeRouter: URLRequestConvertible {
             case .deactivate:
                 relativePath = "user/deactivate"
             case .fetchTravellersAroundMeTrip:
-                relativePath = "trip/travellers"
+                relativePath = "tripRequest/travellers"
             case .createTripRequest:
                 relativePath = "tripRequest/create"
             case .refreshInvitations:

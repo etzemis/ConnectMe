@@ -16,7 +16,7 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
     //MARK: Constants
     //*************************************************************
 
-    private struct Constants{
+    struct Constants{
         static let FullTrackColor = UIColor.blue.withAlphaComponent(0.5) //Add alpha component to 0.5
         static let TrackLineWidth: CGFloat = 5.0
         static let RegionRadius: CLLocationDistance = 250
@@ -24,6 +24,8 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
         static let PinNormalColor: UIColor = UIColor.brown
         static let AnnotationViewReuseIdentifier = "coTraveller point"
         static let LeftCalloutFrame = CGRect(x:0, y:0, width:50, height:50)
+        static let MinimumDistanceFromMeetingPoint = 50.0  // in meters
+        static let MinimumDistanceFromDestination = 100.0  // in meters
     }
     
     //*************************************************************
@@ -31,9 +33,11 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
     //*************************************************************
 
     var locationManager: CLLocationManager = CLLocationManager()
-    var myCurrentLocation = CLLocationCoordinate2D()
-    private var meetingPoint = CLLocationCoordinate2D()
+    var myCurrentLocation = CLLocation()
+    var meetingPoint = CLLocation()
     
+    
+    var isApproachingMeetingPoint = true
     @IBOutlet weak var mapView: MKMapView!{didSet {setUpMap()}}
     
     
@@ -50,24 +54,29 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
         // show The Toolbar
         self.navigationController?.isToolbarHidden = true
 
+        
+        self.navigationItem.title = "Walk towards the Meeting Point"
+        
+        
         setUpLocationManager()
         // Do any additional setup after loading the view.
         // Observe (listen for) "special notification key"
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.actOnMyTravellersUpdatedNotification),
-                                               name: NSNotification.Name(AppConstants.NotificationNames.TravellersAroundMeUpdated), object: nil)
+                                               name: NSNotification.Name(AppConstants.NotificationNames.MyTravellersUpdated), object: nil)
         
         
         
         Spinner.sharedInstance.show(uiView: (self.navigationController?.view)!)
         getTripMeetingPoint()
+        TripDataHolder.sharedInstance.startFetchingMyTravellers()
         
         
     }
 
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.TravellersAroundMeUpdated), object: nil);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.MyTravellersUpdated), object: nil);
     }
     
     
@@ -84,9 +93,15 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
 
     
     func displayUsers(users:[Traveller]){
-        let annotations = mapView.annotations
-        for an in mapView.selectedAnnotations{
+        var annotations = mapView.annotations
+        var i = 0
+        for an in annotations{
             mapView.deselectAnnotation(an, animated: true)
+            if an is MeetingPointAnnotation
+            {
+                annotations.remove(at: i)
+            }
+            i += 1
         }
         mapView.removeAnnotations(annotations)
         mapView.addAnnotations(users)
@@ -112,13 +127,13 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
             //send success Notification
             DispatchQueue.main.async {
                 Spinner.sharedInstance.hide(uiView: (self.navigationController?.view)!)
-                self.meetingPoint = result.value!
+                self.meetingPoint = CLLocation(latitude: result.value!.latitude, longitude: result.value!.longitude)
                 self.showDirectionsToMeetingPoint()
             }
 
         }
     }
-    
+    //TODO: Handle "Message" Error
     func handleGetTripMeetingPointError(_ error: Error) {
         switch error {
         case ServerAPIManagerError.authLost:
@@ -135,48 +150,64 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
     //*************************************************************
 
     func showDirectionsToMeetingPoint() {
-
-        // 1. Create Placemarks
-        let startPlacemark = MKPlacemark(coordinate: myCurrentLocation, addressDictionary: nil)
-        let finishPlacemark = MKPlacemark(coordinate: meetingPoint, addressDictionary: nil)
         
-        // 2. Create MapItems, used for Routing
-        let startMapItem = MKMapItem(placemark: startPlacemark)
-        let finishMapItem = MKMapItem(placemark: finishPlacemark)
+        //Check if meeting point is Too close!
         
-        // 3. Create Meeting Point annotation in the map
-        let finishAnnotation = MeetingPointAnnotation(coordinate: meetingPoint)
+        let distance = myCurrentLocation.distance(from: meetingPoint) as Double
         
-        
-        // 4.
-        self.mapView.addAnnotation(finishAnnotation)
-        
-        // 5.
-        let directionRequest = MKDirectionsRequest()
-        directionRequest.source = startMapItem
-        directionRequest.destination = finishMapItem
-        directionRequest.transportType = .walking
-        
-        // 6. Calculate the directions
-        let directions = MKDirections(request: directionRequest)
-        
-        // 8. Get the directions
-        directions.calculate {
-            (response, error) -> Void in
+        if distance > Constants.MinimumDistanceFromMeetingPoint {
             
-            guard let response = response else {
-                if let error = error {
-                    print("Error: \(error)")
+            // 1. Create Placemarks
+            let startPlacemark = MKPlacemark(coordinate: myCurrentLocation.coordinate, addressDictionary: nil)
+            let finishPlacemark = MKPlacemark(coordinate: meetingPoint.coordinate, addressDictionary: nil)
+            
+            // 2. Create MapItems, used for Routing
+            let startMapItem = MKMapItem(placemark: startPlacemark)
+            let finishMapItem = MKMapItem(placemark: finishPlacemark)
+            
+            // 3. Create Meeting Point annotation in the map
+            let finishAnnotation = MeetingPointAnnotation(coordinate: meetingPoint.coordinate)
+            
+            
+            // 4.
+            self.mapView.addAnnotation(finishAnnotation)
+            
+            // 5.
+            let directionRequest = MKDirectionsRequest()
+            directionRequest.source = startMapItem
+            directionRequest.destination = finishMapItem
+            directionRequest.transportType = .walking
+            
+            // 6. Calculate the directions
+            let directions = MKDirections(request: directionRequest)
+            
+            // 8. Get the directions
+            directions.calculate {
+                (response, error) -> Void in
+                
+                guard let response = response else {
+                    if let error = error {
+                        print("Error: \(error)")
+                    }
+                    
+                    return
                 }
                 
-                return
+                let route = response.routes[0]
+                self.mapView.add((route.polyline), level: MKOverlayLevel.aboveRoads)
+                
+                let rect = route.polyline.boundingMapRect
+                self.mapView.setRegion(MKCoordinateRegionForMapRect(rect), animated: true)
             }
+        }
+        else{
             
-            let route = response.routes[0]
-            self.mapView.add((route.polyline), level: MKOverlayLevel.aboveRoads)
+            let finishAnnotation = MeetingPointAnnotation(coordinate: meetingPoint.coordinate)
+            self.mapView.addAnnotation(finishAnnotation)
             
-//            let rect = route.polyline.boundingMapRect
-//            self.mapView.setRegion(MKCoordinateRegionForMapRect(rect), animated: true)
+            // Zoom close to the user
+            let region = MKCoordinateRegion(center: myCurrentLocation.coordinate, span: MKCoordinateSpanMake(0.002, 0.002) )
+            self.mapView.setRegion(region, animated: false)
         }
     }
     
@@ -278,35 +309,40 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
     }
     
     
-    func createBotUsers() -> [Traveller]{
-        var users = [Traveller]()
-        
-        var user = Traveller(email: "",
-                         name: "Vaggelis",
-                         destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
-                         proximity: 1,
-                         extraPersons: 1,
-                         currentCoord: CLLocationCoordinate2D(latitude: 37.983709, longitude: 23.680877),
-                         imageUrl:"vvagdancer@gmail.jpg")
-    
-        users.append(user)
-        
-        user = Traveller(email: "",
-                         name: "Alexis",
-                         destination: Location(address: "Kolokotroni 33-41", region: "Egaleo", coord: CLLocationCoordinate2D(latitude: 37.997272, longitude: 23.686664)),
-                         proximity: 1,
-                         extraPersons: 1,
-                         currentCoord: CLLocationCoordinate2D(latitude: 37.984420, longitude: 23.681888),
-                         imageUrl:"vvagdancer@gmail.jpg")
-        
-        users.append(user)
-        
-        self.meetingPoint = CLLocationCoordinate2D(latitude: 37.988982, longitude: 23.689453)
-
-        
-        return users
+    //*************************************************************
+    //MARK: Arrived At Meeting Point
+    //*************************************************************
+    func actOnArrivedAtMeetingPoint()
+    {
+        //remove overlay
+        let overlays  = mapView.overlays
+        mapView.removeOverlays(overlays)
+        //remove Meeting point annotation
+        let annotations = mapView.annotations
+        for an in annotations{
+            if an is MeetingPointAnnotation
+            {
+                mapView.removeAnnotation(an)
+            }
+        }
     }
-
+    
+    //*************************************************************
+    //MARK: Arrived At Destination
+    //*************************************************************
+    
+    func actOnArrivedAtDestination()
+    {
+        TripDataHolder.sharedInstance.stopAllConnections()
+        
+        //show alert
+        let alert = UIAlertController(title: "You have arrived at Your Destination", message: "Thank you for using USave. See you soon!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        //Inform the Server that I have arrived at my Destination
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
     
 }
 
@@ -319,10 +355,29 @@ extension TravelVC{
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first{
-            self.myCurrentLocation = location.coordinate
+            self.myCurrentLocation = location
             
-            let region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.015, 0.015) )
-            mapView.setRegion(region, animated: false)
+            if( isApproachingMeetingPoint )
+            {
+                if (self.myCurrentLocation.distance(from: self.meetingPoint) < Constants.MinimumDistanceFromMeetingPoint)
+                {
+                    self.isApproachingMeetingPoint = false
+                    self.actOnArrivedAtMeetingPoint()
+                }
+            }
+            else
+            {
+                let destinationCoord = DataHolder.sharedInstance.userLoggedIn.destination.coord
+                let destination = CLLocation(latitude: destinationCoord.latitude, longitude: destinationCoord.longitude)
+                
+                if (self.myCurrentLocation.distance(from: destination ) < Constants.MinimumDistanceFromDestination)
+                {
+                    self.actOnArrivedAtDestination()
+                }
+            }
+            
+//            _ = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpanMake(0.005, 0.005) )
+           // mapView.setRegion(region, animated: false)
             
         }
         

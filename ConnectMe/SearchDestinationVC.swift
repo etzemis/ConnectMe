@@ -66,7 +66,7 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
             searchController?.isActive = false  //Dismiss the Search Controller
         }
         else{
-            Spinner.sharedInstance.show(uiView: (self.navigationController?.view)!)
+            Spinner.sharedInstance.show(uiView: self.view)
             
             let destination  = Location(address: userDestination.title, region: userDestination.subtitle, coord: userDestination.coordinate)
             DataHolder.sharedInstance.insertDestination(destination: destination, extraPersons: self.extraPersons)
@@ -111,7 +111,7 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
     
     @objc private func actOnDestinationUpdatedSuccessfuly(){
         DispatchQueue.main.async {
-            Spinner.sharedInstance.hide(uiView: (self.navigationController?.view)!)
+            Spinner.sharedInstance.hide(uiView: self.view)
             //Up-date the userLoggedInInstance!!!
             DataHolder.sharedInstance.userLoggedIn.destination = Location(address: self.userDestination.title,
                                                                           region: self.userDestination.subtitle,
@@ -130,7 +130,7 @@ class SearchDestinationVC: UIViewController,MKMapViewDelegate, CLLocationManager
         alertController.addAction(okAction)
         
         DispatchQueue.main.async {
-            Spinner.sharedInstance.hide(uiView: (self.navigationController?.view)!)
+            Spinner.sharedInstance.hide(uiView: self.view)
             self.present(alertController, animated: true, completion: nil)
         }
 

@@ -28,7 +28,7 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>http://192.168.1.164:3000</key>
+			<key>http://connectmeserver-92909.onmodulus.net</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>

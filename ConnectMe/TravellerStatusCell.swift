@@ -34,12 +34,19 @@ class TravellerStatusCell: UITableViewCell {
     }
     
     
-    
+    private var hasAlreadyAccepted: Bool = false
     
     var traveller: Traveller?{
         didSet{
             updateUI()
         }
+    }
+    
+    func setTraveller(traveller: Traveller, hasAlreadyAccepted: Bool)
+    {
+        self.traveller = traveller
+        self.hasAlreadyAccepted = hasAlreadyAccepted
+        
     }
     
     func updateUI(){
@@ -70,7 +77,7 @@ class TravellerStatusCell: UITableViewCell {
     
     private func updateTravellerStatus(){
         
-        if !TripRequestDataHolder.sharedInstance.travellersInInvitationStatus.isEmpty{
+        if !self.hasAlreadyAccepted{
             if let travellerStatus = TripRequestDataHolder.sharedInstance.travellersInInvitationStatus[traveller!.email]
             { //it is not me
                 switch travellerStatus {
@@ -89,14 +96,12 @@ class TravellerStatusCell: UITableViewCell {
                 }
                 
             }
-            else{
+        }
+        else{
                 // It is the user Logged In
                 //self.spinner.stopAnimating()
                 self.statusUmageView.image = #imageLiteral(resourceName: "userAccepted")
-            }
         }
-        
-
         
     }
 

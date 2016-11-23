@@ -49,7 +49,7 @@ class TripDataHolder{
     
     @objc private func fetchMyTravellers(){
         if(self.isAllowedToConnect){
-            ServerAPIManager.sharedInstance.fetchTravellersAroundMe{
+            ServerAPIManager.sharedInstance.fetchMyTravellersTrip{
                 result in
                 guard result.error == nil else {
                     self.handleFetchMyTravellersError(result.error!)
@@ -82,6 +82,19 @@ class TripDataHolder{
         debugPrint("handleFetchMyTravellersErrors: LoadTravellers Error")
     }
     
+    
+    
+    //*************************************************************
+    //MARK: Handle All Connectivity
+    //*************************************************************
+    
+    func stopAllConnections(){
+        self.isAllowedToConnect = false
+    }
+    
+    func startAllConnections(){
+        self.isAllowedToConnect = true
+    }
     
     private func handleLostAuthorisation(){
         DataHolder.sharedInstance.handleLostAuthorisation()
