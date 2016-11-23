@@ -76,7 +76,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
         }
         
         //present spinner :-)
-        Spinner.sharedInstance.show(uiView: self.view)
+        Spinner.sharedInstance.show(uiView: (self.navigationController?.view)!)
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
 
@@ -90,7 +90,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate, UIImagePickerController
             result in
             //stop spinner in main thread!
             DispatchQueue.main.async {
-                 Spinner.sharedInstance.hide(uiView: self.view)
+                Spinner.sharedInstance.hide(uiView: (self.navigationController?.view)!)
             }
             
             //if encountered an error

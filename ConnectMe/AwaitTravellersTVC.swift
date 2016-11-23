@@ -18,6 +18,7 @@ class AwaitTravellersTVC: UITableViewController {
 
     struct Constants {
         static let CellIdentifier = "Traveller Status Cell"
+        static let StartTripSegueIdentifier = "Start Trip"
     }
     
     enum Trip {
@@ -90,7 +91,7 @@ class AwaitTravellersTVC: UITableViewController {
         self.navigationController?.isToolbarHidden = false
         
         
-        TripDataHolder.sharedInstance.startRefreshingStatus()
+        TripRequestDataHolder.sharedInstance.startRefreshingStatus()
         //Listen for Notification
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.actOnTripStatusChanged),
@@ -105,7 +106,7 @@ class AwaitTravellersTVC: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        TripDataHolder.sharedInstance.stopRefreshingStatus()
+        TripRequestDataHolder.sharedInstance.stopRefreshingStatus()
     }
     
     
@@ -131,7 +132,7 @@ class AwaitTravellersTVC: UITableViewController {
     //*************************************************************
 
     @objc func actOnTripStatusChanged(){
-        switch TripDataHolder.sharedInstance.tripStatus
+        switch TripRequestDataHolder.sharedInstance.tripStatus
         {
         case .waiting:
             break
@@ -146,7 +147,7 @@ class AwaitTravellersTVC: UITableViewController {
     
     
     @objc func actOnTravellerStatusChanged(){
-        if TripDataHolder.sharedInstance.tripStatus != .cancelled{
+        if TripRequestDataHolder.sharedInstance.tripStatus != .cancelled{
             self.tableView.reloadData()
         }
     }
@@ -158,7 +159,20 @@ class AwaitTravellersTVC: UITableViewController {
     
     private func actOnTripWasCancelled()
     {
+        
         //Navigate back to TravellersVC
+        let confirmationAlert = UIAlertController(title: "Trip Cancellation",
+                                                  message: "Trip Has ben Cancelled from the Creator! You may create a new one if you wish to",
+                                                  preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "OK", style: .default)
+        {
+            _ in
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        
+        confirmationAlert.addAction(confirmAction)
+        self.present(confirmationAlert, animated: true, completion: nil)
+
     }
     
     //*************************************************************
@@ -167,8 +181,10 @@ class AwaitTravellersTVC: UITableViewController {
     
     private func actOnTripHasStarted()
     {
-        print("Trip Started")
-        //Navigate to TravelVC
+        //Stop All connections for Trip Request
+        TripRequestDataHolder.sharedInstance.stopAllConnections()
+        
+        performSegue(withIdentifier: Constants.StartTripSegueIdentifier, sender: self)
         
     }
 
@@ -199,7 +215,7 @@ class AwaitTravellersTVC: UITableViewController {
         {
             _ in
             DispatchQueue.main.async { // Start Spinner
-                Spinner.sharedInstance.show(uiView: self.view)
+                Spinner.sharedInstance.show(uiView: (self.navigationController?.view)!)
             }
             self.sendCancelTrip()
             
@@ -224,7 +240,7 @@ class AwaitTravellersTVC: UITableViewController {
                 return
             }
             DispatchQueue.main.async {
-                Spinner.sharedInstance.hide(uiView: self.view)
+                Spinner.sharedInstance.hide(uiView: (self.navigationController?.view)!)
                 _ = self.navigationController?.popViewController(animated: true)
             }
             

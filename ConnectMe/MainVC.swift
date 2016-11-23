@@ -15,10 +15,12 @@ import PINRemoteImage
 
 class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
-    // MARK: Constants
-    private struct Constants{
-        static let FullTrackColor = UIColor.blue //Add alpha component to 0.5
-        static let TrackLineWidth: CGFloat = 3.0
+    //*************************************************************
+    //MARK: Constants
+    //*************************************************************
+
+    private struct Constants
+    {
         static let LeftCalloutFrame = CGRect(x:0, y:0, width:50, height:50)
         static let AnnotationViewReuseIdentifier = "traveller point"
         static let UserLocationReuseIdentifier = "user location"
@@ -32,17 +34,19 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
 
-    
-    // MARK: Variables
+    //*************************************************************
+    //MARK: Variables
+    //*************************************************************
+
     private var isInitialized = false;
+
     var userLastUpdatedLocation = CLLocation() //The last Location that has been send to the server
     private var locationManager: CLLocationManager = CLLocationManager()
     
-    //MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!{didSet {setUpMap()}}
-
     @IBOutlet weak var mapTypeSegmentedControl: UISegmentedControl!
-    @IBAction func mapTypeChanged(_ sender: Any) {
+    @IBAction func mapTypeChanged(_ sender: Any)
+    {
         switch (self.mapTypeSegmentedControl.selectedSegmentIndex) {
         case 0:
             self.mapView.mapType = .standard;
@@ -56,11 +60,16 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
             break;
         }
     }
+    
+    
+    //*************************************************************
     //MARK: View Lifecycle
-    override func viewDidLoad() {
+    //*************************************************************
+
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
-        // Observe (listen for) "special notification key"
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.actOnTravellersUpdatedNotification),
                                                name: NSNotification.Name(AppConstants.NotificationNames.TravellersAroundMeUpdated), object: nil)
@@ -68,24 +77,27 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     }
     
-    deinit {
+    deinit
+    {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.TravellersAroundMeUpdated), object: nil);
     }
     
     
-    
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
         
         self.navigationController?.isToolbarHidden = true
         
         
         let isUserLoggedIn = UserDefaults.standard.bool(forKey: AppConstants.HandleUserLogIn.IsUserLoggedInUserDefaults)
 
-        if !isUserLoggedIn{
+        if !isUserLoggedIn
+        {
             self.isInitialized = false //stop connections will be called form logging out
             performSegue(withIdentifier: Constants.UserLoginSegue, sender: self)
         }
-        else if !self.isInitialized{
+        else if !self.isInitialized
+        {
             //set it to false when Logging out!
             self.isInitialized = !self.isInitialized
             
@@ -99,7 +111,8 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
                     return
                 }
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.async
+                {
                     self.setUpLocationManager()
                 }
                 
@@ -115,7 +128,10 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     
     
-// MARK: Act On Notifications
+    //*************************************************************
+    //MARK: Act On Notifications
+    //*************************************************************
+
     @objc private func actOnTravellersUpdatedNotification(){
         print("Received Notification")
         displayUsers(users: DataHolder.sharedInstance.travellers)
@@ -123,7 +139,10 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     }
 
     
-// MARK: Initialization Location Manager and Map
+    //*************************************************************
+    //MARK: Set up location manager and map
+    //*************************************************************
+
     func setUpLocationManager(){
         self.locationManager.delegate = self;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -143,7 +162,10 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         mapView.tintColor = UIColor.lightGray
     }
     
-// MARK: Perform Segue
+    //*************************************************************
+    //MARK: Segue
+    //*************************************************************
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.ShowUserSegue{
             if let user = (sender as? MKAnnotationView)?.annotation as? Traveller{
@@ -161,7 +183,10 @@ class MainVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         }
     }
     
-// MARK: MKMapView Delegate
+    //*************************************************************
+    //MARK: MApView Delegate
+    //*************************************************************
+
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
         
         if let annotation = annotation as? Traveller {

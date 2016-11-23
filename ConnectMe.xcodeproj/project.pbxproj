@@ -35,11 +35,13 @@
 		54736F221DCA3B240010B34C /* ServerAPIManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54736F211DCA3B240010B34C /* ServerAPIManagerError.swift */; };
 		548356B81DBF48E100C9D29D /* TravelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548356B71DBF48E100C9D29D /* TravelVC.swift */; };
 		548C4EDF1DCCD643001F9B2B /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 548C4EDE1DCCD643001F9B2B /* Spinner.swift */; };
-		54B75F371DDB5C650050467F /* TripDataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B75F361DDB5C650050467F /* TripDataHolder.swift */; };
+		54B75F371DDB5C650050467F /* TripRequestDataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B75F361DDB5C650050467F /* TripRequestDataHolder.swift */; };
 		54BC01AC1DB025D700DAD0DA /* UserDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */; };
 		54BCE36F1DB8A310002CBAD1 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCE36E1DB8A310002CBAD1 /* CustomSearchBar.swift */; };
 		54BCE3711DB8A335002CBAD1 /* CustomSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCE3701DB8A335002CBAD1 /* CustomSearchController.swift */; };
 		54BCE3751DB8B7FA002CBAD1 /* TravellersTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BCE3741DB8B7FA002CBAD1 /* TravellersTVC.swift */; };
+		54EAF8B41DE069A30084C45F /* TripDataHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EAF8B31DE069A30084C45F /* TripDataHolder.swift */; };
+		54F726071DE3130C00911EC7 /* MeetingPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F726061DE3130C00911EC7 /* MeetingPointAnnotation.swift */; };
 		970CA75063012B0A7D4908DA /* Pods_ConnectMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79138FB18077B6D1598A3013 /* Pods_ConnectMe.framework */; };
 /* End PBXBuildFile section */
 
@@ -75,11 +77,13 @@
 		54736F211DCA3B240010B34C /* ServerAPIManagerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerAPIManagerError.swift; sourceTree = "<group>"; };
 		548356B71DBF48E100C9D29D /* TravelVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelVC.swift; sourceTree = "<group>"; };
 		548C4EDE1DCCD643001F9B2B /* Spinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
-		54B75F361DDB5C650050467F /* TripDataHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripDataHolder.swift; sourceTree = "<group>"; };
+		54B75F361DDB5C650050467F /* TripRequestDataHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripRequestDataHolder.swift; sourceTree = "<group>"; };
 		54BC01AB1DB025D700DAD0DA /* UserDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailsVC.swift; sourceTree = "<group>"; };
 		54BCE36E1DB8A310002CBAD1 /* CustomSearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		54BCE3701DB8A335002CBAD1 /* CustomSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSearchController.swift; sourceTree = "<group>"; };
 		54BCE3741DB8B7FA002CBAD1 /* TravellersTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravellersTVC.swift; sourceTree = "<group>"; };
+		54EAF8B31DE069A30084C45F /* TripDataHolder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripDataHolder.swift; sourceTree = "<group>"; };
+		54F726061DE3130C00911EC7 /* MeetingPointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingPointAnnotation.swift; sourceTree = "<group>"; };
 		79138FB18077B6D1598A3013 /* Pods_ConnectMe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ConnectMe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		862199A915635C4BD5945BDB /* Pods-ConnectMe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ConnectMe.release.xcconfig"; path = "Pods/Target Support Files/Pods-ConnectMe/Pods-ConnectMe.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -239,8 +243,9 @@
 		546094851DC7B3C600E11983 /* ServerAPIManager */ = {
 			isa = PBXGroup;
 			children = (
-				54B75F361DDB5C650050467F /* TripDataHolder.swift */,
 				54736F1F1DCA27270010B34C /* DataHolder.swift */,
+				54B75F361DDB5C650050467F /* TripRequestDataHolder.swift */,
+				54EAF8B31DE069A30084C45F /* TripDataHolder.swift */,
 				546094831DC7B3BC00E11983 /* ServerAPIManager.swift */,
 				54736F211DCA3B240010B34C /* ServerAPIManagerError.swift */,
 			);
@@ -260,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				548356B71DBF48E100C9D29D /* TravelVC.swift */,
+				54F726061DE3130C00911EC7 /* MeetingPointAnnotation.swift */,
 			);
 			name = "5. Travel";
 			sourceTree = "<group>";
@@ -426,8 +432,10 @@
 			files = (
 				54BCE3711DB8A335002CBAD1 /* CustomSearchController.swift in Sources */,
 				548356B81DBF48E100C9D29D /* TravelVC.swift in Sources */,
+				54EAF8B41DE069A30084C45F /* TripDataHolder.swift in Sources */,
 				5437D28C1DD4EE1200508D7B /* AwaitTravellersTVC.swift in Sources */,
 				541321601DD0F46D000A5D5B /* AppConstants.swift in Sources */,
+				54F726071DE3130C00911EC7 /* MeetingPointAnnotation.swift in Sources */,
 				5460947E1DC7A2A800E11983 /* ConnectMeRouter.swift in Sources */,
 				546094841DC7B3BC00E11983 /* ServerAPIManager.swift in Sources */,
 				54235FD31DAE635B002AD465 /* Traveller+MKAnnotation.swift in Sources */,
@@ -448,7 +456,7 @@
 				54678A531DDE17C10060432B /* TravellerStatusCell.swift in Sources */,
 				54BCE36F1DB8A310002CBAD1 /* CustomSearchBar.swift in Sources */,
 				5446222B1DA8E74300A9E92B /* AppDelegate.swift in Sources */,
-				54B75F371DDB5C650050467F /* TripDataHolder.swift in Sources */,
+				54B75F371DDB5C650050467F /* TripRequestDataHolder.swift in Sources */,
 				544181A01DBD0EA20050E27C /* TravellerCell.swift in Sources */,
 				548C4EDF1DCCD643001F9B2B /* Spinner.swift in Sources */,
 				54736F1E1DCA18C00010B34C /* Traveller+Networking.swift in Sources */,

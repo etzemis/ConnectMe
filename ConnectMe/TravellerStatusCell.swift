@@ -16,6 +16,7 @@ class TravellerStatusCell: UITableViewCell {
     @IBOutlet weak var destination: UILabel!
     @IBOutlet weak var extraPersons: UILabel!
     
+    @IBOutlet weak var statusUmageView: UIImageView!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     private var _name: String{
         set{ self.name.text = "\(newValue)"}
@@ -69,30 +70,30 @@ class TravellerStatusCell: UITableViewCell {
     
     private func updateTravellerStatus(){
         
-        if let travellerStatus = TripDataHolder.sharedInstance.TravellersInInvitationStatus[traveller!.email]
-        { //it is not me
-            switch travellerStatus {
-            case .waiting:
-                break
-            case .accepted:
-                self.spinner.stopAnimating()
-                self.accessoryType = .checkmark
-                break
-            case .rejected:
-                self.spinner.stopAnimating()
-                self.accessoryType = .detailButton
-                break
-            case .cancelled:
-                self.spinner.stopAnimating()
-                self.accessoryType = .detailDisclosureButton
-                break
-            
+        if !TripRequestDataHolder.sharedInstance.travellersInInvitationStatus.isEmpty{
+            if let travellerStatus = TripRequestDataHolder.sharedInstance.travellersInInvitationStatus[traveller!.email]
+            { //it is not me
+                switch travellerStatus {
+                case .waiting:
+                    self.spinner.startAnimating()
+                    self.statusUmageView.image = nil
+                    break
+                case .accepted:
+                   // self.spinner.stopAnimating()
+                    self.statusUmageView.image = #imageLiteral(resourceName: "userAccepted")
+                    break
+                default:
+                    //self.spinner.stopAnimating()
+                    self.statusUmageView.image = #imageLiteral(resourceName: "userCancelled")
+                    break
+                }
+                
             }
-            
-        }
-        else{
-            // It is the user Logged In
-            self.spinner.stopAnimating()
+            else{
+                // It is the user Logged In
+                //self.spinner.stopAnimating()
+                self.statusUmageView.image = #imageLiteral(resourceName: "userAccepted")
+            }
         }
         
 

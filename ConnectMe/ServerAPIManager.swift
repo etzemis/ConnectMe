@@ -8,14 +8,14 @@
 
 import Foundation
 import Alamofire
+import CoreLocation
 
 class ServerAPIManager {
     static let sharedInstance = ServerAPIManager()
     
     
-    
     //*************************************************************
-    //MARK: Helepr Functions
+    //MARK: Helper Functions
     //*************************************************************
 
     func checkUnauthorized(urlResponse: HTTPURLResponse) -> (Error?) {
@@ -615,7 +615,7 @@ class ServerAPIManager {
     func respondToTripRequest(accepted: Bool,  completionHandler: @escaping (Result<Bool>) -> Void)
     {
         //First Create JSON Object that you will be sending to the Server
-        let parameters: [String: Any] = ["response": accepted]
+        let parameters: [String: Any] = ["response": accepted.hashValue]
         
         let request = Alamofire.request(ConnectMeRouter.respondToTripRequest(parameters))
             .response { response in
@@ -673,6 +673,122 @@ class ServerAPIManager {
     }
     
     
+    
+    //*************************************************************
+    //MARK: Trip
+    //*************************************************************
+
+    
+    //*************************************************************
+    //MARK: Fetch Trip Meeting Point
+    //*************************************************************
+    func fetchTripMeetingPoint(completionHandler: @escaping (Result<CLLocationCoordinate2D>) -> Void)
+    {
+        let request = Alamofire.request(ConnectMeRouter.getTripMeetingPoint())
+            .responseJSON { response in
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in FetchTravellersAroundMe \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                print(response)
+                let result = self.meetingPointFromResponse(response:response)
+                completionHandler(result)
+        }
+        
+        print("\n\n\n\n  FetchTravellersAroundMe Trip request \n\n\n\n")
+        debugPrint(request)
+    }
+    
+    // Parse Responce
+    private func meetingPointFromResponse(response: DataResponse<Any>) -> Result<CLLocationCoordinate2D>
+    {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(ServerAPIManagerError.network(error: response.result.error!))
+        }
+        
+        // check for "message" errors in the JSON because this API does that
+        if  let jsonDictionary = response.result.value as? [String: Any],
+            let errorMessage = jsonDictionary["message"] as? String
+        {
+            return .failure(ServerAPIManagerError.apiProvidedError(reason: errorMessage))
+        }
+        
+        // make sure we got JSON Array
+        guard let jsonArray = response.result.value as? [String: Any] else {
+            print("Didn't get array of Travellers as JSON from API")
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
+        }
+        
+        // make sure we got JSON Array
+        guard let meetingPoint = jsonArray["meetingPoint"] as? [Any] else {
+            print("Didn't get array of Travellers as JSON from API")
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
+        }
+        
+        guard let longitude = meetingPoint[0] as? Double,
+            let latitude = meetingPoint[1] as? Double else
+        {
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
+        }
+        
+        return .success(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+    }
+
+    
+    //*************************************************************
+    //MARK: Fetch My Travellers
+    //*************************************************************
+
+    func fetchMyTravellersTrip(completionHandler: @escaping (Result<[Traveller]>) -> Void)
+    {
+        let request = Alamofire.request(ConnectMeRouter.getMyTravellers())
+            .responseJSON { response in
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in FetchTravellersAroundMe \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                print(response)
+                let result = self.myTravellerArrayFromResponse(response:response)
+                completionHandler(result)
+        }
+        
+        print("\n\n\n\n  FetchTravellersAroundMe Trip request \n\n\n\n")
+        debugPrint(request)
+    }
+    
+    // Parse Responce
+    private func myTravellerArrayFromResponse(response: DataResponse<Any>) -> Result<[Traveller]>
+    {
+        guard response.result.error == nil else {
+            print(response.result.error!)
+            return .failure(ServerAPIManagerError.network(error: response.result.error!))
+        }
+        
+        // check for "message" errors in the JSON because this API does that
+        if  let jsonDictionary = response.result.value as? [String: Any],
+            let errorMessage = jsonDictionary["message"] as? String
+        {
+            return .failure(ServerAPIManagerError.apiProvidedError(reason: errorMessage))
+        }
+        
+        // make sure we got JSON Array
+        guard let jsonArray = response.result.value as? [[String: Any]] else {
+            print("Didn't get array of Travellers as JSON from API")
+            return .failure(ServerAPIManagerError.objectSerialization(reason:"Did not get JSON dictionary in response"))
+        }
+        
+        
+        let travellers = jsonArray.flatMap{ Traveller(json: $0) }
+        return .success(travellers)
+    }
+
 }
 
 

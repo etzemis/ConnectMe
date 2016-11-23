@@ -45,7 +45,8 @@ enum ConnectMeRouter: URLRequestConvertible {
     //*************************************************************
     //MARK: Trip
     //*************************************************************
-    
+    case getTripMeetingPoint()
+    case getMyTravellers()
     
     func asURLRequest() throws -> URLRequest { // TODO: implement
         var method: HTTPMethod {
@@ -76,7 +77,10 @@ enum ConnectMeRouter: URLRequestConvertible {
                 return .post
             case .cancelTripRequest:
                 return .get
-                
+            case .getTripMeetingPoint:
+                return .get
+            case .getMyTravellers:
+                return .get
             }
         }
         
@@ -107,6 +111,10 @@ enum ConnectMeRouter: URLRequestConvertible {
             case .respondToTripRequest(let response):
                 return response
             case .cancelTripRequest:
+                return nil
+            case .getTripMeetingPoint:
+                return nil
+            case .getMyTravellers:
                 return nil
             }
         }()
@@ -142,6 +150,10 @@ enum ConnectMeRouter: URLRequestConvertible {
                 relativePath = "tripRequest/response"
             case .cancelTripRequest:
                 relativePath = "tripRequest/cancel"
+            case .getTripMeetingPoint:
+                relativePath = "trip/init"
+            case .getMyTravellers:
+                relativePath = "trip/travellers"
             }
             
             var url = URL(string: ConnectMeRouter.baseURLString)!

@@ -104,7 +104,7 @@ class DataHolder{
             ServerAPIManager.sharedInstance.fetchTravellersAroundMe{
                 result in
                 guard result.error == nil else {
-                    self.handleFetchTravellersTravellersAroundMeError(result.error!)
+                    self.handleFetchTravellersAroundMeError(result.error!)
                     return
                 }
                 if let fetchedTravellers = result.value {
@@ -116,7 +116,7 @@ class DataHolder{
         }
     }
     
-    private func handleFetchTravellersTravellersAroundMeError(_ error: Error) {
+    private func handleFetchTravellersAroundMeError(_ error: Error) {
         switch error {
         case ServerAPIManagerError.authLost:
             handleLostAuthorisation()
@@ -183,7 +183,7 @@ class DataHolder{
     public func handleLostAuthorisation(){
         
         //stop All Connections!!!
-        TripDataHolder.sharedInstance.stopAllConnections()
+        TripRequestDataHolder.sharedInstance.stopAllConnections()
         DataHolder.sharedInstance.stopAllConnections()
         //find the View in which we are in
         if var topController = UIApplication.shared.keyWindow?.rootViewController {

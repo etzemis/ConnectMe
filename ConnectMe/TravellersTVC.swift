@@ -101,7 +101,7 @@ class TravellersTVC: UITableViewController {
         
         
         // Activate Trip DataHolder
-        TripDataHolder.sharedInstance.startAllConnections()
+        TripRequestDataHolder.sharedInstance.startAllConnections()
         
 
         
@@ -125,7 +125,7 @@ class TravellersTVC: UITableViewController {
                                                selector: #selector(self.actOnInvitationToTrip),
                                                name: NSNotification.Name(AppConstants.NotificationNames.InvitationToTripReceived), object: nil)
         
-        TripDataHolder.sharedInstance.startListeningForInvitations()
+        TripRequestDataHolder.sharedInstance.startListeningForInvitations()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -133,7 +133,7 @@ class TravellersTVC: UITableViewController {
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(AppConstants.NotificationNames.InvitationToTripReceived), object: nil)
 
-        TripDataHolder.sharedInstance.stopListeningForInvitations()
+        TripRequestDataHolder.sharedInstance.stopListeningForInvitations()
     }
     
 
@@ -242,7 +242,8 @@ class TravellersTVC: UITableViewController {
     
     func sendTripInvitationRemote(travellers: [Traveller])
     {
-        Spinner.sharedInstance.show(uiView: self.view)
+        Spinner.sharedInstance.show(uiView: (self.navigationController?.view)!)
+
         
         let travellerEmails = travellers.map {$0.email}
         
@@ -270,7 +271,7 @@ class TravellersTVC: UITableViewController {
                 
                 DispatchQueue.main.async {
                     //stop spinner
-                    Spinner.sharedInstance.hide(uiView: self.view)
+                    Spinner.sharedInstance.hide(uiView: (self.navigationController?.view)!)
                     
                     self.present(alertController, animated: true, completion: nil)
                 }
@@ -285,7 +286,7 @@ class TravellersTVC: UITableViewController {
                 self.selectedTravellers = filteredTravellers
                 
                 //stop spinner
-                Spinner.sharedInstance.hide(uiView: self.view)
+               Spinner.sharedInstance.hide(uiView: (self.navigationController?.view)!)
                 
                 self.SegueDueToInvitation = false
                 self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
@@ -301,7 +302,7 @@ class TravellersTVC: UITableViewController {
 
     @objc func actOnInvitationToTrip(){
         //enable it again after our response
-        TripDataHolder.sharedInstance.stopListeningForInvitations()
+        TripRequestDataHolder.sharedInstance.stopListeningForInvitations()
         
         
         self.autoInvitationRejectionTimer = Timer.scheduledTimer(timeInterval: AppConstants.HandleTripRequest.InvitationAutoRejectTime,
@@ -310,7 +311,7 @@ class TravellersTVC: UITableViewController {
                                                                  userInfo: nil,
                                                                  repeats: false)
         
-        showInvitedTripAlert(travellers: TripDataHolder.sharedInstance.travellersInInvitation)
+        showInvitedTripAlert(travellers: TripRequestDataHolder.sharedInstance.travellersInInvitation)
     }
     
     @objc func autoRejectInvitation(){
@@ -318,7 +319,7 @@ class TravellersTVC: UITableViewController {
             //dismiss alert
             self.dismiss(animated: true, completion: nil)
             //present Spinner
-            Spinner.sharedInstance.show(uiView: self.view)
+            Spinner.sharedInstance.show(uiView: (self.navigationController?.view)!)
         }
         sendResponse(isAccepted: false)
     }
@@ -358,7 +359,7 @@ class TravellersTVC: UITableViewController {
             self.autoInvitationRejectionTimer.invalidate()
             
             DispatchQueue.main.async { // Start Spinner
-                Spinner.sharedInstance.show(uiView: self.view)
+                Spinner.sharedInstance.show(uiView: (self.navigationController?.view)!)
             }
             self.sendResponse(isAccepted: true)
 
@@ -371,7 +372,7 @@ class TravellersTVC: UITableViewController {
             self.autoInvitationRejectionTimer.invalidate()
             
             DispatchQueue.main.async {
-                Spinner.sharedInstance.show(uiView: self.view)
+                Spinner.sharedInstance.show(uiView: (self.navigationController?.view)!)
             }
             self.sendResponse(isAccepted: false)
         }
@@ -397,7 +398,7 @@ class TravellersTVC: UITableViewController {
                 }
                 // We DO NOT need to start listening again for invitations
                 DispatchQueue.main.async {
-                    Spinner.sharedInstance.hide(uiView: self.view)
+                    Spinner.sharedInstance.hide(uiView: (self.navigationController?.view)!)
                     self.SegueDueToInvitation = true
                     self.performSegue(withIdentifier: Constants.AwaitConfirmationSegue, sender: self)
                 }
@@ -416,9 +417,9 @@ class TravellersTVC: UITableViewController {
                 }
                 
                 DispatchQueue.main.async {
-                    Spinner.sharedInstance.hide(uiView: self.view)
+                    Spinner.sharedInstance.hide(uiView: (self.navigationController?.view)!)
                     //enable it again after our response
-                    TripDataHolder.sharedInstance.startListeningForInvitations()
+                    TripRequestDataHolder.sharedInstance.startListeningForInvitations()
                 }
                 
             }
@@ -566,7 +567,7 @@ class TravellersTVC: UITableViewController {
                     {
                         //set the mode and the travellers
                         awaitTravTVC.tripMode = .Invited
-                        awaitTravTVC.travellers = TripDataHolder.sharedInstance.travellersInInvitation
+                        awaitTravTVC.travellers = TripRequestDataHolder.sharedInstance.travellersInInvitation
                         //Set the back button to have no title
                         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
                     }

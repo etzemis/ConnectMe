@@ -17,6 +17,8 @@ struct AppConstants{
         static let InvitationToTripReceived = "InvitationToTripReceivedNotification"
         static let TripRequestTripStatusChanged = "TripRequestTripStatusChangedNotification"
         static let TripRequestTravellerStatusChanged = "TripRequestTravellerStatusChangedNotification"
+        //Trip
+        static let MyTravellersUpdated = "MyTravellersUpdatedNotification"
     }
     
     struct HandleUserLogIn{
@@ -28,8 +30,11 @@ struct AppConstants{
     }
     
     struct ServerConnectivity{
-        static let baseUrlString = "http://192.168.1.113:3000/"
+        static let baseUrlString = "http://192.168.1.164:3000/"
+        // "http://connectmeserver-92909.onmodulus.net/"
+        
         static let fetchUsersAroundMeFrequency = 10.0  // Time Interval for Calling the Server FetchUsersAroundMe Function
+        static let fetchMyTravellersFrequency = 3.0  // Time Interval for Calling the Server fetchMyTravellers Function
         static let listenForInvitationsFrequency = 1.0  // Time Interval for updating Invitation Requests
         static let TripRequestRefreshStatusFrequency = 5.0  // Time Interval for Refreshing Status
         static let serialqueue = "ConnectMeServerSerialQueue"

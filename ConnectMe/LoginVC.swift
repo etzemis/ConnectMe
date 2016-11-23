@@ -28,6 +28,12 @@ class LoginVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    //*************************************************************
+    //MARK: Perform LOGIN
+    //*************************************************************
+
     @IBAction func LoginButtonTapped(_ sender: AnyObject) {
         let email = self.userEmail.text
         let password = self.userPassword.text
@@ -43,7 +49,7 @@ class LoginVC: UIViewController {
         view.endEditing(true)
         
         //present spinner :-)
-        Spinner.sharedInstance.show(uiView: self.view)
+        Spinner.sharedInstance.show(uiView: (self.navigationController?.view)!)
         
          DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
             ServerAPIManager.sharedInstance.login(email: email!,
@@ -52,7 +58,7 @@ class LoginVC: UIViewController {
                 result in
                 //stop spinner in main thread!
                 DispatchQueue.main.async {
-                    Spinner.sharedInstance.hide(uiView: self.view)
+                    Spinner.sharedInstance.hide(uiView: (self.navigationController?.view)!)
                 }
                 
                 //if encountered an error
@@ -118,24 +124,3 @@ class LoginVC: UIViewController {
 
 
 
-
-//@IBAction func LoginButtonTapped(_ sender: AnyObject) {
-//    let defaults  = UserDefaults.standard
-//    let storedUserEmail = defaults.string(forKey: AppDelegate.Constants.EmailUserDefaults)
-//    let storedPassword = defaults.string(forKey: AppDelegate.Constants.PasswordUserDefaults)
-//    
-//    if (userEmail.text == storedUserEmail && userPassword.text == storedPassword){
-//        //Login Successful
-//        defaults.set(true, forKey: AppDelegate.Constants.IsUserLoggedInUserDefaults)
-//        defaults.synchronize()
-//        
-//        self.dismiss(animated: true, completion: nil)
-//    }
-//    else{
-//        let alert = UIAlertController(title: "Login Denied", message: "Incorrect E-mail or Password!", preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-//        alert.addAction(okAction)
-//        self.present(alert, animated: true, completion: nil)
-//        return
-//    }
-//}

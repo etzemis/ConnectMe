@@ -17,7 +17,7 @@ class Spinner {
     func show(uiView: UIView) {
         container.frame = uiView.frame
         container.center = uiView.center
-        container.backgroundColor = UIColorFromHex(rgbValue: 0x000000, alpha: 0.4)
+        container.backgroundColor = UIColorFromHex(rgbValue: 0x000000, alpha: 0.1)
         
         loadingView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         loadingView.center = uiView.center
