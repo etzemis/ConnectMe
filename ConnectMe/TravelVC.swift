@@ -24,21 +24,26 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
         static let PinNormalColor: UIColor = UIColor.brown
         static let AnnotationViewReuseIdentifier = "coTraveller point"
         static let LeftCalloutFrame = CGRect(x:0, y:0, width:50, height:50)
-        static let MinimumDistanceFromMeetingPoint = 50.0  // in meters
-        static let MinimumDistanceFromDestination = 100.0  // in meters
+        static let MinimumDistanceFromMeetingPoint = 15.0  // in meters
+        static let MinimumDistanceFromDestination = 15.0  // in meters
     }
     
     //*************************************************************
     //MARK: Variables
     //*************************************************************
-
+    @IBOutlet weak var mapView: MKMapView!{didSet {setUpMap()}}
     var locationManager: CLLocationManager = CLLocationManager()
+    
+    
+    
+    //Store the meeting Point and the Current Location!
     var myCurrentLocation = CLLocation()
     var meetingPoint = CLLocation()
+    var myDestination = CLLocation()
     
-    
-    var isApproachingMeetingPoint = true
-    @IBOutlet weak var mapView: MKMapView!{didSet {setUpMap()}}
+    var hasApproachedMeetingPoint = false
+    var hasApproachedDestination = false
+
     
     
     
@@ -50,24 +55,27 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
         super.viewDidLoad()
         
         self.navigationItem.setHidesBackButton(true, animated:true);
-        
         // show The Toolbar
         self.navigationController?.isToolbarHidden = true
-
-        
         self.navigationItem.title = "Walk towards the Meeting Point"
         
         
+        
+        // calculate Location of Destination
+        let destinationCoord = DataHolder.sharedInstance.userLoggedIn.destination.coord
+        myDestination = CLLocation(latitude: destinationCoord.latitude, longitude: destinationCoord.longitude)
+        
+        
         setUpLocationManager()
-        // Do any additional setup after loading the view.
-        // Observe (listen for) "special notification key"
+        
+        // Listen for Notifications
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.actOnMyTravellersUpdatedNotification),
                                                name: NSNotification.Name(AppConstants.NotificationNames.MyTravellersUpdated), object: nil)
         
+        Spinner.sharedInstance.show(uiView: self.view)
         
         
-        Spinner.sharedInstance.show(uiView: (self.navigationController?.view)!)
         getTripMeetingPoint()
         TripDataHolder.sharedInstance.startFetchingMyTravellers()
         
@@ -88,23 +96,34 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
 
     @objc private func actOnMyTravellersUpdatedNotification()
     {
-        displayUsers(users: TripDataHolder.sharedInstance.travellers)
+        displayTravellers(users: TripDataHolder.sharedInstance.travellers)
     }
 
     
-    func displayUsers(users:[Traveller]){
-        var annotations = mapView.annotations
-        var i = 0
+    func displayTravellers(users:[Traveller]){
+        let annotations = mapView.annotations
+        var travellerAnnotations = [Traveller] ()
         for an in annotations{
-            mapView.deselectAnnotation(an, animated: true)
-            if an is MeetingPointAnnotation
+            if (an is Traveller)
             {
-                annotations.remove(at: i)
+                travellerAnnotations.append(an as! Traveller)
             }
-            i += 1
         }
-        mapView.removeAnnotations(annotations)
+        mapView.removeAnnotations(travellerAnnotations)
         mapView.addAnnotations(users)
+    }
+    
+    
+    func displayDestination()
+    {
+        // cretae Destination Annotation
+        let destinationAnnotation = MKPointAnnotation()
+        destinationAnnotation.coordinate = DataHolder.sharedInstance.userLoggedIn.destination.coord
+        destinationAnnotation.title = "Your Destination"
+        destinationAnnotation.subtitle = DataHolder.sharedInstance.userLoggedIn.destination.address!
+        
+        // Display it
+        self.mapView.addAnnotation(destinationAnnotation)
     }
     
     
@@ -126,8 +145,10 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
             
             //send success Notification
             DispatchQueue.main.async {
-                Spinner.sharedInstance.hide(uiView: (self.navigationController?.view)!)
                 self.meetingPoint = CLLocation(latitude: result.value!.latitude, longitude: result.value!.longitude)
+                // Diplay Our destination
+                self.displayDestination()
+                //Show Directions
                 self.showDirectionsToMeetingPoint()
             }
 
@@ -151,10 +172,12 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
 
     func showDirectionsToMeetingPoint() {
         
-        //Check if meeting point is Too close!
         
+        //Check if meeting point is Too close!
         let distance = myCurrentLocation.distance(from: meetingPoint) as Double
         
+        
+        // If am not at the meeting point -> Show Route
         if distance > Constants.MinimumDistanceFromMeetingPoint {
             
             // 1. Create Placemarks
@@ -181,7 +204,7 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
             // 6. Calculate the directions
             let directions = MKDirections(request: directionRequest)
             
-            // 8. Get the directions
+            // 7. Get the directions
             directions.calculate {
                 (response, error) -> Void in
                 
@@ -193,6 +216,10 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
                     return
                 }
                 
+                
+                //Hide The Spinner 
+                Spinner.sharedInstance.hide(uiView: self.view)
+                
                 let route = response.routes[0]
                 self.mapView.add((route.polyline), level: MKOverlayLevel.aboveRoads)
                 
@@ -200,10 +227,18 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
                 self.mapView.setRegion(MKCoordinateRegionForMapRect(rect), animated: true)
             }
         }
-        else{
             
-            let finishAnnotation = MeetingPointAnnotation(coordinate: meetingPoint.coordinate)
-            self.mapView.addAnnotation(finishAnnotation)
+        // If I am at the meeting point
+        else{
+            //showAlert
+            showArrivalAtMeetingPoint(title: "You already are at the Meeting Point")
+            
+            //Hide The Spinner
+            Spinner.sharedInstance.hide(uiView: self.view)
+            
+            // HAs Approached Meeting Point
+            self.hasApproachedMeetingPoint = true
+            self.navigationItem.title = "Tracking your route..."
             
             // Zoom close to the user
             let region = MKCoordinateRegion(center: myCurrentLocation.coordinate, span: MKCoordinateSpanMake(0.002, 0.002) )
@@ -231,6 +266,7 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
         mapView.showsPointsOfInterest = true
         mapView.showsUserLocation = true
     }
+    
     
     
     //*************************************************************
@@ -314,6 +350,9 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
     //*************************************************************
     func actOnArrivedAtMeetingPoint()
     {
+        showArrivalAtMeetingPoint(title: "You have arrived at the Meeting Point")
+        
+        self.navigationItem.title = "Tracking your route..."
         //remove overlay
         let overlays  = mapView.overlays
         mapView.removeOverlays(overlays)
@@ -327,21 +366,58 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
         }
     }
     
+    func showArrivalAtMeetingPoint(title: String)
+    {
+        //show alert
+        let alert = UIAlertController(title: title, message: "Please gather together with the rest of the Travellers and get into a taxi :-). We will take care of the rest.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        
+        //Inform the Server that I have arrived at my Destination
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     //*************************************************************
     //MARK: Arrived At Destination
     //*************************************************************
     
     func actOnArrivedAtDestination()
     {
+        //Notify the Server
+        sendArrivedAtTripDestination()
+        
+        self.navigationItem.title = "Arrived at Destination"
         TripDataHolder.sharedInstance.stopAllConnections()
         
         //show alert
         let alert = UIAlertController(title: "You have arrived at Your Destination", message: "Thank you for using USave. See you soon!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        
-        //Inform the Server that I have arrived at my Destination
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    
+    
+    func sendArrivedAtTripDestination() {
+        ServerAPIManager.sharedInstance.arrivedAtTripDestination
+            {
+                result in
+                guard result.error == nil else {
+                    self.handleArrivedAtTripDestinationError(result.error!)
+                    return
+                }
+        }
+    }
+    
+    
+    func handleArrivedAtTripDestinationError(_ error: Error) {
+        switch error {
+        case ServerAPIManagerError.authLost:
+            handleLostAuthorisation()
+        default:  // network
+            return
+        }
+        debugPrint("handleArrivedAtTripDestinationError")
     }
     
 }
@@ -360,21 +436,18 @@ extension TravelVC{
             
             if distance > AppConstants.UserLocationAccuracyinMeters{
                 self.myCurrentLocation = location
-                if( isApproachingMeetingPoint )
+                
+                // if I have arrived at the Meeting Point
+                if( !hasApproachedMeetingPoint && self.myCurrentLocation.distance(from: self.meetingPoint) < Constants.MinimumDistanceFromMeetingPoint)
                 {
-                    if (self.myCurrentLocation.distance(from: self.meetingPoint) < Constants.MinimumDistanceFromMeetingPoint)
-                    {
-                        self.isApproachingMeetingPoint = false
+                        self.hasApproachedMeetingPoint = true
                         self.actOnArrivedAtMeetingPoint()
-                    }
                 }
-                else
+                else if (!hasApproachedDestination)
                 {
-                    let destinationCoord = DataHolder.sharedInstance.userLoggedIn.destination.coord
-                    let destination = CLLocation(latitude: destinationCoord.latitude, longitude: destinationCoord.longitude)
-                    
-                    if (self.myCurrentLocation.distance(from: destination ) < Constants.MinimumDistanceFromDestination)
+                    if (self.myCurrentLocation.distance(from: self.myDestination ) < Constants.MinimumDistanceFromDestination)
                     {
+                        hasApproachedDestination = true
                         self.actOnArrivedAtDestination()
                     }
                 }

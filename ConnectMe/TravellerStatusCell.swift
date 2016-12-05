@@ -86,11 +86,9 @@ class TravellerStatusCell: UITableViewCell {
                     self.statusUmageView.image = nil
                     break
                 case .accepted:
-                   // self.spinner.stopAnimating()
                     self.statusUmageView.image = #imageLiteral(resourceName: "userAccepted")
                     break
                 default:
-                    //self.spinner.stopAnimating()
                     self.statusUmageView.image = #imageLiteral(resourceName: "userCancelled")
                     break
                 }
@@ -98,7 +96,7 @@ class TravellerStatusCell: UITableViewCell {
             }
         }
         else{
-                // It is the user Logged In
+                // It is the user Logged In or the creator! :-)
                 //self.spinner.stopAnimating()
                 self.statusUmageView.image = #imageLiteral(resourceName: "userAccepted")
         }

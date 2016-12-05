@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Connect Me-->
+        <!--U Save-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MainVC" customModule="ConnectMe" customModuleProvider="target" sceneMemberID="viewController">
@@ -47,7 +47,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FTP-g7-b9P" secondAttribute="bottom" constant="20" id="pcM-cP-0si"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Connect Me" id="yMz-Qo-pmw">
+                    <navigationItem key="navigationItem" title="U Save" id="yMz-Qo-pmw">
                         <barButtonItem key="leftBarButtonItem" image="profile" id="Y2H-hY-wkJ">
                             <connections>
                                 <segue destination="IyX-cp-6AP" kind="presentation" id="7Kp-Q1-Pgo"/>
@@ -86,7 +86,7 @@
                                         <rect key="frame" x="0.0" y="35" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nV8-Np-tnF" id="GO9-cA-UcE">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MMB-aZ-dfu">
@@ -219,7 +219,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TWT-2y-vgw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3842.4000000000001" y="-584.25787106446785"/>
+            <point key="canvasLocation" x="1007" y="-607"/>
         </scene>
         <!--TravellersTVC-->
         <scene sceneID="McL-No-vQv">
@@ -562,7 +562,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qrZ-Tq-9bg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="950" y="-1292"/>
+            <point key="canvasLocation" x="1007" y="-1360"/>
         </scene>
         <!--Register-->
         <scene sceneID="WAO-kV-RMp">
@@ -733,7 +733,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fv1-5J-lZ3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2505" y="-1292.9577464788733"/>
+            <point key="canvasLocation" x="2563" y="-1360"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4R3-2o-Rk4">
@@ -906,7 +906,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lws-g6-UbW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4618.3999999999996" y="-583.3583208395803"/>
+            <point key="canvasLocation" x="1838" y="-607"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8eG-4k-3Sb">
@@ -924,7 +924,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SBi-sP-3fs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="188" y="-1292"/>
+            <point key="canvasLocation" x="246" y="-1360"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Bzv-II-72I">
@@ -942,7 +942,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QB2-EK-3QU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1706" y="-1292"/>
+            <point key="canvasLocation" x="1763" y="-1360"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="5Hw-IO-LMp">

@@ -111,7 +111,10 @@ class LoginVC: UIViewController {
         }
     }
     
-    
+    //*************************************************************
+    //MARK: Display Alert Messages
+    //*************************************************************
+
     func displayAlertMessage(message: String) {
         let alert = UIAlertController(title: "Login Denied", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)

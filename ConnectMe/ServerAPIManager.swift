@@ -788,6 +788,38 @@ class ServerAPIManager {
         let travellers = jsonArray.flatMap{ Traveller(json: $0) }
         return .success(travellers)
     }
+    
+    
+    //*************************************************************
+    //MARK: Arrived at Destination
+    //*************************************************************
+    func arrivedAtTripDestination(completionHandler: @escaping (Result<Bool>) -> Void)
+    {
+        
+        let request = Alamofire.request(ConnectMeRouter.arrivedAtTripDestination())
+            .response { response in
+                
+                //Error Handling
+                if  let urlResponse = response.response,
+                    let authError = self.checkUnauthorized(urlResponse: urlResponse)
+                {
+                    print("\n AuthorizationError in Respond To Trip Request \n")
+                    completionHandler(.failure(authError))
+                    return
+                }
+                guard response.error == nil else {
+                    print(response.error!)
+                    completionHandler(.failure(ServerAPIManagerError.network(error: response.error!)))
+                    return
+                }
+                
+                //Otherwise Success
+                completionHandler(.success(true))
+        }
+        print("\n\n\n\n  Arrived at Trip Destination \n\n\n\n")
+        debugPrint(request)
+    }
+
 
 }
 

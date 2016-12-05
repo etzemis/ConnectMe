@@ -1,0 +1,346 @@
+commit 28647a88acfb0049863050a0d1241a2e871e3427
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Fri Nov 11 02:45:09 2016 +0200
+
+    Added Await Travellers Screen.
+            2 Modes: Created If I created The trip
+                            Invited If I was invited to the Trip
+    Divided in 2 or 3 Groups. On Top it is always  the Logged In User and below the rest Ones
+    
+    A countdown is Running when the View Appears!
+    
+    The TableView Cells are the same as in TravellersTVC
+    
+    ----************----
+    User LoggedIn Variable Inserted in DataHolder.
+                    -Represents the User currently LoggedIn
+                    Updated From Log in ( username and imageURL)
+                    Update from DestinationVc ( destination and ExtraPersons)
+
+commit 51af4c8fa407cb7868834bcdda9b379c73d7e667
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Thu Nov 10 19:54:14 2016 +0200
+
+    Implemented Send Invitation Action in Travellers TVC.
+    
+    showTripConfirmationAlert: Now shows the names οf the Travellers we have selected. and asks user confirmation
+    
+    showInvitedTotripAlert: Shows the creator along with the rest of the members of the trip. Either Reject or Join
+
+commit 13a3d7061647fdea3c431670ecfba7f3ac186a0c
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Thu Nov 10 17:52:18 2016 +0200
+
+    Fixed Back that would cause that address of the Insert Destination VC to be parsed Wrongly.
+    
+    Now Address and region are parsed differently and are fully customisable.
+
+commit 17486ee9315e7f43f5876f6e8c7b9883ea4dd420
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Thu Nov 10 16:26:32 2016 +0200
+
+    Fixed Error Handling:
+    
+    1. register  (Sends: JSON , Receives: JSON)
+            Throws:
+                a. ServerAPIManagerError.network(error: response.result.error!) // 500
+                b. apiProvidedError(reason: errorMessage)) // message: User Already Exists
+                c. success
+    
+        2. login (Sends: JSON, Receives: JSON)
+            Trhows:
+                a. ServerAPIManagerError.network(error: response.result.error!) // 500
+                b. objectSerialization(reason:"Did not get JSON dictionary in response"))
+                c. apiProvidedError(reason: errorMessage)) // message: Wrong Email or Pasword
+                d. token if Success
+    
+        3. updateLocation (Sends: JSON, Receives: Normal)
+            Trhows:
+                a. authLost(reason: "Not Logged In") // 401
+                b. ServerAPIManagerError.network(error: response.result.error!) // 500
+                c. success
+    
+        4. fetchTravellersAroundMe (Sends: Get, Receives: JSON)
+            Trhows:
+                a. authLost(reason: "Not Logged In") // 401
+                b. ServerAPIManagerError.network(error: response.result.error!) // 500
+                c. objectSerialization(reason:"Did not get JSON dictionary in response"))
+                d. apiProvidedError(reason: errorMessage)) // message: WhatEver
+                e. Array of Travellers
+    
+        5. insertDestination (Sends: JSON , Receives: Normal)
+            Trhows:
+                a. authLost(reason: "Not Logged In") // 401
+                a. ServerAPIManagerError.network(error: response.result.error!) // 500
+                c. success
+    
+    *****  Fixed AuthLost Alarm!.. if that happens then we are redirected back to the Login View
+
+commit 5046ba75c1332cd17bc5a89a385b9f2a3919def3
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Thu Nov 10 02:34:05 2016 +0200
+
+    Added Pull to Refresh Support On Travellers TableView
+    Added Clear Alamofire Cache.. Might Be of Need Later On
+
+commit a4793335a350dbbcc89be5413f41bd000a809c64
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Thu Nov 10 02:03:02 2016 +0200
+
+    Added PinRemoteImage Pod.
+    Loading Remote Imaged from Using a placeholder image in case of failure.
+    Changed the appearance of the callout on the map.
+    Changed the appearance of the cells inside the TravellerListViewController
+
+commit bb2508ba4c8947f2e36f918246098ba8427b9efc
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Wed Nov 9 19:55:02 2016 +0200
+
+    Improvements in using Users Location
+    
+    The location is being updated to the serve only if it is greater that UserLocationAccuracyinMeters from the previously updatedLocation.
+
+commit 1d383be8c1e3c72e0116e9f3185a116870b93f2d
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Wed Nov 9 19:09:57 2016 +0200
+
+    Fixed Bug causing the application to freeze inside the viewWillAppear if the application did not have finished properly
+    Removed the flag for the initialisation of the userLocation and thump on the mail screen.
+    Now it is being handled with a local variable
+
+commit b74996cad20cbec3c3c96db6f640e6bc3ba95a1d
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Wed Nov 9 18:52:54 2016 +0200
+
+    Added Insert Destination Support for SearchDestinationVC
+    - insert Destination lies inside the DataHolderModel
+    - Accepts Json otherwise Checks for Error
+    -In either case sends back to SearchDestinationController a corresponding Notification
+    - When next button is pressed we present spinner and we wait for notification.
+    - Upon delivery we either present and alert or switch to the next screen
+
+commit c7449558186c8a3ababaad8b2d8758fae35d257e
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Tue Nov 8 20:21:10 2016 +0200
+
+    Fixed Bug with HasApplicationStartedWithLoggedInUserUserDefaults in ApplicationDidFinisjLaunchingWithOptions
+
+commit 6fea34b6a1a08b45e3190e2d189f4098bffb1953
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Tue Nov 8 19:19:24 2016 +0200
+
+    Added FetchTravellersAroundMyLocation Remote
+    Function is Called with Timer every x seconds and is fired when we do have our first location from the GPS
+    
+    DataHolder Functions No Run in a separate SerialQUEUE
+    
+    Annotations are  updating whenever we do have a change in the Model
+
+commit 8e15961378534e833f956770eb72bf6d7c783190
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Tue Nov 8 00:44:05 2016 +0200
+
+    Merged Remote API and RegisterRemote Back to Master Branch
+
+commit 47f13e2ddcc9326e73b99a91e501cca9f7a470f5
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Tue Nov 8 00:29:25 2016 +0200
+
+    Added Update Location Remote Call with Basic Authorisation
+
+commit 16bfffa3ee48a5ca522f9ae90b2448ce630d0fa4
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Mon Nov 7 20:16:29 2016 +0200
+
+    Implemented Register And Login Remote
+    Change Appearance of The Login and Register Screens
+    Implemented storage of UserMail and SecretKey in the UserDefaults.
+    Connectivity with Server works for register and login
+    Added Image on the Destination Button
+
+commit 37f8838ae84abd253d3309d4b5be7b8cae56fd87
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Fri Nov 4 17:08:12 2016 +0200
+
+    Fixed Registration View UI
+    Fixed Registration Back-end implementation
+    Implemented Shared Instance Spinner
+
+commit b23e474821af1cc89651483ff8ea24fc168cfbd5
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Thu Nov 3 19:35:46 2016 +0200
+
+    Added Registration Remote Call...
+    - Todo: Implement register function and Error handling from RegisterVC
+
+commit 90ed4a58bd3c8148e5865c7f2833e05e70cf8209
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Thu Nov 3 15:12:20 2016 +0200
+
+    Added Basic Authorisation inside the Header of the UrlRequest
+
+commit 60f85926ce67cd825ec64dde610b5e912fafa39f
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Wed Nov 2 19:54:43 2016 +0200
+
+    Added First Implementation for Getting Travellers Around a certain location
+    Added Segment Control for MapTypes on the initial Screen
+    Added Extra Passenger Implementation on the Destination Controller
+
+commit 711107355057d1ec94b18cf8bffb608661061120
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Wed Nov 2 16:02:02 2016 +0200
+
+    Refactored The Model of the Application
+    User -> Traveller
+    Json extension for Location and User
+
+commit 0bab2f69fe11deb30c9502588ea39472373603ab
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Wed Nov 2 11:54:34 2016 +0200
+
+    Added Dot Images For Destination Proximity
+    Added Dot Images for Proximity in the Traveller Cell
+
+commit 61204107caa010ffe0d615f044cf5d4b46cf359b
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Tue Nov 1 16:08:18 2016 +0200
+
+    Custom Images in Pin for the first Screen and small refinements
+    -Added Spinner when user Confirms Destination
+
+commit aed4fff49e06de025fb4f409f7432eb55357890c
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Tue Nov 1 13:49:43 2016 +0200
+
+    Added SwiftSpinner Support
+
+commit 23096f8d2a4b57f0c12ce6d07df77a4fb60167dd
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Mon Oct 31 19:11:47 2016 +0200
+
+    Added Prototypes for Get Post Delete Methods
+    Conversion from Json to Objects and Vise Versa
+
+commit a7f3760e216026814e14b082c173db8c6a19168d
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Mon Oct 31 17:29:52 2016 +0200
+
+    Install CocoaPods:
+    - Almofire
+    - SwiftyJSON
+
+commit 28a9b0fb119c128877aa56cdb1716a4f74448ca4
+Author: Evangelos Tzemis <Etzemis@evangeloss-macbook-pro-2.local>
+Date:   Wed Oct 26 19:39:11 2016 +0300
+
+    User Login & Logout Completed
+    - Everything is done locally
+    - Added User Settings with logout option
+
+commit 2f956f858c16543b9938f9c0c935743edb5ca3ea
+Author: Evangelos Tzemis <Etzemis@evangeloss-macbook-pro-2.local>
+Date:   Wed Oct 26 12:39:42 2016 +0300
+
+    Basic BackEnd for Registration
+
+commit 5b36dff0697969c39f6058fb2358fe5641ae0e86
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Tue Oct 25 14:43:02 2016 +0300
+
+    User Login Designed Prototype
+
+commit bde3538ea5dc8001fc29c1ffa9f7b0b5c9c662e0
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Tue Oct 25 13:33:18 2016 +0300
+
+    Draw Route On the Map
+    -Simple Route Prototype between two Locations
+
+commit 8b85d50e6defb0e645d73d2ec3e6cc81436d54cf
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Mon Oct 24 17:32:57 2016 +0300
+
+    Updated UI
+    - Added Checkmarks on Suggested Users
+    -Added CustomCell for Suggested Users
+
+commit ce4890d20d8eda9af5b37f2250eb6be8b566b2b8
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Sun Oct 23 15:55:55 2016 +0300
+
+    Color enhancement
+
+commit aa18233b36f9be311bf0fcd9f0c220c1ba518d77
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Thu Oct 20 19:13:09 2016 +0300
+
+    Added Travellers Table View in "Invite"
+
+commit 3f6fac9be53f2e3982eaa79850f28bff07315feb
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Thu Oct 20 10:24:30 2016 +0300
+
+    Fixed UISearch Bar functionality (hides Cancel button) when user adds  Destination
+
+commit 1656264b1d12056e56f743c0e910ff28cde1cdd4
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Wed Oct 19 20:07:07 2016 +0300
+
+    Added Buttons for Create Trip
+
+commit f48ab9034778f94be7e0dc60f4e65b47acb686de
+Author: Evangelos Tzemis <Etzemis@evangeloss-macbook-pro-2.local>
+Date:   Tue Oct 18 14:48:26 2016 +0300
+
+    Added App Icon
+
+commit 19293c2b95589425ffe00d9ceb77986b8947faf7
+Author: Evangelos Tzemis <Etzemis@evangeloss-macbook-pro-2.local>
+Date:   Tue Oct 18 13:51:02 2016 +0300
+
+    Fixed Code Integrity.
+    Added Alpha to Table View Address Search Results
+
+commit fddbaa99cbb49fbd7e6467c3c95b2a62ef34848c
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Mon Oct 17 18:06:30 2016 +0300
+
+    Added Search Bar and Annotation
+     To Be Done.. views for Annotations and Also Navigation through the View Controllers
+
+commit 30c51355c5ee502ea07dea722fe62e6efac119b7
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Mon Oct 17 09:46:43 2016 +0300
+
+    Implemented Table View For User Detail View Controller
+
+commit b49b9254a57e0eba5b7c1d6558ee697d67b2f7a6
+Author: Evangelos Tzemis <Etzemis@evangeloss-macbook-pro-2.local>
+Date:   Fri Oct 14 10:51:25 2016 +0300
+
+    Show User Details displays Their Destination on the map
+
+commit 17be8bfc5a47acb1a1689601acda0adade71965f
+Author: Evangelos Tzemis <Etzemis@evangeloss-macbook-pro-2.local>
+Date:   Fri Oct 14 09:25:16 2016 +0300
+
+    Added Show User Details View Controller
+
+commit 432b34d3f67cc270591325f897a8284fbcd3912b
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Wed Oct 12 18:16:35 2016 +0300
+
+    First Prototype: Users presented as pins on the map
+
+commit 33f7d6af7330d05cce78c2d11f6615680c826776
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Sat Oct 8 11:36:56 2016 +0300
+
+    Initial Commit
+
+commit f6f2108c701d0c84e94d457872b13b4725a8e846
+Author: Evangelos Tzemis <Etzemis@evangelossmbp2.lan>
+Date:   Sat Oct 8 11:35:17 2016 +0300
+
+    Initial Commit
