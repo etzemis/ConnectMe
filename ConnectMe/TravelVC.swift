@@ -25,7 +25,7 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
         static let AnnotationViewReuseIdentifier = "coTraveller point"
         static let LeftCalloutFrame = CGRect(x:0, y:0, width:50, height:50)
         static let MinimumDistanceFromMeetingPoint = 15.0  // in meters
-        static let MinimumDistanceFromDestination = 15.0  // in meters
+        static let MinimumDistanceFromDestination = 20.0  // in meters
     }
     
     //*************************************************************
@@ -43,6 +43,7 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
     
     var hasApproachedMeetingPoint = false
     var hasApproachedDestination = false
+    var hasInitializedMeetingPoint = false
 
     
     
@@ -225,11 +226,14 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
                 
                 let rect = route.polyline.boundingMapRect
                 self.mapView.setRegion(MKCoordinateRegionForMapRect(rect), animated: true)
+                
+                self.hasInitializedMeetingPoint = true
             }
         }
             
         // If I am at the meeting point
         else{
+
             //showAlert
             showArrivalAtMeetingPoint(title: "You already are at the Meeting Point")
             
@@ -243,6 +247,8 @@ class TravelVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  
             // Zoom close to the user
             let region = MKCoordinateRegion(center: myCurrentLocation.coordinate, span: MKCoordinateSpanMake(0.002, 0.002) )
             self.mapView.setRegion(region, animated: false)
+            
+            hasInitializedMeetingPoint = true
         }
     }
     
@@ -437,21 +443,20 @@ extension TravelVC{
             if distance > AppConstants.UserLocationAccuracyinMeters{
                 self.myCurrentLocation = location
                 
-                // if I have arrived at the Meeting Point
-                if( !hasApproachedMeetingPoint && self.myCurrentLocation.distance(from: self.meetingPoint) < Constants.MinimumDistanceFromMeetingPoint)
+                if(self.hasInitializedMeetingPoint)
                 {
+                    // if I have arrived at the Meeting Point
+                    if( !hasApproachedMeetingPoint && self.myCurrentLocation.distance(from: self.meetingPoint) < Constants.MinimumDistanceFromMeetingPoint)
+                    {
                         self.hasApproachedMeetingPoint = true
                         self.actOnArrivedAtMeetingPoint()
-                }
-                else if (!hasApproachedDestination)
-                {
-                    if (self.myCurrentLocation.distance(from: self.myDestination ) < Constants.MinimumDistanceFromDestination)
+                    }
+                    else if (!hasApproachedDestination && self.myCurrentLocation.distance(from: self.myDestination ) < Constants.MinimumDistanceFromDestination)
                     {
                         hasApproachedDestination = true
                         self.actOnArrivedAtDestination()
                     }
                 }
-                
             }
         }
         

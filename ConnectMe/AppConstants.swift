@@ -30,7 +30,7 @@ struct AppConstants{
     }
     
     struct ServerConnectivity{
-        static let baseUrlString = "http://connectmeserver-92909.onmodulus.net/" //"http://192.168.1.172:3000/"
+        static let baseUrlString = "http://connectmeserver-92909.onmodulus.net/" //"http://192.168.1.3:3000/"
         // "http://connectmeserver-92909.onmodulus.net/"
         
         static let fetchUsersAroundMeFrequency = 10.0  // Time Interval for Calling the Server FetchUsersAroundMe Function
